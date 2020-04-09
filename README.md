@@ -19,3 +19,7 @@ Klasy
 	wiadomośc o wolym miejscu przy stoajku; wiadomość o zajętych rowerach.
 - użytkownicy - Dane: imię nazwisko, indeks w bazie użytkowników; logowanie : login i hasło;
 	numer wypożyczonego roweru (jeśli taki jest); możliwość dodania nowego użytkownika do bazy.
+
+
+
+Aktualnie projekty naszych klas umieszczone są w osobnych katalogach. Po poniedziałkowym spotkaniu połączymy je w jeden główny projekt.
