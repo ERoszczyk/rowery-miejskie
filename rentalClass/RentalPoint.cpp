@@ -4,6 +4,7 @@
 
 #include "BikeDatabase.h"
 #include "RentalPoint.h"
+#include "../Bike_klasa/Bike.h"
 
 
 using namespace std;
@@ -49,10 +50,12 @@ void RentalPoint::rent(int bikeId, int userId, BikeDatabase& database)
 {
 	if (find(myBikes.begin(), myBikes.end(), bikeId) != myBikes.end() && database.getBikeState(bikeId) == false)
 	{
-		database.setBikeState(bikeId, true);
+		Bike bike(bikeId);
+		bike.StartOfRent(database, userId, userNames(userId)->second.getCash());
+		/*database.setBikeState(bikeId, true);
 		database.setBikeOwner(bikeId, userId);
 		database.setBikeStand(bikeId, 0);
-		bikesFree.erase(find(bikesFree.begin(), bikesFree.end(), bikeId));
+		bikesFree.erase(find(bikesFree.begin(), bikesFree.end(), bikeId));*/
 		/*Bike bike;
 		bike.rent(bikeId, userId);
 		bikesRented.push_back(pair(bikeId, bike));*/  //example for merging with Bike

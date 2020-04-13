@@ -232,8 +232,8 @@ void UserBase::rentBike()
 		cout << "How many bikes would you like to rent?" << endl;
 		cin >> bikesNumber;
 		userNames.find(activeUserId)->second.setRentedBikes(bikesNumber);
-		/*for (int i = 0; i < bikesNumber; i++)
-			userNames.find(activeUserId)->second.rentedBikesId.push_back(bikeId);*/
+		for (int i = 0; i < bikesNumber; i++)
+			userNames.find(activeUserId)->second.rentedBikesId.push_back(getFreeBikes()[i]);
 	}
 	else
 	{

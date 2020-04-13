@@ -5,6 +5,7 @@
 #include <vector>
 #include <fstream>
 #include "user.h"
+#include "../../rentalClass/RentalPoint.h"
 
 using namespace std;
 
