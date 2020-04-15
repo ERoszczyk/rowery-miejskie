@@ -31,5 +31,5 @@ Może zostać zaimportowana z przykładowego pliku database.txt.
 Kiedy użytkownik dokona wyboru roweru, wypożyczalnia przekazuje klasie Bike informacje o użytkowniku i rozpoczęciu wypożyczenia.
 Analogicznie przy zwracaniu roweru, przekazuje informacje o zakończeniu do obiektu klasy Bike.
 - Klasy User oraz UserBase pozwalają użytkownikowi na stworzenie swojego własnego konta oraz dostępu do niego za pomocą loginu i hasła, które można zmienić. Użytkownik na swoim
-koncie ma możliwość wypożyczyć, bądź zwrócić rower oraz sprawdzić aktualny stan wypożyczenia. Dodatkowo użytkownik przechowuje na swoim koncie pieniądze, służące do zapłaty za 
+koncie ma możliwość wypożyczyć, bądź zwrócić rower/y oraz sprawdzić aktualny stan wypożyczenia. Dodatkowo użytkownik przechowuje na swoim koncie pieniądze, służące do zapłaty za 
 wypożyczenie. Istnieje możliwość dodanie pieniędzy do swojego konta. Klasa userBase pozwala wyeksportować bazę użytkowników do pliku .txt.
