@@ -25,3 +25,9 @@ Klasy
 Opis klas
 - Klasa Bike - jej 2 głównymi funkcjami są StartOfRent oraz Stop.
 Po sprawdzeniu przez wypożyczalnie stanu roweru, wypożyczalnia wywołuje ‘StartOfRent’ która zwalnia stojak do którego był przypięty rower oraz rozpoczyna czas wypożyczenia. Druga funkcja - ‘Stop’ jest odpowiedzialna za zwrot roweru. Prosi ona użytkownika o podanie id stojaka do którego użytkownik chce przypiąć rower. Zapisuje dane do bazy oraz zwalnia użytkownika od danego roweru. Pobiera również z konta odpowiednią sumę (różnica czasu od wypożyczenia roweru do przypięcia do wolnego stojaka). Funkcja ma również opcję zapisania do historii wypożyczeń oraz wyświetlenie całej historii.
+- Klasa BikeDatabase- nadaje rowerom numery oraz przechowuje i zwraca informacje o ich stanie i aktualnym użytkowniku/ stojaku.
+Może zostać zaimportowana z przykładowego pliku database.txt. 
+- Klasa RentalPoint- powstaje na podstawie bazy rowerów. Na życzenie użytkownika sprawdza dostępne rowery w obiekcie klasy BikeDatabase i zwraca ich numery użytkownikowi.
+Kiedy użytkownik dokona wyboru roweru, Wypożyczalnia przekazuje klasie Bike informacje o użytkowniku i rozpoczęciu wypożyczenia.
+Analogicznie przy zwracaniu roweru, przekazuje informacje o zakończeniu do obiektu klasy Bike.
+
