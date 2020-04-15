@@ -1,7 +1,7 @@
 #pragma once
 //Klasa Bike
 //Olga Krupa,nr indeksu 304048
-
+#include "BikeDatabase.h"
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -33,13 +33,13 @@ public:
 
     //bool RentingBicycle(map<int, char> bikes);
     Bike& operator=(const Bike& b);
-    void StartOfRent(map<int, int>& states, map<int, char>& bikes,const string person, const float money);
-    bool StandAssignment(map<int, int>& states);
-    bool FindStand(map<int, int>& states, int stateid);
+    void StartOfRent(BikeDatabase& database, int person, const float money);
+    bool StandAssignment(BikeDatabase& database, map<int, bool>& states);
+    bool FindStand(map<int, bool>& states, int stateid);
     //void AvailableBikes(map<int, char> bikes);
     void Pay();
     void FullHistory();
-    void Stop(map<int, char>& bikes, map<int, int>& states);
+    void Stop(BikeDatabase& database, map<int, bool>& states);
     void HistoryOfRent(Bike& b);
 
     friend
@@ -47,3 +47,4 @@ public:
     friend
         istream& operator>> (istream& is, Bike& b);
 };
+
