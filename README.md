@@ -28,6 +28,6 @@ Po sprawdzeniu przez wypożyczalnie stanu roweru, wypożyczalnia wywołuje ‘St
 - Klasa BikeDatabase- nadaje rowerom numery oraz przechowuje i zwraca informacje o ich stanie i aktualnym użytkowniku/ stojaku.
 Może zostać zaimportowana z przykładowego pliku database.txt. 
 - Klasa RentalPoint- powstaje na podstawie bazy rowerów. Na życzenie użytkownika sprawdza dostępne rowery w obiekcie klasy BikeDatabase i zwraca ich numery użytkownikowi.
-Kiedy użytkownik dokona wyboru roweru, Wypożyczalnia przekazuje klasie Bike informacje o użytkowniku i rozpoczęciu wypożyczenia.
+Kiedy użytkownik dokona wyboru roweru, wypożyczalnia przekazuje klasie Bike informacje o użytkowniku i rozpoczęciu wypożyczenia.
 Analogicznie przy zwracaniu roweru, przekazuje informacje o zakończeniu do obiektu klasy Bike.
 
