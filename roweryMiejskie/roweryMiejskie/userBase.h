@@ -4,7 +4,7 @@
 #include <conio.h>
 #include <vector>
 #include <fstream>
-#include "user.h"
+//#include "user.h"
 #include "RentalPoint.h"
 
 using namespace std;

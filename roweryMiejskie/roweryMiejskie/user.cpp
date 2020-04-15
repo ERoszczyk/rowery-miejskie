@@ -38,9 +38,14 @@ void User::setCash(double usersCash)
 	cash = usersCash;
 }
 
-void User::setRentedBikes(int usersRentedBikes)
+void User::addRentedBikesAmount(int usersRentedBikes)
 {
 	rentedBikes += usersRentedBikes;
+}
+
+void User::removeRentedBikes()
+{
+	rentedBikes = 0;
 }
 
 void User::addRentedBikeId(int usersBikeId)

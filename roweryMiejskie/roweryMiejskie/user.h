@@ -21,7 +21,8 @@ public:
 	void setUsername(string username);
 	void setPassword(string password);
 	void setCash(double cash);
-	void setRentedBikes(int rentedBikes);
+	void addRentedBikesAmount(int rentedBikes);
+	void removeRentedBikes();
 	void addRentedBikeId(int BikeId);
 	void removeRentedBikesId();
 	string getName();

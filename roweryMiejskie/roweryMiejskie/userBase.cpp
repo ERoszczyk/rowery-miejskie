@@ -231,11 +231,15 @@ void UserBase::rentBike(RentalPoint& rental, BikeDatabase& database)
 	{
 		cout << "How many bikes would you like to rent?" << endl;
 		cin >> bikesNumber;
-		userNames.find(activeUserId)->second.setRentedBikes(bikesNumber);
+		userNames.find(activeUserId)->second.addRentedBikesAmount(bikesNumber);
 		for (int i = 0; i < bikesNumber; i++)
 		{
-			userNames.find(activeUserId)->second.addRentedBikeId(rental.getFreeBikes()[i]);
-			rental.rent(rental.getFreeBikes()[i], getActiveUserId(), database);
+			if (rental.getFreeBikes().size() > i)
+			{
+				cout << i;
+				userNames.find(activeUserId)->second.addRentedBikeId(rental.getFreeBikes()[i]);
+				rental.rent(rental.getFreeBikes()[i], getActiveUserId(), database, userNames.find(activeUserId)->second);
+			}
 		}
 	}
 	else
@@ -257,10 +261,10 @@ void UserBase::rentBike(RentalPoint& rental, BikeDatabase& database)
 
 void UserBase::returnBike(RentalPoint& rental, BikeDatabase& database)
 {
-	userNames.find(activeUserId)->second.setRentedBikes(0);
 	vector<int> rentedBikesId = userNames.find(activeUserId)->second.getRentedBikesId();
+	userNames.find(activeUserId)->second.removeRentedBikes();
 	for (int i = 0; i < rentedBikesId.size(); i++)
-		rental.putBack(rentedBikesId[i], getActiveUserId(), database);
+		rental.putBack(rentedBikesId[i], getActiveUserId(), database, userNames.find(activeUserId)->second);
 	userNames.find(activeUserId)->second.removeRentedBikesId();
 }
 

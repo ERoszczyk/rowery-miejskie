@@ -4,8 +4,6 @@
 
 
 #include "BikeDatabase.h"
-//#include "RentalPoint.h"
-
 
 
 using namespace std;
