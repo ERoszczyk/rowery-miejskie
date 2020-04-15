@@ -1,5 +1,0 @@
-﻿  userBase.cpp
-D:\Studia\semestr2\PROI-Projektowanie_obiektowe\Git\rowery-miejskie\rowery\roweryMiejskie\roweryMiejskie\BikeDatabase.h(50,65): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-D:\Studia\semestr2\PROI-Projektowanie_obiektowe\Git\rowery-miejskie\rowery\roweryMiejskie\roweryMiejskie\userBase.cpp(262,20): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-D:\Studia\semestr2\PROI-Projektowanie_obiektowe\Git\rowery-miejskie\rowery\roweryMiejskie\roweryMiejskie\userBase.cpp(292,21): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-  roweryMiejskie.vcxproj -> D:\Studia\semestr2\PROI-Projektowanie_obiektowe\Git\rowery-miejskie\rowery\roweryMiejskie\Debug\roweryMiejskie.exe
