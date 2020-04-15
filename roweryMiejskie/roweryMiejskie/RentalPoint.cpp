@@ -44,36 +44,31 @@ RentalPoint::RentalPoint(BikeDatabase database)
 }
 
 
-void RentalPoint::rent(int bikeId, int userId, BikeDatabase& database)
+void RentalPoint::rent(int bikeId, int userId, BikeDatabase& database, User& user)
 {
 	if (find(myBikes.begin(), myBikes.end(), bikeId) != myBikes.end() && database.getBikeState(bikeId) == false)
 	{
 		Bike bike(bikeId);
-		//bike.StartOfRent(database, userId, userNames(userId)->second.getCash());
-		database.setBikeState(bikeId, true);
-		database.setBikeOwner(bikeId, userId);
-		database.setBikeStand(bikeId, 0);
-		bikesFree.erase(find(bikesFree.begin(), bikesFree.end(), bikeId));
-		/*Bike bike;
-		bike.rent(bikeId, userId);
-		bikesRented.push_back(pair(bikeId, bike));*/  //example for merging with Bike
+		float account = user.getCash();
+		bike.StartOfRent(database, userId, account);
+		if (database.getBikeState(bikeId))
+		{
+			bikesFree.erase(find(bikesFree.begin(), bikesFree.end(), bikeId));
+			rentedBikes[bikeId] = bike;
+		}
 	}
 	else { cout << "Invalid bike ID"; };
 }
-void RentalPoint::putBack(int bikeId, int userId, BikeDatabase& database)
+void RentalPoint::putBack(int bikeId, int userId, BikeDatabase& database, User& user)
 {
 	if (getSpaces() > 0) //add if user id matches the one in the databases
 	{
 		map<int, Record> bikes = database.getAllBikes();
 		if (bikes.find(bikeId) != bikes.end())
 		{
-			/*auto it = bikesRented.at(bikeId);
-			Bike bike = it->second;
-			bike.putback(bikeId, userId);*/    //example for merging with Bike
-			database.setBikeState(bikeId, false);
-			database.setBikeOwner(bikeId, 0);
-			database.setBikeStand(bikeId, 1);
+			rentedBikes.at(bikeId).Stop(database, standStates, user);
 			bikesFree.push_back(bikeId);
+			rentedBikes.erase(bikeId);
 		}
 		else { cout << "Invalid bike ID"; };
 	}
@@ -150,3 +145,5 @@ istream& operator>>(istream& is, RentalPoint& point)
 	}
 	return is;
 }
+
+

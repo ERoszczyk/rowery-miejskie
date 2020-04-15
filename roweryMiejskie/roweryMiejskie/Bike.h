@@ -28,6 +28,7 @@ public:
     double time_hold;
     int state;
     vector <string> history;
+    Bike() {};
     Bike(int id) {
         this->id = id;
     }

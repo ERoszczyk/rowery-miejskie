@@ -15,7 +15,8 @@ class RentalPoint
 	int bikesCount = 0;
 	std::vector<int> myBikes; 
 	std::vector<int> bikesFree;
-	/*std::map<int,Bike> rentedBikes;*/ // for later merging with Bike class
+	std::map<int,Bike> rentedBikes; 
+	std::map<int, bool> standStates;
 public:
 	RentalPoint() {};
 	RentalPoint(std::vector<int> bikeIds); //tested
@@ -24,8 +25,8 @@ public:
 	void setPointId(int id) { pointId = id; } //dopiero w mniejszych punktach
 	int getPointId() { return pointId; }
 
-	void rent(int bikeId, int userId, BikeDatabase& database); //tested
-	void putBack(int bikeId, int userId, BikeDatabase& database); //tested
+	void rent(int bikeId, int userId, BikeDatabase& database, User& user); //tested
+	void putBack(int bikeId, int userId, BikeDatabase& database, User& user); //tested
 
 	void addBike(int bikeId); //tested
 	void addBikes(std::vector<int> bikeIds); //tested
