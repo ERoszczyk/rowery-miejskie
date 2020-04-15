@@ -69,7 +69,7 @@ void Bike::HistoryOfRent(Bike& b) //wpisanie obiektu do historii
     }
 }
 
-void Bike::Stop(BikeDatabase& database, map<int, bool>& states) //koniec wypozyczenia, po wys³aniu wiadomosci o checi oddania roweru od uzytkownika lub wypozyczalni
+void Bike::Stop(BikeDatabase& database, map<int, bool>& states, User& user) //koniec wypozyczenia, po wys³aniu wiadomosci o checi oddania roweru od uzytkownika lub wypozyczalni
 {
 
     bool endassingnment;
@@ -79,13 +79,13 @@ void Bike::Stop(BikeDatabase& database, map<int, bool>& states) //koniec wypozyc
         time(&end);
         time_hold = difftime(end, start) / 60;
         cout << "Time of rent " << time_hold << " minutes." << endl;
-        Pay();
+        Pay(user);
         database.setBikeState(id, false);
         database.setBikeOwner(id, 0);
     }
 }
 
-void Bike::Pay()
+void Bike::Pay(User& user)
 {
     //Pobieranie œrodków z konta u¿ytkownika
     int ftime;
@@ -116,6 +116,7 @@ void Bike::Pay()
         price = 10 + ((ftime / 60 + 1) * 7);
         account -= price;
     }
+    user.setCash(account);
 };
 
 void Bike::StartOfRent(BikeDatabase& database, int person, float money)
