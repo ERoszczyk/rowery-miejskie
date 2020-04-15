@@ -69,18 +69,19 @@ void Bike::HistoryOfRent(Bike& b) //wpisanie obiektu do historii
     }
 }
 
-void Bike::Stop(map<int, char>& bikes, map<int, int>& states) //koniec wypozyczenia, po wys³aniu wiadomosci o checi oddania roweru od uzytkownika lub wypozyczalni
+void Bike::Stop(BikeDatabase& database, map<int, bool>& states) //koniec wypozyczenia, po wys³aniu wiadomosci o checi oddania roweru od uzytkownika lub wypozyczalni
 {
 
     bool endassingnment;
-    endassingnment = StandAssignment(states);
+    endassingnment = StandAssignment(database,states);
     if (endassingnment)
     {
         time(&end);
         time_hold = difftime(end, start) / 60;
         cout << "Time of rent " << time_hold << " minutes." << endl;
         Pay();
-        bikes[id] = 0;
+        database.setBikeState(id, false);
+        database.setBikeOwner(id, 0);
     }
 }
 
@@ -117,29 +118,24 @@ void Bike::Pay()
     }
 };
 
-void Bike::StartOfRent(map<int, int>& states, map<int, char>& bikes, string person, float money)
+void Bike::StartOfRent(BikeDatabase& database, int person, float money)
 {
-    holder = person;
+    holder = to_string(person);
     account = money;
     //Sprawdzanie konta
     if (account < 10)
     {
         cout << "You do not have enough money to rent a bike." << endl;
-        bikes[id] == 'F';
+        database.setBikeState(id, false);
         //funkcja do dodania œrodków, odes³anie do u¿ytkownika?
     }
     else
     {
         int state;
         //zwalnianie stojaka
-        for (map<int, int>::iterator it = states.begin(); it != states.end(); ++it)
-        {
-            if (it->second == id)
-            {
-                state = it->first;
-                states[state] = 1;
-            }
-        }
+        database.setBikeState(id, true);
+        database.setBikeOwner(id, person);
+        database.setBikeStand(id, 0);
         end = 0;
         time_hold = 0;
         price = 0;
@@ -156,14 +152,14 @@ void Bike::StartOfRent(map<int, int>& states, map<int, char>& bikes, string pers
 
 };
 
-bool Bike::FindStand(map<int, int>& states, int stateid)
+bool Bike::FindStand(map<int, bool>& states, int stateid)
 {
     bool available = false;
-    std::map<int, int>::iterator itr;
+    std::map<int, bool>::iterator itr;
     itr = states.find(stateid);
     if (states.find(stateid) != states.end())
     {
-        if (itr->second == 1)
+        if (itr->second == false)
         {
             available = true;
         }
@@ -171,7 +167,7 @@ bool Bike::FindStand(map<int, int>& states, int stateid)
     return available;
 };
 
-bool Bike::StandAssignment(map<int, int>& states)
+bool Bike::StandAssignment(BikeDatabase& database, map<int, bool>& states)
 {
     int stateid;
     bool choice = false;
@@ -189,10 +185,11 @@ bool Bike::StandAssignment(map<int, int>& states)
             cin >> c;
             if (c == 'Y' || c == 'y')
             {
-                states[stateid] = id;
+                states[stateid] = true;
                 state = stateid;
                 choice = true;
                 use = true;
+                database.setBikeStand(id, state);
             }
             else if (c == 'N' || c == 'n')
             {
