@@ -9,7 +9,7 @@ User::User(string userName, string userSurname, string userUsername, string user
 	surname = userSurname;
 	username = userUsername;
 	password = userPassword;
-	cash = 0;
+	cash = 20;
 	rentedBikes = 0;
 }
 
@@ -35,7 +35,7 @@ void User::setPassword(string usersPassword)
 
 void User::setCash(double usersCash)
 {
-	cash = usersCash;
+	cash += usersCash;
 }
 
 void User::addRentedBikesAmount(int usersRentedBikes)

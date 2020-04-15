@@ -29,6 +29,7 @@ public:
 	void changePassword();
 	void rentBike(RentalPoint& rental, BikeDatabase& database);
 	void returnBike(RentalPoint& rental, BikeDatabase& database);
+	void transferMoney();
 	void viewRentedBikes();
 	double checkAccountBalance();
 	void saveBaseToFile(string filename);

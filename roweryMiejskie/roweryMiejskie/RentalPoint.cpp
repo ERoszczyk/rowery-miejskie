@@ -37,10 +37,8 @@ RentalPoint::RentalPoint(BikeDatabase database)
 				bikesFree.push_back(it->first);
 			}
 		}
-#if _DEBUG
-		cout << "Too many bikes or invalid bike ID\n";
-#endif
 	}
+	standStates.insert({ 1, 0 });
 }
 
 

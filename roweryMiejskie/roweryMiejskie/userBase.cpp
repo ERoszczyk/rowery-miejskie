@@ -236,7 +236,6 @@ void UserBase::rentBike(RentalPoint& rental, BikeDatabase& database)
 		{
 			if (rental.getFreeBikes().size() > i)
 			{
-				cout << i;
 				userNames.find(activeUserId)->second.addRentedBikeId(rental.getFreeBikes()[i]);
 				rental.rent(rental.getFreeBikes()[i], getActiveUserId(), database, userNames.find(activeUserId)->second);
 			}
@@ -266,6 +265,14 @@ void UserBase::returnBike(RentalPoint& rental, BikeDatabase& database)
 	for (int i = 0; i < rentedBikesId.size(); i++)
 		rental.putBack(rentedBikesId[i], getActiveUserId(), database, userNames.find(activeUserId)->second);
 	userNames.find(activeUserId)->second.removeRentedBikesId();
+}
+
+void UserBase::transferMoney()
+{
+	double money;
+	cout << "Enter how much would you like to transer: " << endl;
+	cin >> money;
+	userNames.find(activeUserId)->second.setCash(money);
 }
 
 void UserBase::viewRentedBikes()

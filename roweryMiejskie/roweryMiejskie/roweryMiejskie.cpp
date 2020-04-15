@@ -21,10 +21,11 @@ void optionsToChoose(UserBase& base, RentalPoint& rental, BikeDatabase& database
         cout << "2. View rented bike(s)" << endl;
         cout << "3. Return rented bike(s)" << endl;
         cout << "4. View a list of bike points" << endl; // od wypozyczalni
-        cout << "5. Check account balance" << endl;
-        cout << "6. Check account history" << endl;
-        cout << "7. Change password" << endl;
-        cout << "8. Log out" << endl;
+        cout << "5. Transfer money" << endl;
+        cout << "6. Check account balance" << endl;
+        cout << "7. Check account history" << endl;
+        cout << "8. Change password" << endl;
+        cout << "9. Log out" << endl;
         cout << "Enter what would you like to do: ";
         cin >> optionNumber;
         optionNumber += 2;
@@ -58,15 +59,18 @@ void optionsToChoose(UserBase& base, RentalPoint& rental, BikeDatabase& database
         cout << "This option is not available yet" << endl;
         break;
     case 7:
-        cout << base.checkAccountBalance() << endl;
+        base.transferMoney();
         break;
     case 8:
-        cout << "This option is not available yet" << endl;
+        cout << base.checkAccountBalance() << endl;
         break;
     case 9:
-        base.changePassword();
+        cout << "This option is not available yet" << endl;
         break;
     case 10:
+        base.changePassword();
+        break;
+    case 11:
         base.logout();
         break;
     default:

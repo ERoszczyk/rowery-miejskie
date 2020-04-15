@@ -29,6 +29,7 @@ Bike& Bike::operator=(const Bike& b)
     if (this == &b)
         return *this;
 
+    id = b.id;
     holder = b.holder;
     account = b.account;
     start = b.start;
