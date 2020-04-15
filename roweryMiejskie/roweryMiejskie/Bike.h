@@ -2,6 +2,7 @@
 //Klasa Bike
 //Olga Krupa,nr indeksu 304048
 #include "BikeDatabase.h"
+#include "user.h"
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -37,9 +38,9 @@ public:
     bool StandAssignment(BikeDatabase& database, map<int, bool>& states);
     bool FindStand(map<int, bool>& states, int stateid);
     //void AvailableBikes(map<int, char> bikes);
-    void Pay();
+    void Pay(User& user);
     void FullHistory();
-    void Stop(BikeDatabase& database, map<int, bool>& states);
+    void Stop(BikeDatabase& database, map<int, bool>& states, User& user);
     void HistoryOfRent(Bike& b);
 
     friend

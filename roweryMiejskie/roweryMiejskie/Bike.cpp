@@ -69,7 +69,7 @@ void Bike::HistoryOfRent(Bike& b) //wpisanie obiektu do historii
     }
 }
 
-void Bike::Stop(BikeDatabase& database, map<int, bool>& states) //koniec wypozyczenia, po wys³aniu wiadomosci o checi oddania roweru od uzytkownika lub wypozyczalni
+void Bike::Stop(BikeDatabase& database, map<int, bool>& states, User& user) //koniec wypozyczenia, po wys³aniu wiadomosci o checi oddania roweru od uzytkownika lub wypozyczalni
 {
 
     bool endassingnment;
@@ -79,13 +79,13 @@ void Bike::Stop(BikeDatabase& database, map<int, bool>& states) //koniec wypozyc
         time(&end);
         time_hold = difftime(end, start) / 60;
         cout << "Time of rent " << time_hold << " minutes." << endl;
-        Pay();
+        Pay(user);
         database.setBikeState(id, false);
         database.setBikeOwner(id, 0);
     }
 }
 
-void Bike::Pay()
+void Bike::Pay(User& user)
 {
     //Pobieranie œrodków z konta u¿ytkownika
     int ftime;
@@ -116,6 +116,7 @@ void Bike::Pay()
         price = 10 + ((ftime / 60 + 1) * 7);
         account -= price;
     }
+    user.setCash(account);
 };
 
 void Bike::StartOfRent(BikeDatabase& database, int person, float money)
@@ -221,61 +222,3 @@ bool Bike::StandAssignment(BikeDatabase& database, map<int, bool>& states)
     return use;
 
 };
-
-//poczatkowo sprawdzalam czy rower moze byc wypozyczony, po konsultacji z osoba odpowiedzialna za wypozyczalnie
-//prawdopodobnie wypozyczalnia bedzie sprawdzac stan roweru, a nastepnie wysylac id do obslugi przez klase BIKE
-//ponizsze funkcje sluzyly do sprawdzania stanu[zajety/wolny]
-
-//bool Bike::RentingBicycle(map<int, char> bikes)
-//{
-//  //poczatkowo sprawdzalam czy rower moze byc wypozyczony, po konsultacji z osoba odpowiedzialna za wypozyczalnie
-//  //prawdopodobnie wypozyczalnia bedzie sprawdzac stan roweru, a nastepnie wysylac id do obslugi przez klase BIKE
-//
-//
-//    // przyjmuje ze indeks i stan jest po³¹czony map¹.
-//    // zwraca stan roweru , zajêty czy woly, pobiera od bazy
-//    // jesli zwraca zajety, prosi o podanie nowego indeksu 
-//    int newid;
-//    bool free;
-//    do 
-//    {
-//        if (bikes.count(id) > 0)
-//        {
-//            if (bikes[id] == 'F')
-//            {
-//                bikes[id] = 'O';
-//                free = true;
-//                cout << "You rent bike number " << id <<  endl;
-//                return free;
-//            }
-//            else
-//            {
-//                cout << "Bike is occupied, please choose another one[put new id]" << endl;
-//                cin >> newid;
-//                id = newid;
-//                free = false;
-//            }
-//        }
-//        else
-//        {
-//            cout << "Bike Not Found, , please choose another one[put new id]" << endl;
-//            cin >> newid;
-//            id = newid;
-//            free = false;
-//        }
-//    } while (free == false);
-//    return free;
-//};
-
-
-//void Bike::AvailableBikes(map<int, char> bikes)
-//{
-//    map<int, char>::iterator it_b = bikes.begin();
-//    for (map<int, char>::iterator it_b = bikes.begin(); it_b != bikes.end(); ++it_b)
-//    {
-//        if (it_b->second == 'F')
-//        {
-//            available_bikes_list.push_back(it_b->first);
-//        }
-//    }
-//};
