@@ -16,7 +16,7 @@ class User
 
 public:
 	User(string userName, string userSurname, string userUsername, string userPassword);
-	void setName(string name);
+	void setName(const string& name);
 	void setSurname(string surname);
 	void setUsername(string username);
 	void setPassword(string password);

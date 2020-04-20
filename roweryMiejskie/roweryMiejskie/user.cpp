@@ -4,16 +4,16 @@
 using namespace std;
 
 User::User(string userName, string userSurname, string userUsername, string userPassword)
+   : name(userName),
+     surname(userSurname),
+     username(userUsername),
+     password(userPassword),
+     cash(20),
+     rentedBikes(0)
 {
-	name = userName;
-	surname = userSurname;
-	username = userUsername;
-	password = userPassword;
-	cash = 20;
-	rentedBikes = 0;
 }
 
-void User::setName(string usersName)
+void User::setName(const string& usersName)
 {
 	name = usersName;
 }

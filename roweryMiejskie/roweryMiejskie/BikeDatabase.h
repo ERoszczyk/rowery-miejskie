@@ -17,9 +17,9 @@ struct Record
 	int user = 0; //default as no user
 	int stand = 0; //default as no stand  (ie.if both 0= out of use)
 public:
-	Record() {};
-	bool getState() { return state; };
-	void setState(bool newState) { state = newState; };
+	Record() = default;
+	bool getState() const { return state; };
+	void setState(const bool newState) { state = newState; };
 	int getUser() { return user; };
 	void setUser(int newUser) { user = newUser; };
 	int getStand() { return stand; };

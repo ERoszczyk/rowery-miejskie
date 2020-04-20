@@ -9,11 +9,11 @@ using namespace std;
 
 RentalPoint::RentalPoint(vector<int> bikeIds)
 {
-	for (int i = 0; i < bikeIds.size(); i++)
-	{
+	for (int bikeId : bikeIds)
+   {
 		if (bikesCount < size)
 		{
-			addBike(bikeIds[i]);
+			addBike(bikeId);
 		}
 		else
 		{
