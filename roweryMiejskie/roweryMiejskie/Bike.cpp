@@ -117,7 +117,7 @@ void Bike::Pay(User& user)
         price = 10 + ((ftime / 60 + 1) * 7);
         account -= price;
     }
-    user.setCash(account);
+    user.transferCash(account);
 };
 
 void Bike::StartOfRent(BikeDatabase& database, int person, float money)

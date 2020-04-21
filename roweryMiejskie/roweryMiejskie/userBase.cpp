@@ -272,7 +272,7 @@ void UserBase::transferMoney()
 	double money;
 	cout << "Enter how much would you like to transer: " << endl;
 	cin >> money;
-	userNames.find(activeUserId)->second.setCash(money);
+	userNames.find(activeUserId)->second.transferCash(money);
 }
 
 void UserBase::viewRentedBikes()

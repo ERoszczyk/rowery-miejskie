@@ -33,7 +33,7 @@ void User::setPassword(string usersPassword)
 	password = usersPassword;
 }
 
-void User::setCash(double usersCash)
+void User::transferCash(double usersCash)
 {
 	cash += usersCash;
 }

@@ -20,7 +20,7 @@ public:
 	void setSurname(string surname);
 	void setUsername(string username);
 	void setPassword(string password);
-	void setCash(double cash);
+	void transferCash(double cash);
 	void addRentedBikesAmount(int rentedBikes);
 	void removeRentedBikes();
 	void addRentedBikeId(int BikeId);
