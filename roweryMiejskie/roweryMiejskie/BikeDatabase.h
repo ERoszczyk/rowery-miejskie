@@ -18,12 +18,12 @@ struct Record
 	int stand = 0; //default as no stand  (ie.if both 0= out of use)
 public:
 	Record() {};
-	bool getState() { return state; };
-	void setState(bool newState) { state = newState; };
-	int getUser() { return user; };
-	void setUser(int newUser) { user = newUser; };
-	int getStand() { return stand; };
-	void setStand(int newStand) { stand = newStand; };
+	bool getState() const { return state; };
+	void setState(const bool newState) { state = newState; };
+	int getUser() const { return user; };
+	void setUser(const int newUser) { user = newUser; };
+	int getStand() const { return stand; };
+	void setStand(const int newStand) { stand = newStand; };
 	friend
 		std::ostream& operator<< (std::ostream& os, Record& database);
 	friend
@@ -40,26 +40,26 @@ public:
 	BikeDatabase(std::vector<Record> newBikes) { addBikes(newBikes); }; // ie.bikes sorted by production number
 
 	void addBike(void); //tested
-	void addBike(Record); //tested
+	void addBike(const Record); //tested
 
-	void addBikes(int);
-	void addBikes(std::vector<Record>); //tested
-	void addBikes(std::map<int, Record>); //tested in testing operator+
+	void addBikes(const int);
+	void addBikes(const std::vector<Record>); //tested
+	void addBikes(const std::map<int, Record>); //tested in testing operator+
 
-	void removeBike(int bikeId) { allBikes.erase(bikeId); }
-	void removeBikes(std::vector<int> bikeIds) { for (int i = 0; i < bikeIds.size(); i++) { removeBike(i); } };
+	void removeBike(const int bikeId) { allBikes.erase(bikeId); }
+	void removeBikes(const std::vector<int> bikeIds) { for (int bikeId:bikeIds) { removeBike(bikeId); } };
 
-	bool getBikeState(int bikeId) { return allBikes.at(bikeId).getState(); };
-	void setBikeState(int bikeId, bool state) { allBikes.at(bikeId).setState(state); };
+	bool getBikeState(int bikeId) const { return allBikes.at(bikeId).getState(); };
+	void setBikeState(const int bikeId, const bool state) { allBikes.at(bikeId).setState(state); };
 
-	int getBikeOwner(int bikeId) { return allBikes.at(bikeId).getUser(); };  
-	void setBikeOwner(int bikeId, int userId) { allBikes.at(bikeId).setUser(userId); };
+	int getBikeOwner(int bikeId) const { return allBikes.at(bikeId).getUser(); };  
+	void setBikeOwner(const int bikeId, const int userId) { allBikes.at(bikeId).setUser(userId); };
 
-	int getBikeStand(int bikeId) { return allBikes.at(bikeId).getStand(); };
-	void setBikeStand(int bikeId, int standId) { allBikes.at(bikeId).setStand(standId); };
+	int getBikeStand(int bikeId) const { return allBikes.at(bikeId).getStand(); };
+	void setBikeStand(const int bikeId, const int standId) { allBikes.at(bikeId).setStand(standId); };
 
-	const std::map<int, Record> getAllBikes() { return allBikes; }; // 
-	const Record getBike(int bikeId) { return allBikes.at(bikeId); } // 
+	std::map<int, Record> getAllBikes() const { return allBikes; }; // 
+	Record getBike(int bikeId) const { return allBikes.at(bikeId); } // 
 
 	void exportToFile(std::string filename = "database.txt"); //tested
 	void importFromFile(std::string filename = "database.txt"); //tested

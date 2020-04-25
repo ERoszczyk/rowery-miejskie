@@ -9,11 +9,12 @@ using namespace std;
 
 RentalPoint::RentalPoint(vector<int> bikeIds)
 {
-	for (int i = 0; i < bikeIds.size(); i++)
+	defaultStands();
+	for (int bikeId:bikeIds)
 	{
 		if (bikesCount < size)
 		{
-			addBike(bikeIds[i]);
+			addBike(bikeId);
 		}
 		else
 		{
@@ -23,8 +24,9 @@ RentalPoint::RentalPoint(vector<int> bikeIds)
 		}
 	}
 }
-RentalPoint::RentalPoint(BikeDatabase database)
+RentalPoint::RentalPoint(BikeDatabase& database)
 {
+	defaultStands();
 	map<int, Record> allBikes = database.getAllBikes();
 	for (auto it = allBikes.begin(); it != allBikes.end(); ++it)
 	{
@@ -35,10 +37,12 @@ RentalPoint::RentalPoint(BikeDatabase database)
 			if (database.getBikeState(it->first) == false)
 			{
 				bikesFree.push_back(it->first);
+				int standId = findFreeStand();
+				takeStand(standId);
+				database.setBikeStand(it->first, standId);
 			}
 		}
 	}
-	standStates.insert({ 1, 0 });
 }
 
 
@@ -47,26 +51,40 @@ void RentalPoint::rent(int bikeId, int userId, BikeDatabase& database, User& use
 	if (find(myBikes.begin(), myBikes.end(), bikeId) != myBikes.end() && database.getBikeState(bikeId) == false)
 	{
 		Bike bike(bikeId);
-		float account = user.getCash();
+		int standId = database.getBikeStand(bikeId);
+		double account = user.getCash();
 		bike.StartOfRent(database, userId, account);
 		if (database.getBikeState(bikeId))
 		{
 			bikesFree.erase(find(bikesFree.begin(), bikesFree.end(), bikeId));
 			rentedBikes[bikeId] = bike;
+			freeStand(standId);
+			
 		}
 	}
 	else { cout << "Invalid bike ID"; };
 }
+
 void RentalPoint::putBack(int bikeId, int userId, BikeDatabase& database, User& user)
 {
-	if (getSpaces() > 0) //add if user id matches the one in the databases
+	if (getSpaces() > 0) 
 	{
+		cout << "Free stands:" << endl;      //optional
+		for (int standId : getFreeStands())  //to be moved
+		{									//?
+			cout << standId << endl;		//
+		}									//
 		map<int, Record> bikes = database.getAllBikes();
 		if (bikes.find(bikeId) != bikes.end())
 		{
 			rentedBikes.at(bikeId).Stop(database, standStates, user);
 			bikesFree.push_back(bikeId);
 			rentedBikes.erase(bikeId);
+			int standId = database.getBikeStand(bikeId);
+			if (standId != 0)
+			{
+				takeStand(standId);
+			}
 		}
 		else { cout << "Invalid bike ID"; };
 	}
@@ -76,10 +94,12 @@ void RentalPoint::putBack(int bikeId, int userId, BikeDatabase& database, User& 
 void RentalPoint::addBike(int bikeId)
 {
 	if (bikeId > 0)
-	{	
+	{
+		takeStand(findFreeStand());
 		myBikes.push_back(bikeId);
 		bikesFree.push_back(bikeId);
 		bikesCount += 1;
+		//change bike stand in database
 	}
 	else
 	{
@@ -90,11 +110,11 @@ void RentalPoint::addBike(int bikeId)
 }
 void RentalPoint::addBikes(vector<int> bikeIds)
 {
-	for (int i = 0; i < bikeIds.size(); i++)
+	for (int bikeId:bikeIds)
 	{
 		if (bikesCount < size)
 		{
-			addBike(bikeIds[i]);
+			addBike(bikeId);
 		}
 		else
 		{
@@ -121,6 +141,58 @@ void RentalPoint::removeBikes(vector<int> bikeIds)
 #endif
 		}
 	}
+}
+
+void RentalPoint::defaultStands(void)
+{
+	for (int i = 1; i <= size; i++)
+	{
+		standStates[i];
+	}
+}
+
+void RentalPoint::takeStand(int standId)
+{
+	standStates[standId] = true;
+}
+
+void RentalPoint::freeStand(int standId)
+{
+	standStates[standId] = false;
+}
+
+void RentalPoint::freeAllStands(void)
+{
+	for (auto it = standStates.begin(); it != standStates.end(); ++it)
+	{
+		it->second = false;
+	}
+}
+
+int RentalPoint::findFreeStand(void)
+{
+	int i = 1;
+	do{
+		if (standStates[i] == false)
+		{
+			return i;
+		}
+		i++;
+
+	} while (i < size);
+}
+
+std::vector<int> RentalPoint::getFreeStands()
+{
+	std::vector<int> freeStands;
+	for (auto it = standStates.begin(); it != standStates.end(); ++it)
+	{
+		if (it->second == false)
+		{
+			freeStands.push_back(it->first);
+		}
+	}
+	return freeStands;
 }
 
 ostream& operator<<(ostream& os, RentalPoint& point)
