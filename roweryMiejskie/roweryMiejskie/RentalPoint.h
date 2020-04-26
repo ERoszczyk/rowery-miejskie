@@ -1,5 +1,7 @@
 // RentalPoint.h contains declaration of class RentalPoint
 // Author: Kinga Kwoka gr.208
+#ifndef RentalPoint_h
+#define RentalPoint_h
 
 //#include "BikeDatabase.h"
 #include "Bike.h"
@@ -58,3 +60,5 @@ public:
 	void setLocation(const string locationName) { location = locationName; };
 	string getLocation()const { return location; }
 };
+
+#endif

@@ -9,24 +9,24 @@ UserBase::UserBase()
 	activeUserId = -1;
 }
 
-void UserBase::setUserNames(string userName, string userSurname, string userUsername, string userPassword)
+void UserBase::addNewUser(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword)
 {
 	userNames.insert({ getCurrentLoginIndex(), User(userName, userSurname, userUsername, userPassword) });
 }
 
-void UserBase::setActiveUserId(int userId)
+void UserBase::setActiveUserId(const int& userId)
 {
 	activeUserId = userId;
-}
-
-map<int, User> UserBase::getUserNames()
-{
-	return userNames;
 }
 
 int UserBase::getActiveUserId()
 {
 	return activeUserId;
+}
+
+map<int, User> UserBase::getUserNames()
+{
+	return userNames;
 }
 
 int UserBase::getCurrentLoginIndex()
@@ -43,7 +43,7 @@ int UserBase::getCurrentLoginIndex()
 
 }
 
-bool UserBase::ifUsernameAvailable(string username)
+bool UserBase::ifUsernameAvailable(const string& username)
 {
 	for (auto i = userNames.begin(); i != userNames.end(); ++i)
 	{
@@ -52,6 +52,7 @@ bool UserBase::ifUsernameAvailable(string username)
 	}
 	return true;
 }
+
 
 void UserBase::createNewUser()
 {
@@ -77,7 +78,15 @@ void UserBase::createNewUser()
 		character = _getch();
 	}
 	cout << endl;
-	userNames.insert({ getCurrentLoginIndex(), User(name, surname, username, password) });
+	addNewUser(name, surname, username, password);
+}
+
+bool UserBase::ifLogged()
+{
+	if (activeUserId >= 0)
+		return true;
+	else
+		return false;
 }
 
 void UserBase::login()
@@ -134,14 +143,6 @@ void UserBase::login()
 				return;
 		}
 	}
-}
-
-bool UserBase::ifLogged()
-{
-	if (activeUserId >= 0)
-		return true;
-	else
-		return false;
 }
 
 void UserBase::logout()
@@ -223,7 +224,7 @@ void UserBase::changePassword()
 	userNames.find(activeUserId)->second.getPassword() = newPassword;
 }
 
-void UserBase::rentBike(RentalPoint& rental, BikeDatabase& database)
+void UserBase::rentBike(RentalPoint& const rental, BikeDatabase& database)
 {
 	string loginAnswer, rentAnswer;
 	int bikesNumber;
@@ -267,12 +268,14 @@ void UserBase::returnBike(RentalPoint& rental, BikeDatabase& database)
 	userNames.find(activeUserId)->second.removeRentedBikesId();
 }
 
-void UserBase::transferMoney()
+void UserBase::transferMoney(double money)
 {
-	double money;
-	cout << "Enter how much would you like to transer: " << endl;
-	cin >> money;
-	userNames.find(activeUserId)->second.transferCash(money);
+	if (money == 0)
+	{
+		cout << "Enter how much would you like to transer: " << endl;
+		cin >> money;
+	}
+	userNames.find(activeUserId) -> second.transferCash(money);
 }
 
 void UserBase::viewRentedBikes()
@@ -293,7 +296,7 @@ void UserBase::viewRentedBikes()
 	}
 }
 
-void UserBase::saveBaseToFile(string filename)
+void UserBase::saveBaseToFile(const string& filename)
 {
 	ofstream file(filename);
 	file << "User's ID" << '\t' << "User's name" << '\t' << "User's surname" << '\t' << "User's username" << '\t' << "User's password" << endl;

@@ -3,42 +3,42 @@
 #include <iostream>
 using namespace std;
 
-User::User(string userName, string userSurname, string userUsername, string userPassword)
+User::User(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword)
+	: name(userName),
+	surname(userSurname),
+	username(userUsername),
+	password(userPassword),
+	cash(20),
+	rentedBikes(0)
 {
-	name = userName;
-	surname = userSurname;
-	username = userUsername;
-	password = userPassword;
-	cash = 20;
-	rentedBikes = 0;
 }
 
-void User::setName(string usersName)
+void User::setName(const string& usersName)
 {
 	name = usersName;
 }
 
-void User::setSurname(string usersSurname)
+void User::setSurname(const string& usersSurname)
 {
 	surname = usersSurname;
 }
 
-void User::setUsername(string usersUsername)
+void User::setUsername(const string& usersUsername)
 {
 	username = usersUsername;
 }
 
-void User::setPassword(string usersPassword)
+void User::setPassword(const string& usersPassword)
 {
 	password = usersPassword;
 }
 
-void User::transferCash(double usersCash)
+void User::transferCash(const double& usersCash)
 {
 	cash += usersCash;
 }
 
-void User::addRentedBikesAmount(int usersRentedBikes)
+void User::addRentedBikesAmount(const int& usersRentedBikes)
 {
 	rentedBikes += usersRentedBikes;
 }
@@ -48,7 +48,7 @@ void User::removeRentedBikes()
 	rentedBikes = 0;
 }
 
-void User::addRentedBikeId(int usersBikeId)
+void User::addRentedBikeId(const int& usersBikeId)
 {
 	rentedBikesId.push_back(usersBikeId);
 }

@@ -1,10 +1,13 @@
 //Plik nag³ówkowy klasy UserBase, Ewa Roszczyk, nr. indeksu: 304077
+#ifndef userBase_h
+#define userBase_h
+
 #include <iostream>
 #include <map>
 #include <conio.h>
 #include <vector>
 #include <fstream>
-//#include "user.h"
+#include "user.h"
 #include "RentalPoint.h"
 
 using namespace std;
@@ -15,22 +18,24 @@ class UserBase
 	int activeUserId;  //vector? - mozliwa wieksza ilosc zalogowanych osob
 
 public:
-	void setUserNames(string userName, string userSurname, string userUsername, string userPassword);
-	void setActiveUserId(int userId);
-	map<int, User> getUserNames();
-	int getActiveUserId();
 	UserBase();
+	void addNewUser(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword);
+	void setActiveUserId(const int& userId);
+	int getActiveUserId();
+	map<int, User> getUserNames();
 	int getCurrentLoginIndex();
-	bool ifUsernameAvailable(string username);
+	bool ifUsernameAvailable(const string& username);
 	void createNewUser();
 	bool ifLogged();
 	void login();
 	void logout();
-	void changePassword();
-	void rentBike(RentalPoint& rental, BikeDatabase& database);
-	void returnBike(RentalPoint& rental, BikeDatabase& database);
-	void transferMoney();
-	void viewRentedBikes();
 	double checkAccountBalance();
-	void saveBaseToFile(string filename);
+	void changePassword();
+	void rentBike(RentalPoint& const rental, BikeDatabase& database);
+	void returnBike(RentalPoint& rental, BikeDatabase& database);
+	void transferMoney(double money = 0);
+	void viewRentedBikes();
+	void saveBaseToFile(const string& filename);  //aministrator
 };
+
+#endif

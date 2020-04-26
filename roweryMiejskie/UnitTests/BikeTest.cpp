@@ -5,6 +5,7 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 User userx("a", "b", "c", "d");
+//User user("a", "b", "c", "d");
 //UserBase base;
 
 namespace BikeTests

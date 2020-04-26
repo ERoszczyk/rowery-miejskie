@@ -1,5 +1,7 @@
 // BikeDatabase.h contains declaration of class BikeDatabase and structure Record
 // Author: Kinga Kwoka gr.208
+#ifndef BikeDatabase_h
+#define BikeDatabase_h
 
 #include <iostream>
 #include <iterator>
@@ -70,3 +72,5 @@ public:
 	friend
 		std::istream& operator>> (std::istream& is, BikeDatabase& point); 
 };
+
+#endif

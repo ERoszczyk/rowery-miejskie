@@ -1,6 +1,9 @@
 #pragma once
 //Klasa Bike
 //Olga Krupa,nr indeksu 304048
+#ifndef Bike_h
+#define Bike_h
+
 #include "BikeDatabase.h"
 #include "user.h"
 #include <cstdlib>
@@ -50,3 +53,4 @@ public:
         istream& operator>> (istream& is, Bike& b);
 };
 
+#endif

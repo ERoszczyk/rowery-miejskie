@@ -1,14 +1,12 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 #include "../roweryMiejskie/user.cpp"
-//#include "../roweryMiejskie/userBase.cpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 User user("a", "b", "c", "d");
-//UserBase base;
 
-namespace UnitTests
+namespace UserTests
 {
 	TEST_CLASS(testUser)
 	{
@@ -39,7 +37,7 @@ namespace UnitTests
 		TEST_METHOD(testCash)
 		{
 			user.transferCash(50);
-			Assert::IsTrue(user.getCash() == 70); //70, poniewa¿ 20 u¿ytkownik posiada w momencie za³o¿enia konta
+			Assert::IsTrue(user.getCash() == 70); //20 u¿ytkownik posiada w momencie za³o¿enia konta
 		}
 
 		TEST_METHOD(testRentedBikes)

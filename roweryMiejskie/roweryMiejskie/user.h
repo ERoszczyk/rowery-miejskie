@@ -1,4 +1,7 @@
 //Plik nag³ówkowy klasy User, Ewa Roszczyk, nr. indeksu: 304077
+#ifndef user_h
+#define user_h
+
 #include <iostream>
 #include <vector>
 
@@ -15,15 +18,15 @@ class User
 	vector<int> rentedBikesId;
 
 public:
-	User(string userName, string userSurname, string userUsername, string userPassword);
-	void setName(string name);
-	void setSurname(string surname);
-	void setUsername(string username);
-	void setPassword(string password);
-	void transferCash(double cash);
-	void addRentedBikesAmount(int rentedBikes);
+	User(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword);
+	void setName(const string& name);
+	void setSurname(const string& surname);
+	void setUsername(const string& username);
+	void setPassword(const string& password);
+	void transferCash(const double& cash);
+	void addRentedBikesAmount(const int& rentedBikes);
 	void removeRentedBikes();
-	void addRentedBikeId(int BikeId);
+	void addRentedBikeId(const int& BikeId);
 	void removeRentedBikesId();
 	string getName();
 	string getSurname();
@@ -33,3 +36,5 @@ public:
 	int getRentedBikes();
 	vector<int> getRentedBikesId();
 };
+
+#endif
