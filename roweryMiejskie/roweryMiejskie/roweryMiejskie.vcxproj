@@ -159,10 +159,14 @@
     <ClCompile Include="roweryMiejskie.cpp" />
     <ClCompile Include="user.cpp" />
     <ClCompile Include="userBase.cpp" />
+    <ClCompile Include="ElectricBike.cpp" />
+    <ClCompile Include="Tandem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bike.h" />
     <ClInclude Include="BikeDatabase.h" />
+    <ClInclude Include="ElectricBike.h" />
+    <ClInclude Include="Tandem.h" />
     <ClInclude Include="RentalPoint.h" />
     <ClInclude Include="user.h" />
     <ClInclude Include="userBase.h" />

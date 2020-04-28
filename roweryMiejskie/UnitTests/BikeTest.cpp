@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 #include "../roweryMiejskie/Bike.cpp"
+#include "../roweryMiejskie/ElectricBike.cpp" 
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -51,6 +52,20 @@ namespace BikeTests
 			Assert::AreEqual(acc, xx.account);
 			Assert::AreEqual(check, xx.price);
 			Assert::AreNotEqual(i, xx.account);
+
+		};
+		TEST_METHOD(TestBike4)
+		{
+			ElectricBike x(55);
+			x.time_hold = 20;
+			x.account = 30;
+			x.Pay(userx);
+			float check = 5;
+			float i = 30;
+			float acc = 25;
+			Assert::AreEqual(acc, x.account);
+			Assert::AreEqual(check, x.price);
+			Assert::AreNotEqual(i, x.account);
 
 		};
 

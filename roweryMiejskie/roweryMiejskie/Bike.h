@@ -15,7 +15,7 @@
 using namespace std;
 
 class Bike {
-private:
+protected:
     int id;
     string holder;
     time_t start, end;
