@@ -153,8 +153,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Administrator.cpp" />
     <ClCompile Include="Bike.cpp" />
     <ClCompile Include="BikeDatabase.cpp" />
+    <ClCompile Include="Client.cpp" />
     <ClCompile Include="RentalPoint.cpp" />
     <ClCompile Include="roweryMiejskie.cpp" />
     <ClCompile Include="user.cpp" />
@@ -163,8 +165,10 @@
     <ClCompile Include="Tandem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Administrator.h" />
     <ClInclude Include="Bike.h" />
     <ClInclude Include="BikeDatabase.h" />
+    <ClInclude Include="Client.h" />
     <ClInclude Include="ElectricBike.h" />
     <ClInclude Include="Tandem.h" />
     <ClInclude Include="RentalPoint.h" />

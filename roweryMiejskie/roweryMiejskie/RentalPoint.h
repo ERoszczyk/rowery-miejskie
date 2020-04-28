@@ -15,8 +15,8 @@ class RentalPoint
 public:
 	virtual ~RentalPoint()=0 {};
 
-	virtual void rent(const int bikeId, const int userId, BikeDatabase& database, User& user)=0;
-	virtual void putBack(const int bikeId, const int userId, BikeDatabase& database, User& user)=0;
+	virtual void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user)=0;
+	virtual void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user)=0;
 
 	virtual void addBike(const int bikeId) = 0;
 	/*virtual void addBikes(const std::vector<int> bikeIds)=0;
@@ -66,8 +66,8 @@ public:
     void setLocation(const string locationName) { location = locationName; };
 	string getLocation()const { return location; }
 
-	void rent(const int bikeId, const int userId, BikeDatabase& database, User& user); //tested
-	void putBack(const int bikeId, const int userId, BikeDatabase& database, User& user); //tested
+	void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user); //tested
+	void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user); //tested
 
 	void addBike(const int bikeId); //tested
 	void addBikes(const std::vector<int> bikeIds); //tested
@@ -95,8 +95,8 @@ class MainLocation : public RentalLocation
 	std::map<string, RentalLocation> locationObjects;
 public:
 	MainLocation(std::vector<string>names, BikeDatabase& database);
-	void rent(const int bikeId, const int userId, BikeDatabase& database, User& user, string name="Main Location"); //tested
-	void putBack(const int bikeId, const int userId, BikeDatabase& database, User& user, string name="Main Location"); //tested
+	void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, string name="Main Location"); //tested
+	void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user, string name="Main Location"); //tested
 };
 
 

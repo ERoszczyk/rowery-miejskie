@@ -5,6 +5,9 @@
 #include <iostream>
 #include <vector>
 
+class RentalPoint;
+class BikeDatabase;
+
 using namespace std;
 
 class User
@@ -13,28 +16,21 @@ class User
 	string surname;
 	string username;
 	string password;
-	double cash;
-	int rentedBikes;
-	vector<int> rentedBikesId;
+	int id;
 
 public:
-	User(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword);
+	User(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword, const int& userId);
 	void setName(const string& name);
 	void setSurname(const string& surname);
 	void setUsername(const string& username);
 	void setPassword(const string& password);
-	void transferCash(const double& cash);
-	void addRentedBikesAmount(const int& rentedBikes);
-	void removeRentedBikes();
-	void addRentedBikeId(const int& BikeId);
-	void removeRentedBikesId();
 	string getName();
 	string getSurname();
 	string getUsername();
 	string getPassword();
-	double getCash();
-	int getRentedBikes();
-	vector<int> getRentedBikesId();
+	int getId();
+
+	virtual void menu(RentalPoint& rental, BikeDatabase& database) = 0;
 };
 
 #endif

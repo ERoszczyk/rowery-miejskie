@@ -7,34 +7,39 @@
 #include <conio.h>
 #include <vector>
 #include <fstream>
-#include "user.h"
-#include "RentalPoint.h"
+//#include "RentalPoint.h"
+#include "Administrator.h"
+#include "Client.h"
+
+class RentalPoint;
+class BikeDatabase;
 
 using namespace std;
 
 class UserBase
 {
-	map<int, User> userNames;
+	map<int, User*> userNames;
 	int activeUserId;  //vector? - mozliwa wieksza ilosc zalogowanych osob
 
 public:
 	UserBase();
+	void menuStart(RentalPoint& rental, BikeDatabase& database);
 	void addNewUser(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword);
 	void setActiveUserId(const int& userId);
 	int getActiveUserId();
-	map<int, User> getUserNames();
+	map<int, User*> getUserNames();
 	int getCurrentLoginIndex();
 	bool ifUsernameAvailable(const string& username);
 	void createNewUser();
 	bool ifLogged();
-	void login();
+	void login(RentalPoint& rental, BikeDatabase& database);
 	void logout();
-	double checkAccountBalance();
+	/*double checkAccountBalance();
 	void changePassword();
 	void rentBike(RentalPoint& const rental, BikeDatabase& database);
 	void returnBike(RentalPoint& rental, BikeDatabase& database);
 	void transferMoney(double money = 0);
-	void viewRentedBikes();
+	void viewRentedBikes();*/
 	void saveBaseToFile(const string& filename);  //aministrator
 };
 

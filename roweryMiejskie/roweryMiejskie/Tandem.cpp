@@ -1,6 +1,6 @@
 #include "Tandem.h"
 
-void Tandem::Pay(User& user)
+void Tandem::Pay(Client& user)
 {
     //Pobieranie œrodków z konta u¿ytkownika
     int ftime;

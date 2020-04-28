@@ -17,9 +17,9 @@ public:
     }
     ElectricBike& operator=(const ElectricBike& b);
     void StartOfRent(BikeDatabase& database, int person, const float money);
-    void Stop(BikeDatabase& database, map<int, bool>& states, User& user);
+    void Stop(BikeDatabase& database, map<int, bool>& states, Client& user);
     //bool CheckBattery(int* battery, bool* finish);
     bool CheckBattery();
     void Loading( BikeDatabase* database);
-    void Pay(User& user);
+    void Pay(Client& user);
 };

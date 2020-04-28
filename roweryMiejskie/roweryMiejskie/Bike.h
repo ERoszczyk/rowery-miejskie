@@ -5,7 +5,7 @@
 #define Bike_h
 
 #include "BikeDatabase.h"
-#include "user.h"
+#include "Client.h"
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -42,9 +42,9 @@ public:
     bool StandAssignment(BikeDatabase& database, map<int, bool>& states);
     bool FindStand(map<int, bool>& states, int stateid);
     //void AvailableBikes(map<int, char> bikes);
-    void Pay(User& user);
+    void Pay(Client& user);
     void FullHistory();
-    void Stop(BikeDatabase& database, map<int, bool>& states, User& user);
+    void Stop(BikeDatabase& database, map<int, bool>& states, Client& user);
     void HistoryOfRent(Bike& b);
 
     friend

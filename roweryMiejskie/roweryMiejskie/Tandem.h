@@ -9,5 +9,5 @@ public:
     Tandem(int id) {
         this->id = id;
     }
-    void Pay(User& user);
+    void Pay(Client& user);
 };
