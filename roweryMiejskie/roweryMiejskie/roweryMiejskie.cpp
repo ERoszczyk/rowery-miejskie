@@ -94,6 +94,10 @@ int main()
     BikeDatabase database;
     database.importFromFile();
     RentalLocation point(database);
+
+    /*std::vector<string> names{ "another location", "one more location" };
+    MainLocation testLocation(names, database);*/
+
     UserBase base;
     optionsToChoose(base, point, database);
     base.saveBaseToFile("users.txt");

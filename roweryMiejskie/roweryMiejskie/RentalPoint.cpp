@@ -45,10 +45,9 @@ RentalLocation::RentalLocation(BikeDatabase& database)
 	}
 }
 
-RentalLocation::RentalLocation(std::map<int, Record> bikes, BikeDatabase& database)
+RentalLocation::RentalLocation(std::map<int, Record> allBikes, BikeDatabase& database)
 {
 	defaultStands();
-	map<int, Record> allBikes = database.getAllBikes();
 	for (auto it = allBikes.begin(); it != allBikes.end(); ++it)
 	{
 		if (it->first > 0 && bikesCount < size)
@@ -240,9 +239,20 @@ istream& operator>>(istream& is, RentalPoint& point)
 MainLocation::MainLocation(std::vector<string> names, BikeDatabase& database) :RentalLocation(database), locationNames(names)
 {
 	this->setLocation("Main Location");
+
 	for (string name : names)
 	{
-		locationObjects.insert(pair<string, RentalLocation>(name, RentalLocation(database)));
+		std::map<int, Record> bikes = database.getAllBikes();
+		std::map<int, Record> tempBikes;
+		for (auto it = bikes.begin(); it != bikes.end(); ++it)
+		{
+			if (it->second.getStand() == 0 && it->second.getUser() == 0)
+			{
+				tempBikes.insert(pair<int, Record>(it->first, it->second));
+			}
+		}
+		RentalLocation rental(tempBikes, database);
+		locationObjects.insert(pair<string, RentalLocation>(name, rental));
 	}
 }
 
