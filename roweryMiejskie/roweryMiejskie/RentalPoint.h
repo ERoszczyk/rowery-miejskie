@@ -19,7 +19,7 @@ public:
 	virtual void putBack(const int bikeId, const int userId, BikeDatabase& database, User& user)=0;
 
 	virtual void addBike(const int bikeId) = 0;
-	virtual void addBikes(const std::vector<int> bikeIds)=0;
+	/*virtual void addBikes(const std::vector<int> bikeIds)=0;
 	virtual void removeBikes(const std::vector<int> bikeIds)=0;
 
 	virtual void defaultStands(void)=0;
@@ -27,12 +27,12 @@ public:
 	virtual void freeStand(const int standId)=0;
 	virtual void freeAllStands(void)=0;
 
-	virtual int findFreeStand(void)=0;
+	virtual int findFreeStand(void)=0;*/
 	virtual std::vector<int> getFreeStands()=0;
 
 	virtual std::vector<int> getBikes() const = 0;
 	virtual std::vector<int> getFreeBikes() const = 0;
-	virtual int getSpaces() const = 0; 
+	//virtual int getSpaces() const = 0; 
 
 	friend
 		std::ostream& operator<< (std::ostream& os, RentalPoint& point); 
@@ -43,6 +43,7 @@ public:
 
 class RentalLocation : public RentalPoint
 {
+protected:
 	string location = "";	
 	int pointId = 1;
 	const int size = 10;
@@ -56,6 +57,7 @@ public:
 	RentalLocation() { defaultStands(); };
 	RentalLocation(std::vector<int> bikeIds); //tested
 	RentalLocation(BikeDatabase& database); //tested
+	RentalLocation(std::map<int, Record> bikes, BikeDatabase& database);
 	~RentalLocation() { bikesCount = 0; myBikes.clear(); };//?
 
 	void setPointId(const int id) { pointId = id; }
@@ -84,6 +86,17 @@ public:
 	int getSpaces() const { return size - bikesCount; } //done
 
 
+};
+
+
+class MainLocation : public RentalLocation
+{
+	std::vector<string> locationNames;
+	std::map<string, RentalLocation> locationObjects;
+public:
+	MainLocation(std::vector<string>names, BikeDatabase& database);
+	void rent(const int bikeId, const int userId, BikeDatabase& database, User& user, string name="Main Location"); //tested
+	void putBack(const int bikeId, const int userId, BikeDatabase& database, User& user, string name="Main Location"); //tested
 };
 
 

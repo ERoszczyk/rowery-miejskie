@@ -45,6 +45,26 @@ RentalLocation::RentalLocation(BikeDatabase& database)
 	}
 }
 
+RentalLocation::RentalLocation(std::map<int, Record> bikes, BikeDatabase& database)
+{
+	defaultStands();
+	map<int, Record> allBikes = database.getAllBikes();
+	for (auto it = allBikes.begin(); it != allBikes.end(); ++it)
+	{
+		if (it->first > 0 && bikesCount < size)
+		{
+			myBikes.push_back(it->first);
+			bikesCount += 1;
+			if (database.getBikeState(it->first) == false)
+			{
+				bikesFree.push_back(it->first);
+				int standId = findFreeStand();
+				takeStand(standId);
+				database.setBikeStand(it->first, standId);
+			}
+		}
+	}
+}
 
 void RentalLocation::rent(int bikeId, int userId, BikeDatabase& database, User& user)
 {
@@ -59,6 +79,7 @@ void RentalLocation::rent(int bikeId, int userId, BikeDatabase& database, User& 
 			bikesFree.erase(find(bikesFree.begin(), bikesFree.end(), bikeId));
 			rentedBikes[bikeId] = bike;
 			freeStand(standId);
+			bikesCount -= 1;
 			
 		}
 	}
@@ -67,7 +88,7 @@ void RentalLocation::rent(int bikeId, int userId, BikeDatabase& database, User& 
 
 void RentalLocation::putBack(int bikeId, int userId, BikeDatabase& database, User& user)
 {
-	if (getSpaces() > 0) 
+	if (this->getSpaces() > 0) 
 	{
 		cout << "Free stands:" << endl;      //optional or
 		for (int standId : getFreeStands())  //to be moved
@@ -216,4 +237,37 @@ istream& operator>>(istream& is, RentalPoint& point)
 	return is;
 }
 
+MainLocation::MainLocation(std::vector<string> names, BikeDatabase& database) :RentalLocation(database), locationNames(names)
+{
+	this->setLocation("Main Location");
+	for (string name : names)
+	{
+		locationObjects.insert(pair<string, RentalLocation>(name, RentalLocation(database)));
+	}
+}
 
+void MainLocation::rent(const int bikeId, const int userId, BikeDatabase& database, User& user, string name)
+{
+	if (name == "Main Location")
+	{
+		RentalLocation::rent(bikeId, userId, database,user);
+	}
+	else
+	{
+		locationObjects.at(name).rent(bikeId, userId, database, user);
+	}
+
+}
+
+void MainLocation::putBack(const int bikeId, const int userId, BikeDatabase& database, User& user, string name)
+{
+	if (name == "Main Location")
+	{
+		RentalLocation::putBack(bikeId, userId, database, user);
+	}
+	else
+	{
+		locationObjects.at(name).putBack(bikeId, userId, database, user);
+	}
+
+}
