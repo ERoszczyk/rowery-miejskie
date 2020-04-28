@@ -154,72 +154,109 @@ void Bike::StartOfRent(BikeDatabase& database, int person, float money)
 
 };
 
-bool Bike::FindStand(map<int, bool>& states, int stateid)
-{
-    bool available = false;
-    std::map<int, bool>::iterator itr;
-    itr = states.find(stateid);
-    if (states.find(stateid) != states.end())
-    {
-        if (itr->second == false)
-        {
-            available = true;
-        }
-    }
-    return available;
-};
+//bool Bike::FindStand(map<int, bool>& states, int stateid)
+//{
+//    bool available = false;
+//    std::map<int, bool>::iterator itr;
+//    itr = states.find(stateid);
+//    if (states.find(stateid) != states.end())
+//    {
+//        if (itr->second == false)
+//        {
+//            available = true;
+//        }
+//    }
+//    return available;
+//};
+//
+//bool Bike::StandAssignment(BikeDatabase& database, map<int, bool>& states)
+//{
+//    int stateid;
+//    bool choice = false;
+//    bool use = false;
+//    char c;
+//    bool ava;
+//    do
+//    {
+//        cout << "Give id of state" << endl;
+//        cin >> stateid;
+//        ava = FindStand(states, stateid);
+//        if (ava == true)
+//        {
+//            cout << "Would you like to use this state [Y - YES/N - NO]" << endl;
+//            cin >> c;
+//            if (c == 'Y' || c == 'y')
+//            {
+//                states[stateid] = true;
+//                state = stateid;
+//                choice = true;
+//                use = true;
+//                database.setBikeStand(id, state);
+//            }
+//            else if (c == 'N' || c == 'n')
+//            {
+//                cout << "Would you like to use another state [Y - YES/N - NO]" << endl;
+//                cin >> c;
+//                if (c == 'N' || c == 'n')
+//                {
+//                    choice = true;
+//                }
+//
+//            }
+//            else
+//            {
+//                cout << "You put wrong value" << endl;
+//            }
+//        }
+//        else
+//        {
+//            cout << "State is not available" << endl;
+//            cout << "Would you like to use another state [Y - YES/N - NO]" << endl;
+//            cin >> c;
+//            if (c == 'N' || c == 'n')
+//            {
+//                choice = true;
+//            }
+//        }
+//
+//    } while (choice == false);
+//    return use;
+//
+//};
 
 bool Bike::StandAssignment(BikeDatabase& database, map<int, bool>& states)
 {
     int stateid;
-    bool choice = false;
     bool use = false;
-    char c;
-    bool ava;
-    do
+    stateid = FindStand(states);
+    if (stateid == 0)
     {
-        cout << "Give id of state" << endl;
-        cin >> stateid;
-        ava = FindStand(states, stateid);
-        if (ava == true)
-        {
-            cout << "Would you like to use this state [Y - YES/N - NO]" << endl;
-            cin >> c;
-            if (c == 'Y' || c == 'y')
-            {
-                states[stateid] = true;
-                state = stateid;
-                choice = true;
-                use = true;
-                database.setBikeStand(id, state);
-            }
-            else if (c == 'N' || c == 'n')
-            {
-                cout << "Would you like to use another state [Y - YES/N - NO]" << endl;
-                cin >> c;
-                if (c == 'N' || c == 'n')
-                {
-                    choice = true;
-                }
-
-            }
-            else
-            {
-                cout << "You put wrong value" << endl;
-            }
-        }
-        else
-        {
-            cout << "State is not available" << endl;
-            cout << "Would you like to use another state [Y - YES/N - NO]" << endl;
-            cin >> c;
-            if (c == 'N' || c == 'n')
-            {
-                choice = true;
-            }
-        }
-
-    } while (choice == false);
+        cout << "No available state" << endl;
+        return use;
+    }
+    else
+    {
+        use = true;
+        database.setBikeStand(id, state);
+        cout << "You returned the bike" << endl;
+    }
     return use;
+    
+};
 
+int Bike::FindStand(map<int, bool>& states)
+{
+    int stateid = 0;
+    bool available = false;
+    std::map<int, bool>::iterator itr;
+    for (map<int, bool>::iterator itr = states.begin(); itr != states.end(); ++itr)
+    {
+        if (itr->second == false)
+        {
+            stateid = itr->first;
+            itr->second = true;
+            return stateid;
+        }
+    }
+    return stateid;
 };

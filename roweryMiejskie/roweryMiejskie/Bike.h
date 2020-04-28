@@ -40,7 +40,7 @@ public:
     Bike& operator=(const Bike& b);
     void StartOfRent(BikeDatabase& database, int person, const float money);
     bool StandAssignment(BikeDatabase& database, map<int, bool>& states);
-    bool FindStand(map<int, bool>& states, int stateid);
+    int FindStand(map<int, bool>& states);
     //void AvailableBikes(map<int, char> bikes);
     void Pay(User& user);
     void FullHistory();
