@@ -12,7 +12,8 @@ int main()
 {
     BikeDatabase database;
     database.importFromFile();
-    RentalLocation point(database);
+    vector<string> names{ "another location", "one more location" };
+    MainLocation point(names, database);
     UserBase base;
     base.menuStart(point, database);
     base.saveBaseToFile("users.txt");

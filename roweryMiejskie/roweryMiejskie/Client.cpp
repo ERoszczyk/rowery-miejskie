@@ -9,7 +9,7 @@ Client::Client(const string& userName, const string& userSurname, const string& 
 {
 }
 
-void Client::menu(RentalPoint& rental, BikeDatabase& database)
+void Client::menu(MainLocation& rental, BikeDatabase& database)
 {
 	int optionNumber;
 	string answer;
@@ -19,7 +19,7 @@ void Client::menu(RentalPoint& rental, BikeDatabase& database)
 	cout << "1. Rent a bike" << endl;
 	cout << "2. View rented bike(s)" << endl;
 	cout << "3. Return rented bike(s)" << endl;
-	cout << "4. View a list of bike points" << endl; // od wypozyczalni
+	cout << "4. View a list of rental points" << endl; // od wypozyczalni
 	cout << "5. Transfer money" << endl;
 	cout << "6. Check account balance" << endl;
 	cout << "7. Check account history" << endl;
@@ -160,7 +160,7 @@ void Client::changePassword()
 	setPassword(newPassword);
 }
 
-void Client::rentBike(RentalPoint& const rental, BikeDatabase& database)
+void Client::rentBike(MainLocation& const rental, BikeDatabase& database)
 {
 	string loginAnswer, rentAnswer;
 	int bikesNumber;
@@ -177,7 +177,7 @@ void Client::rentBike(RentalPoint& const rental, BikeDatabase& database)
 	}
 }
 
-void Client::returnBike(RentalPoint& rental, BikeDatabase& database)
+void Client::returnBike(MainLocation& rental, BikeDatabase& database)
 {
 	vector<int> rentedBikesId = getRentedBikesId();
 	removeRentedBikes();

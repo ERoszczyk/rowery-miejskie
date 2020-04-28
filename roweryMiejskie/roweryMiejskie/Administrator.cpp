@@ -6,7 +6,7 @@ Administrator::Administrator(const string& userName, const string& userSurname, 
 {
 }
 
-void Administrator::menu(RentalPoint& rental, BikeDatabase& database)
+void Administrator::menu(MainLocation& rental, BikeDatabase& database)
 {
 	int optionNumber;
 	string answer;

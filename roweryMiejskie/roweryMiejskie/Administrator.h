@@ -9,7 +9,7 @@ class Administrator: public User
 
 public:
 	Administrator(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword, const int& id);
-	void menu(RentalPoint& rental, BikeDatabase& database);
+	void menu(MainLocation& rental, BikeDatabase& database);
 };
 
 #endif

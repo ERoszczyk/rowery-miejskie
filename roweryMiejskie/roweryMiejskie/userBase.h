@@ -11,7 +11,7 @@
 #include "Administrator.h"
 #include "Client.h"
 
-class RentalPoint;
+class MainLocation;
 class BikeDatabase;
 
 using namespace std;
@@ -23,7 +23,7 @@ class UserBase
 
 public:
 	UserBase();
-	void menuStart(RentalPoint& rental, BikeDatabase& database);
+	void menuStart(MainLocation& rental, BikeDatabase& database);
 	void addNewUser(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword);
 	void setActiveUserId(const int& userId);
 	int getActiveUserId();
@@ -32,7 +32,7 @@ public:
 	bool ifUsernameAvailable(const string& username);
 	void createNewUser();
 	bool ifLogged();
-	void login(RentalPoint& rental, BikeDatabase& database);
+	void login(MainLocation& rental, BikeDatabase& database);
 	void logout();
 	/*double checkAccountBalance();
 	void changePassword();

@@ -11,7 +11,7 @@ UserBase::UserBase()
 	userNames.insert({ 1, new Client("Uzytkownik", "Przykladowy", "user", "haslo", 1) });
 }
 
-void UserBase::menuStart(RentalPoint& rental, BikeDatabase& database)
+void UserBase::menuStart(MainLocation& rental, BikeDatabase& database)
 {
 	int optionNumber;
 	string answer;
@@ -124,7 +124,7 @@ bool UserBase::ifLogged()
 		return false;
 }
 
-void UserBase::login(RentalPoint& rental, BikeDatabase& database)
+void UserBase::login(MainLocation& rental, BikeDatabase& database)
 {
 	string username, tryAgainAnswer, password = "";
 	char character;

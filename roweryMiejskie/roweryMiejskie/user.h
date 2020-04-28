@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 
-class RentalPoint;
+class MainLocation;
 class BikeDatabase;
 
 using namespace std;
@@ -30,7 +30,7 @@ public:
 	string getPassword();
 	int getId();
 
-	virtual void menu(RentalPoint& rental, BikeDatabase& database) = 0;
+	virtual void menu(MainLocation& rental, BikeDatabase& database) = 0;
 };
 
 #endif
