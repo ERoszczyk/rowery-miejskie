@@ -1,3 +1,4 @@
+//Plik nag³ówkowy klasy Client, Ewa Roszczyk, nr. indeksu: 304077
 #ifndef Client_h
 #define Client_h
 
@@ -8,6 +9,7 @@
 
 class MainLocation;
 class BikeDatabase;
+class UserBase;
 
 class Client :public User
 {
@@ -17,7 +19,7 @@ class Client :public User
 
 public:
 	Client(const string & userName, const string & userSurname, const string & userUsername, const string & userPassword, const int & id);
-	virtual void menu(MainLocation& rental, BikeDatabase& database);
+	virtual void menu(MainLocation& rental, BikeDatabase& database, UserBase& base);
 	
 	void transferCash(const double& cash);
 	void addRentedBikesAmount(const int& rentedBikes);

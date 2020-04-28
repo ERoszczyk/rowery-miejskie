@@ -32,7 +32,7 @@ public:
 	bool ifUsernameAvailable(const string& username);
 	void createNewUser();
 	bool ifLogged();
-	void login(MainLocation& rental, BikeDatabase& database);
+	void login(MainLocation& rental, BikeDatabase& database, UserBase& base);
 	void logout();
 	/*double checkAccountBalance();
 	void changePassword();

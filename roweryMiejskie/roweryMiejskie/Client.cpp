@@ -1,3 +1,4 @@
+//Plik zawieraj¹cy funkcje klasy Client, Ewa Roszczyk, nr. indeksu: 304077
 #include <conio.h>
 #include "Client.h"
 #include "RentalPoint.h"
@@ -9,7 +10,7 @@ Client::Client(const string& userName, const string& userSurname, const string& 
 {
 }
 
-void Client::menu(MainLocation& rental, BikeDatabase& database)
+void Client::menu(MainLocation& rental, BikeDatabase& database, UserBase& base)
 {
 	int optionNumber;
 	string answer;
@@ -39,7 +40,11 @@ void Client::menu(MainLocation& rental, BikeDatabase& database)
         returnBike(rental, database);
         break;
     case 4:
-        cout << "This option is not available yet" << endl;
+		for (int i = 0; i < rental.getRentalLocationNames().size(); i++)
+		{
+			cout << i+1 << ". ";
+			cout << rental.getRentalLocationNames()[i] << endl;
+		}
         break;
     case 5:
         transferMoney();
@@ -64,7 +69,7 @@ void Client::menu(MainLocation& rental, BikeDatabase& database)
     cin >> answer;
     if (answer == "y")
     {
-        menu(rental, database);
+        menu(rental, database, base);
     }
     else
     {
@@ -172,7 +177,7 @@ void Client::rentBike(MainLocation& const rental, BikeDatabase& database)
 		if (rental.getFreeBikes().size() > i)
 		{
 			addRentedBikeId(rental.getFreeBikes()[i]);
-			rental.rent(rental.getFreeBikes()[i], getId(), database, *this);
+			rental.rent(rental.getFreeBikes()[i], getId(), database, *this, "another location");
 		}
 	}
 }

@@ -1,3 +1,4 @@
+//Plik zawieraj¹cy funkcje klasy Administrator, Ewa Roszczyk, nr. indeksu: 304077
 #include "Administrator.h"
 
 Administrator::Administrator(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword, const int& id)
@@ -6,7 +7,7 @@ Administrator::Administrator(const string& userName, const string& userSurname, 
 {
 }
 
-void Administrator::menu(MainLocation& rental, BikeDatabase& database)
+void Administrator::menu(MainLocation& rental, BikeDatabase& database, UserBase& base)
 {
 	int optionNumber;
 	string answer;
@@ -78,13 +79,13 @@ void Administrator::menu(MainLocation& rental, BikeDatabase& database)
 	case 15:
 		return;
 	default:
-		menu(rental, database);
+		menu(rental, database, base);
 	}
 	cout << "Would you like to continue? (y/n) ";
 	cin >> answer;
 	if (answer == "y")
 	{
-		menu(rental, database);
+		menu(rental, database, base);
 	}
 	else
 	{

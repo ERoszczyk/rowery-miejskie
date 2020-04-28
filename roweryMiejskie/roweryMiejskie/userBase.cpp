@@ -26,7 +26,7 @@ void UserBase::menuStart(MainLocation& rental, BikeDatabase& database)
 	switch (optionNumber)
 	{
 	case 1:
-		login(rental, database);
+		login(rental, database, *this);
 		break;
 	case 2:
 		createNewUser();
@@ -124,7 +124,7 @@ bool UserBase::ifLogged()
 		return false;
 }
 
-void UserBase::login(MainLocation& rental, BikeDatabase& database)
+void UserBase::login(MainLocation& rental, BikeDatabase& database, UserBase& base)
 {
 	string username, tryAgainAnswer, password = "";
 	char character;
@@ -149,7 +149,7 @@ void UserBase::login(MainLocation& rental, BikeDatabase& database)
 			{
 				cout << "Hello " << username << "! " << "You're logged in!" << endl;
 				activeUserId = i->first;
-				i->second->menu(rental, database);
+				i->second->menu(rental, database, base);
 				return;
 			}
 			else
@@ -158,7 +158,7 @@ void UserBase::login(MainLocation& rental, BikeDatabase& database)
 				cout << "Do you want to try again? (y/n) ";
 				cin >> tryAgainAnswer;
 				if (tryAgainAnswer == "y")
-					login(rental, database);
+					login(rental, database, base);
 				else
 					return;
 			}
@@ -170,7 +170,7 @@ void UserBase::login(MainLocation& rental, BikeDatabase& database)
 		cout << "Do you want to try again? (y/n) ";
 		cin >> tryAgainAnswer;
 		if (tryAgainAnswer == "y")
-			login(rental, database);
+			login(rental, database, base);
 		else
 			return;
 	}

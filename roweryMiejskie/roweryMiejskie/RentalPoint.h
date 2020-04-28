@@ -97,6 +97,7 @@ public:
 	MainLocation(std::vector<string>names, BikeDatabase& database);
 	void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, string name="Main Location"); //tested
 	void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user, string name="Main Location"); //tested
+	vector<string> getRentalLocationNames() { return locationNames; }
 };
 
 

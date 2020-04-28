@@ -7,6 +7,7 @@
 
 class MainLocation;
 class BikeDatabase;
+class UserBase;
 
 using namespace std;
 
@@ -30,7 +31,7 @@ public:
 	string getPassword();
 	int getId();
 
-	virtual void menu(MainLocation& rental, BikeDatabase& database) = 0;
+	virtual void menu(MainLocation& rental, BikeDatabase& database, UserBase& base) = 0;
 };
 
 #endif
