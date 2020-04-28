@@ -7,7 +7,7 @@
 
 using namespace std;
 
-RentalPoint::RentalPoint(vector<int> bikeIds)
+RentalLocation::RentalLocation(vector<int> bikeIds)
 {
 	defaultStands();
 	for (int bikeId:bikeIds)
@@ -24,7 +24,7 @@ RentalPoint::RentalPoint(vector<int> bikeIds)
 		}
 	}
 }
-RentalPoint::RentalPoint(BikeDatabase& database)
+RentalLocation::RentalLocation(BikeDatabase& database)
 {
 	defaultStands();
 	map<int, Record> allBikes = database.getAllBikes();
@@ -46,7 +46,7 @@ RentalPoint::RentalPoint(BikeDatabase& database)
 }
 
 
-void RentalPoint::rent(int bikeId, int userId, BikeDatabase& database, User& user)
+void RentalLocation::rent(int bikeId, int userId, BikeDatabase& database, User& user)
 {
 	if (find(myBikes.begin(), myBikes.end(), bikeId) != myBikes.end() && database.getBikeState(bikeId) == false)
 	{
@@ -65,11 +65,11 @@ void RentalPoint::rent(int bikeId, int userId, BikeDatabase& database, User& use
 	else { cout << "Invalid bike ID"; };
 }
 
-void RentalPoint::putBack(int bikeId, int userId, BikeDatabase& database, User& user)
+void RentalLocation::putBack(int bikeId, int userId, BikeDatabase& database, User& user)
 {
 	if (getSpaces() > 0) 
 	{
-		cout << "Free stands:" << endl;      //optional
+		cout << "Free stands:" << endl;      //optional or
 		for (int standId : getFreeStands())  //to be moved
 		{									//?
 			cout << standId << endl;		//
@@ -91,7 +91,7 @@ void RentalPoint::putBack(int bikeId, int userId, BikeDatabase& database, User& 
 	else { cout << "No spaces available"; };
 }
 
-void RentalPoint::addBike(int bikeId)
+void RentalLocation::addBike(int bikeId)
 {
 	if (bikeId > 0)
 	{
@@ -108,7 +108,7 @@ void RentalPoint::addBike(int bikeId)
 #endif
 	}
 }
-void RentalPoint::addBikes(vector<int> bikeIds)
+void RentalLocation::addBikes(vector<int> bikeIds)
 {
 	for (int bikeId:bikeIds)
 	{
@@ -125,7 +125,7 @@ void RentalPoint::addBikes(vector<int> bikeIds)
 	}
 }
 
-void RentalPoint::removeBikes(vector<int> bikeIds)
+void RentalLocation::removeBikes(vector<int> bikeIds)
 {
 	for (int i = 0; i < bikeIds.size(); i++)
 	{
@@ -143,7 +143,7 @@ void RentalPoint::removeBikes(vector<int> bikeIds)
 	}
 }
 
-void RentalPoint::defaultStands(void)
+void RentalLocation::defaultStands(void)
 {
 	for (int i = 1; i <= size; i++)
 	{
@@ -151,17 +151,17 @@ void RentalPoint::defaultStands(void)
 	}
 }
 
-void RentalPoint::takeStand(int standId)
+void RentalLocation::takeStand(int standId)
 {
 	standStates[standId] = true;
 }
 
-void RentalPoint::freeStand(int standId)
+void RentalLocation::freeStand(int standId)
 {
 	standStates[standId] = false;
 }
 
-void RentalPoint::freeAllStands(void)
+void RentalLocation::freeAllStands(void)
 {
 	for (auto it = standStates.begin(); it != standStates.end(); ++it)
 	{
@@ -169,7 +169,7 @@ void RentalPoint::freeAllStands(void)
 	}
 }
 
-int RentalPoint::findFreeStand(void)
+int RentalLocation::findFreeStand(void)
 {
 	int i = 1;
 	do{
@@ -182,7 +182,7 @@ int RentalPoint::findFreeStand(void)
 	} while (i < size);
 }
 
-std::vector<int> RentalPoint::getFreeStands()
+std::vector<int> RentalLocation::getFreeStands()
 {
 	std::vector<int> freeStands;
 	for (auto it = standStates.begin(); it != standStates.end(); ++it)
@@ -197,7 +197,7 @@ std::vector<int> RentalPoint::getFreeStands()
 
 ostream& operator<<(ostream& os, RentalPoint& point)
 {
-	os << "ID: " << point.getPointId() << endl;
+	//os << "ID: " << point.getPointId() << endl;
 	vector<int> myBikes = point.getBikes();
 	for (int i = 0; i < myBikes.size(); i++)
 	{
@@ -207,7 +207,7 @@ ostream& operator<<(ostream& os, RentalPoint& point)
 }
 istream& operator>>(istream& is, RentalPoint& point)
 {
-	is >> point.pointId;
+	//is >> point.pointId;
 	int id;
 	while (is >> id)
 	{
