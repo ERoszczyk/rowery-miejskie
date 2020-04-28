@@ -93,7 +93,7 @@ int main()
 {
     BikeDatabase database;
     database.importFromFile();
-    RentalPoint point(database);
+    RentalLocation point(database);
     UserBase base;
     optionsToChoose(base, point, database);
     base.saveBaseToFile("users.txt");

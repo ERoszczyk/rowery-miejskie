@@ -14,7 +14,7 @@ namespace RentalTests
 		{
 			BikeDatabase base(5);
 			base.setBikeState(2, true);
-			RentalPoint point(base);
+			RentalLocation point(base);
 			int size = point.getBikes().size();
 			int free = point.getFreeBikes().size();
 			Assert::AreEqual(size, 5);
@@ -24,20 +24,20 @@ namespace RentalTests
 		TEST_METHOD(TestConstructor2) //Constructor if database too big
 		{
 			BikeDatabase base(15);
-			RentalPoint point(base);
+			RentalLocation point(base);
 			int size = point.getBikes().size();
 			Assert::AreEqual(size, 10);  //10 set as max rental point size
 		};
 		TEST_METHOD(TestConstructor3) //Constructor if too many bikeIds
 		{
 			std::vector<int>bikes = { 1,2,3,4,5,6,7,8,9,10,11,12 };
-			RentalPoint point(bikes);
+			RentalLocation point(bikes);
 			int size = point.getBikes().size();
 			Assert::AreEqual(size, 10);
 		};
 		TEST_METHOD(TestRentalAdd) // Unacceptable Id
 		{
-			RentalPoint point;
+			RentalLocation point;
 			point.addBike(-3);
 			int size = point.getBikes().size();
 			Assert::AreEqual(size, 0);
@@ -45,7 +45,7 @@ namespace RentalTests
 		TEST_METHOD(TestAddBikes) // Too many bikes
 		{
 			std::vector<int>bikes = { 1,2,3,4,5,6,7,8,9,10,11,12 };
-			RentalPoint point;
+			RentalLocation point;
 			point.addBikes(bikes);
 			int size = point.getBikes().size();
 			Assert::AreEqual(size, 10);
@@ -54,7 +54,7 @@ namespace RentalTests
 		{
 			std::vector<int>bikes = { 1,2,3 };
 			std::vector<int>otherBikes = { 2,4 };
-			RentalPoint point;
+			RentalLocation point;
 			point.addBikes(bikes);
 			point.removeBikes(otherBikes);
 			int size = point.getBikes().size();
@@ -63,7 +63,7 @@ namespace RentalTests
 		TEST_METHOD(TestRent)  //old test
 		{
 			BikeDatabase base(5);
-			RentalPoint point(base);
+			RentalLocation point(base);
 			User user("a", "b", "c", "d");
 			point.rent(4, 1, base, user);
 			Assert::IsTrue(base.getBikeState(4));
