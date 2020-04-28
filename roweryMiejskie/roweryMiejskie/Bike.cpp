@@ -70,9 +70,8 @@ void Bike::HistoryOfRent(Bike& b) //wpisanie obiektu do historii
     }
 }
 
-void Bike::Stop(BikeDatabase& database, map<int, bool>& states, User& user) //koniec wypozyczenia, po wys³aniu wiadomosci o checi oddania roweru od uzytkownika lub wypozyczalni
+void Bike::Stop(BikeDatabase& database, map<int, bool>& states, Client& user) //koniec wypozyczenia, po wys³aniu wiadomosci o checi oddania roweru od uzytkownika lub wypozyczalni
 {
-
     bool endassingnment;
     endassingnment = StandAssignment(database, states);
     if (endassingnment)
@@ -86,7 +85,7 @@ void Bike::Stop(BikeDatabase& database, map<int, bool>& states, User& user) //ko
     }
 }
 
-void Bike::Pay(User& user)
+void Bike::Pay(Client& user)
 {
     //Pobieranie œrodków z konta u¿ytkownika
     int ftime;

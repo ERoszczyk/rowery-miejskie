@@ -3,13 +3,12 @@
 #include <iostream>
 using namespace std;
 
-User::User(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword)
+User::User(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword, const int& userId)
 	: name(userName),
 	surname(userSurname),
 	username(userUsername),
 	password(userPassword),
-	cash(20),
-	rentedBikes(0)
+	id(userId)
 {
 }
 
@@ -33,32 +32,6 @@ void User::setPassword(const string& usersPassword)
 	password = usersPassword;
 }
 
-void User::transferCash(const double& usersCash)
-{
-	cash += usersCash;
-}
-
-void User::addRentedBikesAmount(const int& usersRentedBikes)
-{
-	rentedBikes += usersRentedBikes;
-}
-
-void User::removeRentedBikes()
-{
-	rentedBikes = 0;
-}
-
-void User::addRentedBikeId(const int& usersBikeId)
-{
-	rentedBikesId.push_back(usersBikeId);
-}
-
-void User::removeRentedBikesId()
-{
-	vector<int> noBikes;
-	rentedBikesId = noBikes;
-}
-
 string User::getName()
 {
 	return name;
@@ -79,17 +52,7 @@ string User::getPassword()
 	return password;
 }
 
-double User::getCash()
+int User::getId()
 {
-	return cash;
-}
-
-int User::getRentedBikes()
-{
-	return rentedBikes;
-}
-
-vector<int>User::getRentedBikesId()
-{
-	return rentedBikesId;
+	return id;
 }

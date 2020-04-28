@@ -65,7 +65,7 @@ RentalLocation::RentalLocation(std::map<int, Record> allBikes, BikeDatabase& dat
 	}
 }
 
-void RentalLocation::rent(int bikeId, int userId, BikeDatabase& database, User& user)
+void RentalLocation::rent(int bikeId, int userId, BikeDatabase& database, Client& user)
 {
 	if (find(myBikes.begin(), myBikes.end(), bikeId) != myBikes.end() && database.getBikeState(bikeId) == false)
 	{
@@ -85,7 +85,7 @@ void RentalLocation::rent(int bikeId, int userId, BikeDatabase& database, User& 
 	else { cout << "Invalid bike ID"; };
 }
 
-void RentalLocation::putBack(int bikeId, int userId, BikeDatabase& database, User& user)
+void RentalLocation::putBack(int bikeId, int userId, BikeDatabase& database, Client& user)
 {
 	if (this->getSpaces() > 0) 
 	{
@@ -256,7 +256,7 @@ MainLocation::MainLocation(std::vector<string> names, BikeDatabase& database) :R
 	}
 }
 
-void MainLocation::rent(const int bikeId, const int userId, BikeDatabase& database, User& user, string name)
+void MainLocation::rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, string name)
 {
 	if (name == "Main Location")
 	{
@@ -269,7 +269,7 @@ void MainLocation::rent(const int bikeId, const int userId, BikeDatabase& databa
 
 }
 
-void MainLocation::putBack(const int bikeId, const int userId, BikeDatabase& database, User& user, string name)
+void MainLocation::putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user, string name)
 {
 	if (name == "Main Location")
 	{

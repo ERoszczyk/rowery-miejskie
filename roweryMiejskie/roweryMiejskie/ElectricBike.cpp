@@ -62,7 +62,7 @@ void ElectricBike::StartOfRent(BikeDatabase& database, int person, float money)
 
 
 
-void ElectricBike::Stop(BikeDatabase& database, map<int, bool>& states, User& user)
+void ElectricBike::Stop(BikeDatabase& database, map<int, bool>& states, Client& user)
 {
 
     bool endassingnment;
@@ -91,7 +91,7 @@ void ElectricBike::Stop(BikeDatabase& database, map<int, bool>& states, User& us
 
 
 
-void ElectricBike::Pay(User& user)
+void ElectricBike::Pay(Client& user)
 {
     int ftime;
     double mtime = time_hold;
