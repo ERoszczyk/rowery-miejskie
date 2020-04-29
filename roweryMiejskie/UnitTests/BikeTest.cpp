@@ -5,7 +5,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-User userx("a", "b", "c", "d");
+User userx("a", "b", "c", "d", 0);
 //User user("a", "b", "c", "d");
 //UserBase base;
 

@@ -16,6 +16,5 @@ int main()
     MainLocation point(names, database);
     UserBase base;
     base.menuStart(point, database);
-    base.saveBaseToFile("users.txt");
     database.exportToFile("exporteddatabase.txt");
 }

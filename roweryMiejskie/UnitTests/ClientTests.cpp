@@ -1,15 +1,23 @@
 #include "pch.h"
 #include "CppUnitTest.h"
-#include "../roweryMiejskie/user.cpp"
+#include "../roweryMiejskie/Client.h"
+#include "../roweryMiejskie/Client.cpp"
+#include "../roweryMiejskie/User.cpp"
+#include "../roweryMiejskie/Administrator.cpp"
+#include "../roweryMiejskie/RentalPoint.cpp"
+#include "../roweryMiejskie/UserBase.cpp"
+#include "../roweryMiejskie/Bike.cpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-User user("a", "b", "c", "d");
+Client user("a", "b", "c", "d", 0);
 
-namespace UserTests
+namespace ClientTest
 {
-	TEST_CLASS(testUser)
+	TEST_CLASS(UnitTest)
 	{
+	public:
+
 		TEST_METHOD(testName)
 		{
 			user.setName("Jan");

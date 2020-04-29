@@ -59,8 +59,8 @@ void Client::menu(MainLocation& rental, BikeDatabase& database, UserBase& base)
         changePassword();
         break;
     case 9:
+		cout << "You've been logged out" << endl;
 		return;
-        break;
     default:
         cout << "Wrong number!" << endl;
         break;

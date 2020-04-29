@@ -6,7 +6,6 @@ using namespace std;
 
 UserBase::UserBase()
 {
-	activeUserId = -1;
 	userNames.insert({0, new Administrator("Administrator", "Przykladowy", "admin", "haslo", 0) });
 	userNames.insert({ 1, new Client("Uzytkownik", "Przykladowy", "user", "haslo", 1) });
 }
@@ -49,19 +48,25 @@ void UserBase::addNewUser(const string& userName, const string& userSurname, con
 	userNames.insert({ id, new Client(userName, userSurname, userUsername, userPassword, id) });
 }
 
-void UserBase::setActiveUserId(const int& userId)
+void UserBase::addNewAdministrator(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword)
 {
-	activeUserId = userId;
-}
-
-int UserBase::getActiveUserId()
-{
-	return activeUserId;
+	int id = getCurrentLoginIndex();
+	userNames.insert({ id, new Administrator(userName, userSurname, userUsername, userPassword, id) });
 }
 
 map<int, User*> UserBase::getUserNames()
 {
 	return userNames;
+}
+
+bool UserBase::ifUsernameExists(const string& username)
+{
+	for (auto i = userNames.begin(); i != userNames.end(); ++i)
+	{
+		if (username == i->second->getUsername())
+			return true;
+	}
+	return false;
 }
 
 int UserBase::getCurrentLoginIndex()
@@ -116,12 +121,58 @@ void UserBase::createNewUser()
 	addNewUser(name, surname, username, password);
 }
 
-bool UserBase::ifLogged()
+void UserBase::createNewUserAsAdministrator()
 {
-	if (activeUserId >= 0)
-		return true;
-	else
-		return false;
+	string name, surname, username, password = "";
+	char character;
+	cout << "Enter user's first name: " << endl;
+	cin >> name;
+	cout << "Enter user's surname: " << endl;
+	cin >> surname;
+	cout << "Enter user's username: " << endl;
+	cin >> username;
+	while (!ifUsernameAvailable(username))
+	{
+		cout << "This username is already taken. Enter another one: " << endl;
+		cin >> username;
+	}
+	cout << "Enter user's password: " << endl;
+	character = _getch();
+	while (character != 13)
+	{
+		password.push_back(character);
+		cout << "*";
+		character = _getch();
+	}
+	cout << endl;
+	addNewUser(name, surname, username, password);
+}
+
+void UserBase::createNewAdministrator()
+{
+	string name, surname, username, password = "";
+	char character;
+	cout << "Enter administrator's first name: " << endl;
+	cin >> name;
+	cout << "Enter administrator's surname: " << endl;
+	cin >> surname;
+	cout << "Enter administrator's username: " << endl;
+	cin >> username;
+	while (!ifUsernameAvailable(username))
+	{
+		cout << "This username is already taken. Enter another one: " << endl;
+		cin >> username;
+	}
+	cout << "Enter administrator's password: " << endl;
+	character = _getch();
+	while (character != 13)
+	{
+		password.push_back(character);
+		cout << "*";
+		character = _getch();
+	}
+	cout << endl;
+	addNewAdministrator(name, surname, username, password);
 }
 
 void UserBase::login(MainLocation& rental, BikeDatabase& database, UserBase& base)
@@ -148,7 +199,7 @@ void UserBase::login(MainLocation& rental, BikeDatabase& database, UserBase& bas
 			if (password == i->second->getPassword())
 			{
 				cout << "Hello " << username << "! " << "You're logged in!" << endl;
-				activeUserId = i->first;
+				//activeUserId = i->first;
 				i->second->menu(rental, database, base);
 				return;
 			}
@@ -176,18 +227,64 @@ void UserBase::login(MainLocation& rental, BikeDatabase& database, UserBase& bas
 	}
 }
 
-void UserBase::logout()
+void UserBase::changeUsernameAsAdministrator(const string& currentUsername, const string& newUsername)
 {
-	string answer;
-	cout << "Are you sure you want to log out? (y/n) ";
-	cin >> answer;
-	if (answer == "y")
-		activeUserId = -1;
-	else
-		return;
+	for (auto i = userNames.begin(); i != userNames.end(); ++i)
+	{
+		if (currentUsername == i->second->getUsername())
+		{
+			i->second->setUsername(newUsername);
+		}
+	}
 }
 
-void UserBase::saveBaseToFile(const string& filename)
+void UserBase::changePasswordAsAdministrator(const string& username, const string& newPassword)
+{
+	for (auto i = userNames.begin(); i != userNames.end(); ++i)
+	{
+		if (username == i->second->getUsername())
+		{
+			i->second->setPassword(newPassword);
+		}
+	}
+}
+
+void UserBase::changeNameAsAdministrator(const string& username, const string& newName)
+{
+	for (auto i = userNames.begin(); i != userNames.end(); ++i)
+	{
+		if (username == i->second->getUsername())
+		{
+			i->second->setName(newName);
+		}
+	}
+}
+
+void UserBase::changeSurnameAsAdministrator(const string& username, const string& newSurname)
+{
+	for (auto i = userNames.begin(); i != userNames.end(); ++i)
+	{
+		if (username == i->second->getUsername())
+		{
+			i->second->setSurname(newSurname);
+		}
+	}
+}
+
+void UserBase::deleteUserAsAdministrator(const string& username)
+{
+	for (auto i = userNames.begin(); i != userNames.end(); ++i)
+	{
+		if (username == i->second->getUsername())
+		{
+			auto it = userNames.find(i->second->getId());
+			userNames.erase(it);
+			break;
+		}
+	}
+}
+
+void UserBase::exportBaseToFile(const string& filename)
 {
 	ofstream file(filename);
 	file << "User's ID" << '\t' << "User's name" << '\t' << "User's surname" << '\t' << "User's username" << '\t' << "User's password" << endl;
