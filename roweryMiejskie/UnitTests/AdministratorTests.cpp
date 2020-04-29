@@ -12,7 +12,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace AdministratorTests
 {
-	TEST_CLASS(testAdministrator)
+	TEST_CLASS(AdministratorTest)
 	{
 		UserBase base;
 		TEST_METHOD(testAdministratorsName)

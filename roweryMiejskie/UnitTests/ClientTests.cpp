@@ -14,7 +14,7 @@ Client user("a", "b", "c", "d", 0);
 
 namespace ClientTest
 {
-	TEST_CLASS(UnitTest)
+	TEST_CLASS(ClientTest)
 	{
 	public:
 

@@ -10,7 +10,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UserBaseTests
 {
-	TEST_CLASS(testUserBase)
+	TEST_CLASS(UserBaseTest)
 	{
 		UserBase base;
 		TEST_METHOD(testName)
