@@ -72,7 +72,7 @@ void RentalLocation::rent(int bikeId, int userId, BikeDatabase& database, Client
 		int standId = database.getBikeStand(bikeId);
 		double account = user.getCash();
 		Bike bike(bikeId);
-		//ElectricBike ebike(bikeId);
+		ElectricBike ebike(bikeId);
 		Tandem tbike(bikeId);
 		switch (bikeType)
 		{
@@ -87,8 +87,8 @@ void RentalLocation::rent(int bikeId, int userId, BikeDatabase& database, Client
 
 			}
 			break;
-		/*case(1):
-			ebike.StartOfRent(database, userId, account);
+		case(1):
+			/*ebike.StartOfRent(database, userId, account);
 			if (database.getBikeState(bikeId))
 			{
 				bikesFree.erase(find(bikesFree.begin(), bikesFree.end(), bikeId));
@@ -96,23 +96,25 @@ void RentalLocation::rent(int bikeId, int userId, BikeDatabase& database, Client
 				freeStand(standId);
 				bikesCount -= 1;
 
-			}
-			break;*/
+			}*/
+			cout << "We don't have electric bikes yet.";
+			break;
 		case(2):
 			tbike.StartOfRent(database, userId, account);
 			if (database.getBikeState(bikeId))
 			{
 				bikesFree.erase(find(bikesFree.begin(), bikesFree.end(), bikeId));
-				//rentedTandems[bikeId] = tbike;
+				rentedTandems.insert(pair<int, Tandem>(bikeId, tbike));
 				freeStand(standId);
 				bikesCount -= 1;
 
 			}
+			break;
 		}
 	
 		
 	}
-	else { cout << "Invalid bike ID"; };
+	else { cout << "Invalid bike ID (no bikes in this location)"; };
 }
 
 void RentalLocation::putBack(int bikeId, int userId, BikeDatabase& database, Client& user, int bikeType)
@@ -128,10 +130,10 @@ void RentalLocation::putBack(int bikeId, int userId, BikeDatabase& database, Cli
 				rentedBikes.at(bikeId).Stop(database, standStates, user);
 				rentedBikes.erase(bikeId);
 				break;
-			/*case(1):
+			case(1):
 				rentedElectrics.at(bikeId).Stop(database, standStates, user);
 				rentedElectrics.erase(bikeId);
-				break;*/
+				break;
 			case(2):
 				rentedTandems.at(bikeId).Stop(database, standStates, user);
 				rentedTandems.erase(bikeId);
@@ -150,25 +152,30 @@ void RentalLocation::putBack(int bikeId, int userId, BikeDatabase& database, Cli
 	else { cout << "No spaces available"; };
 }
 
-void RentalLocation::putBackOtherLocation(int bikeId, int userId, BikeDatabase& database, Client& user, RentalLocation& otherLocation)
+void RentalLocation::putBackOtherLocation(int bikeId, int userId, BikeDatabase& database, Client& user, RentalLocation& otherLocation, int bikeType)
 {
 	if (otherLocation.getSpaces() > 0)
 	{
-		map<int, Record> bikes = database.getAllBikes();
-		if (bikes.find(bikeId) != bikes.end())
+		if (bikeType != 1)
 		{
-			rentedBikes.at(bikeId).Stop(database, otherLocation.standStates, user);
-			otherLocation.bikesFree.push_back(bikeId);
-			rentedBikes.erase(bikeId);
-			int standId = database.getBikeStand(bikeId);
-			if (standId != 0)
+			map<int, Record> bikes = database.getAllBikes();
+			if (bikes.find(bikeId) != bikes.end())
 			{
-				otherLocation.takeStand(standId);
+				rentedBikes.at(bikeId).Stop(database, otherLocation.standStates, user);
+				otherLocation.bikesFree.push_back(bikeId);
+				rentedBikes.erase(bikeId);
+				int standId = database.getBikeStand(bikeId);
+				if (standId != 0)
+				{
+					otherLocation.takeStand(standId);
+				}
 			}
+			else { cout << "Invalid bike ID"; };
 		}
-		else { cout << "Invalid bike ID"; };
+		else { cout << "You can't return an electric bike to a different location."; };
 	}
 	else { cout << "No spaces available"; };
+
 }
 void RentalLocation::addBike(int bikeId)
 {
@@ -372,31 +379,31 @@ MainLocation::MainLocation(std::vector<string> names, BikeDatabase& database) :R
 	}
 }
 
-void MainLocation::rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId)
+void MainLocation::rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId, int bikeType)
 {
 
 	if (nameId == -1)
 	{
-		RentalLocation::rent(bikeId, userId, database,user);
+		RentalLocation::rent(bikeId, userId, database,user, bikeType);
 	}
 	else
 	{
-		locationObjects.at(locationNames[nameId]).rent(bikeId, userId, database, user);
+		locationObjects.at(locationNames[nameId]).rent(bikeId, userId, database, user, bikeType);
 	}
 
 }
 
-void MainLocation::putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId)
+void MainLocation::putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId, int bikeType)
 {
 	if (nameId == -1)
 	{
-		RentalLocation::putBack(bikeId, userId, database, user);
+		RentalLocation::putBack(bikeId, userId, database, user, bikeType);
 	}
 	else
 	{
 		try
 		{
-			locationObjects.at(locationNames[nameId]).putBack(bikeId, userId, database, user);
+			locationObjects.at(locationNames[nameId]).putBack(bikeId, userId, database, user, bikeType);
 		}
 		catch (std::out_of_range)
 		{
@@ -405,7 +412,7 @@ void MainLocation::putBack(const int bikeId, const int userId, BikeDatabase& dat
 				std::map<int, Bike> bikes = locationObjects.at(location).getRentedBikes();
 				if (bikes.find(bikeId) != bikes.end())
 				{
-					locationObjects.at(location).putBackOtherLocation(bikeId, userId, database, user,locationObjects.at(location));
+					locationObjects.at(location).putBackOtherLocation(bikeId, userId, database, user,locationObjects.at(location),bikeType);
 				}
 			}
 		}

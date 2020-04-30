@@ -54,7 +54,7 @@ protected:
 	std::vector<int> myBikes;
 	std::vector<int> bikesFree;
 	std::map<int, Bike> rentedBikes;
-	//std::map<int, ElectricBike& > rentedElectrics;
+	std::map<int, ElectricBike&> rentedElectrics;
 	std::map<int, Tandem> rentedTandems;
 	std::map<int, bool> standStates;
 	std::vector<string> bikeTypes = {"Bike", "Electric Bike", "Tandem"};
@@ -74,7 +74,7 @@ public:
 
 	void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int bikeType=0); //tested
 	void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user, int bikeType =0); //tested
-	void putBackOtherLocation(const int bikeId, const int userId, BikeDatabase& database, Client& user, RentalLocation& otherLocation);
+	void putBackOtherLocation(const int bikeId, const int userId, BikeDatabase& database, Client& user, RentalLocation& otherLocation, int bikeType=0);
 
 	void addBike(const int bikeId); 
 	void addBike(const int bikeId, BikeDatabase& base); 
@@ -109,13 +109,13 @@ class MainLocation : public RentalLocation
 	BikeDatabase& base;
 public:
 	MainLocation(std::vector<string>names, BikeDatabase& database);
-	void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId = -1); //tested
-	void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId = 1); //tested
+	void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId = -1, int bikeType =0 ); //tested
+	void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId = -1, int bikeType = 0); //tested
 	vector<string> getRentalLocationNames() const { return locationNames; }
 	void addBike(const int bikeId, int nameId = -1);
 	void removeBike(const int bikeId, int nameId = -1);
 	void disactivateLocation(int nameId = -1);
-	std::vector<int> getFreeBikes(int nameId = 0) const;
+	std::vector<int> getFreeBikes(int nameId = -1) const;
 };
 
 #endif
