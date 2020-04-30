@@ -64,7 +64,7 @@ namespace RentalTests
 		{
 			BikeDatabase base(5);
 			RentalLocation point(base);
-			User user("a", "b", "c", "d");
+			User user("a", "b", "c", "d", 0);
 			point.rent(4, 1, base, user);
 			Assert::IsTrue(base.getBikeState(4));
 			Assert::AreEqual(base.getBikeOwner(4), 1);

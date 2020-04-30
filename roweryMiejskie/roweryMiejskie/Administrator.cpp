@@ -1,4 +1,6 @@
+//Plik zawieraj¹cy funkcje klasy Administrator, Ewa Roszczyk, nr. indeksu: 304077
 #include "Administrator.h"
+#include "UserBase.h"
 
 Administrator::Administrator(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword, const int& id)
 	:User(userName, userSurname, userUsername, userPassword, id),
@@ -6,10 +8,10 @@ Administrator::Administrator(const string& userName, const string& userSurname, 
 {
 }
 
-void Administrator::menu(MainLocation& rental, BikeDatabase& database)
+void Administrator::menu(MainLocation& rental, BikeDatabase& database, UserBase& base)
 {
 	int optionNumber;
-	string answer;
+	string answer, filename;
 
 	system("CLS");
 	cout << "Hello " << getName() << "!" << endl;
@@ -34,61 +36,208 @@ void Administrator::menu(MainLocation& rental, BikeDatabase& database)
 	switch (optionNumber)
 	{
 	case 1:
-		cout << "This option is not available yet" << endl;
+		cout << "This option is not available yet" << endl;  //od wypozyczalni
 		break;
 	case 2:
-		cout << "This option is not available yet" << endl;
+		cout << "This option is not available yet" << endl;  //od wypozyczalni
 		break;
 	case 3:
-		cout << "This option is not available yet" << endl;
+		cout << "This option is not available yet" << endl;  //od wypozyczalni
 		break;
 	case 4:
-		cout << "This option is not available yet" << endl;
+		cout << "This option is not available yet" << endl;  //od wypozyczalni
 		break;
 	case 5:
-		cout << "This option is not available yet" << endl;
+		base.createNewUserAsAdministrator();
 		break;
 	case 6:
-		cout << "This option is not available yet" << endl;
+		deleteUser(base);
 		break;
 	case 7:
-		cout << "This option is not available yet" << endl;
+		changeUsersPassword(base);
 		break;
 	case 8:
-		cout << "This option is not available yet" << endl;
+		changeUsersName(base);
 		break;
 	case 9:
-		cout << "This option is not available yet" << endl;
+		changeUsersSurname(base);
 		break;
 	case 10:
-		cout << "This option is not available yet" << endl;
+		changeUsersUsername(base);
 		break;
 	case 11:
-		cout << "This option is not available yet" << endl;
+		cout << "Enter file name: " << endl;
+		cin >> filename;
+		filename.append(".txt");
+		base.exportBaseToFile(filename);
 		break;
 	case 12:
 		cout << "This option is not available yet" << endl;
 		break;
 	case 13:
-		cout << "This option is not available yet" << endl;
+		base.createNewAdministrator();
 		break;
 	case 14:
-		cout << "This option is not available yet" << endl;
+		deleteAdministrator(base);
 		break;
 	case 15:
+		cout << "You've been logged out" << endl;
 		return;
 	default:
-		menu(rental, database);
+		menu(rental, database, base);
 	}
 	cout << "Would you like to continue? (y/n) ";
 	cin >> answer;
 	if (answer == "y")
 	{
-		menu(rental, database);
+		menu(rental, database, base);
 	}
 	else
 	{
 		cout << "You've been logged out" << endl;
 		return;
+	}
+}
+
+void Administrator::changeUsersPassword(UserBase& base)
+{
+	string currentUsername, newPassword = "", answer;
+	char character;
+
+	cout << "Enter user's Username: " << endl;
+	cin >> currentUsername;
+	if (!base.ifUsernameExists(currentUsername))
+	{
+		cout << "Wrong username!" << endl;
+		cout << "Would you like to try again? (y/n) ";
+		cin >> answer;
+		if (answer == "y")
+			changeUsersPassword(base);
+		else
+			return;
+	}
+	else
+	{
+		cout << "Enter new User's password: " << endl;
+		character = _getch();
+		while (character != 13)
+		{
+			newPassword.push_back(character);
+			cout << "*";
+			character = _getch();
+		}
+		cout << endl;
+		base.changePasswordAsAdministrator(currentUsername, newPassword);
+	}
+}
+
+void Administrator::changeUsersName(UserBase& base)
+{
+	string currentUsername, newName, answer;
+	cout << "Enter user's Username: " << endl;
+	cin >> currentUsername;
+	if (!base.ifUsernameExists(currentUsername))
+	{
+		cout << "Wrong username!" << endl;
+		cout << "Would you like to try again? (y/n) ";
+		cin >> answer;
+		if (answer == "y")
+			changeUsersName(base);
+		else
+			return;
+	}
+	else
+	{
+		cout << "Enter new User's name: " << endl;
+		cin >> newName;
+		base.changeNameAsAdministrator(currentUsername, newName);
+	}
+}
+
+void Administrator::changeUsersSurname(UserBase& base)
+{
+	string currentUsername, newSurname, answer;
+	cout << "Enter user's Username: " << endl;
+	cin >> currentUsername;
+	if (!base.ifUsernameExists(currentUsername))
+	{
+		cout << "Wrong username!" << endl;
+		cout << "Would you like to try again? (y/n) ";
+		cin >> answer;
+		if (answer == "y")
+			changeUsersSurname(base);
+		else
+			return;
+	}
+	else
+	{
+		cout << "Enter new User's surname: " << endl;
+		cin >> newSurname;
+		base.changeSurnameAsAdministrator(currentUsername, newSurname);
+	}
+}
+
+void Administrator::changeUsersUsername(UserBase& base)
+{
+	string currentUsername, newUsername, answer;
+	cout << "Enter current user's Username: " << endl;
+	cin >> currentUsername;
+	if (!base.ifUsernameExists(currentUsername))
+	{
+		cout << "Wrong username!" << endl;
+		cout << "Would you like to try again? (y/n) ";
+		cin >> answer;
+		if (answer == "y")
+			changeUsersUsername(base);
+		else
+			return;
+	}
+	else
+	{
+		cout << "Enter new User's username: " << endl;
+		cin >> newUsername;
+		base.changeUsernameAsAdministrator(currentUsername, newUsername);
+	}
+}
+
+void Administrator::deleteUser(UserBase& base)
+{
+	string username, answer;
+	cout << "Enter user's Username: " << endl;
+	cin >> username;
+	if (!base.ifUsernameExists(username))
+	{
+		cout << "Wrong username!" << endl;
+		cout << "Would you like to try again? (y/n) ";
+		cin >> answer;
+		if (answer == "y")
+			deleteUser(base);
+		else
+			return;
+	}
+	else
+	{
+		base.deleteUserAsAdministrator(username);
+	}
+}
+
+void Administrator::deleteAdministrator(UserBase& base)
+{
+	string username, answer;
+	cout << "Enter administrator's Username: " << endl;
+	cin >> username;
+	if (!base.ifUsernameExists(username))
+	{
+		cout << "Wrong username!" << endl;
+		cout << "Would you like to try again? (y/n) ";
+		cin >> answer;
+		if (answer == "y")
+			deleteUser(base);
+		else
+			return;
+	}
+	else
+	{
+		base.deleteUserAsAdministrator(username);
 	}
 }

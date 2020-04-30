@@ -7,7 +7,6 @@
 #include <conio.h>
 #include <vector>
 #include <fstream>
-//#include "RentalPoint.h"
 #include "Administrator.h"
 #include "Client.h"
 
@@ -19,28 +18,26 @@ using namespace std;
 class UserBase
 {
 	map<int, User*> userNames;
-	int activeUserId;  //vector? - mozliwa wieksza ilosc zalogowanych osob
 
 public:
 	UserBase();
 	void menuStart(MainLocation& rental, BikeDatabase& database);
 	void addNewUser(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword);
-	void setActiveUserId(const int& userId);
-	int getActiveUserId();
+	void addNewAdministrator(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword);
 	map<int, User*> getUserNames();
+	bool ifUsernameExists(const string& username);
 	int getCurrentLoginIndex();
 	bool ifUsernameAvailable(const string& username);
 	void createNewUser();
-	bool ifLogged();
-	void login(MainLocation& rental, BikeDatabase& database);
-	void logout();
-	/*double checkAccountBalance();
-	void changePassword();
-	void rentBike(RentalPoint& const rental, BikeDatabase& database);
-	void returnBike(RentalPoint& rental, BikeDatabase& database);
-	void transferMoney(double money = 0);
-	void viewRentedBikes();*/
-	void saveBaseToFile(const string& filename);  //aministrator
+	void createNewUserAsAdministrator();
+	void createNewAdministrator();
+	void login(MainLocation& rental, BikeDatabase& database, UserBase& base);
+	void changeUsernameAsAdministrator(const string& currentUsername, const string& newUsername);
+	void changePasswordAsAdministrator(const string& username, const string& newPassword);
+	void changeNameAsAdministrator(const string& username, const string& newName);
+	void changeSurnameAsAdministrator(const string& username, const string& newSurname);
+	void deleteUserAsAdministrator(const string& username);
+	void exportBaseToFile(const string& filename);  //aministrator
 };
 
 #endif
