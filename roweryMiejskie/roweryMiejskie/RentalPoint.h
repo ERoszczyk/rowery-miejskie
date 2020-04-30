@@ -18,7 +18,7 @@ public:
 	virtual ~RentalPoint()=0 {};
 
 	virtual void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int bikeType)=0;
-	virtual void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user, int bikeType)=0;
+	virtual void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user)=0;
 
 	virtual void addBike(const int bikeId) = 0;
 	virtual void addBike(const int bikeId, BikeDatabase& database) = 0;
@@ -51,11 +51,11 @@ protected:
 	int pointId = 1;
 	const int size = 10;
 	int bikesCount = 0;
-	std::vector<int> myBikes;
-	std::vector<int> bikesFree;
-	std::map<int, Bike> rentedBikes;
-	std::map<int, ElectricBike&> rentedElectrics;
-	std::map<int, Tandem> rentedTandems;
+	std::vector<int> myBikes;    // currently all bikes share the same ids
+	std::vector<int> bikesFree;   // 
+	std::map<int, Bike> rentedBikes;      //therefore three seperate maps are needed
+	std::map<int, Bike*> rentedElectrics; //later on the distiction will be made based on id
+	std::map<int, Bike*> rentedTandems;
 	std::map<int, bool> standStates;
 	std::vector<string> bikeTypes = {"Bike", "Electric Bike", "Tandem"};
 
@@ -73,8 +73,8 @@ public:
 	string getLocation()const { return location; }
 
 	void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int bikeType=0); //tested
-	void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user, int bikeType =0); //tested
-	void putBackOtherLocation(const int bikeId, const int userId, BikeDatabase& database, Client& user, RentalLocation& otherLocation, int bikeType=0);
+	void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user); //tested
+	void putBackOtherLocation(const int bikeId, const int userId, BikeDatabase& database, Client& user, RentalLocation& otherLocation);
 
 	void addBike(const int bikeId); 
 	void addBike(const int bikeId, BikeDatabase& base); 
@@ -98,7 +98,7 @@ public:
 	std::map<int, Bike> getRentedBikes() const { return rentedBikes; };
 	int getSpaces() const { return size - bikesCount; } //done
 	std::vector<string> getBikeTypes() { return bikeTypes; }
-
+	int determineBikeType(const int bikeId);
 };
 
 
@@ -109,8 +109,8 @@ class MainLocation : public RentalLocation
 	BikeDatabase& base;
 public:
 	MainLocation(std::vector<string>names, BikeDatabase& database);
-	void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId = -1, int bikeType =0 ); //tested
-	void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId = -1, int bikeType = 0); //tested
+	void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId = -1, int bikeType =0); //tested
+	void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId = -1); //tested
 	vector<string> getRentalLocationNames() const { return locationNames; }
 	void addBike(const int bikeId, int nameId = -1);
 	void removeBike(const int bikeId, int nameId = -1);
