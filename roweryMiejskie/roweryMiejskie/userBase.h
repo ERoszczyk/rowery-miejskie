@@ -37,7 +37,7 @@ public:
 	void changeNameAsAdministrator(const string& username, const string& newName);
 	void changeSurnameAsAdministrator(const string& username, const string& newSurname);
 	void deleteUserAsAdministrator(const string& username);
-	void exportBaseToFile(const string& filename);  //aministrator
+	void exportBaseToFile(const string& filename);
 };
 
 #endif
