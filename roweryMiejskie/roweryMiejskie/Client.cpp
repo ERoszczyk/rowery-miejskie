@@ -179,10 +179,10 @@ void Client::rentBike(MainLocation& const rental, BikeDatabase& database)
 	addRentedBikesAmount(bikesNumber);
 	for (int i = 0; i < bikesNumber; i++)
 	{
-		if (rental.getFreeBikes().size() > i)
+		if (rental.getFreeBikes(location).size() > i)
 		{
-			addRentedBikeId(rental.getFreeBikes()[i]);
-			rental.rent(rental.getFreeBikes()[i], getId(), database, *this, location);
+			addRentedBikeId(rental.getFreeBikes(location)[i]);
+			rental.rent(rental.getFreeBikes(location)[i], getId(), database, *this, location);
 		}
 	}
 }

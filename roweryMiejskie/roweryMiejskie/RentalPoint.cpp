@@ -424,10 +424,15 @@ void MainLocation::putBack(const int bikeId, const int userId, BikeDatabase& dat
 			for (string location : locationNames)
 			{
 				std::map<int, Bike> bikes = locationObjects.at(location).getRentedBikes();
+				string key = locationNames[nameId];
+				std::map<int, Bike> thisBikes = this->getRentedBikes();
 				if (bikes.find(bikeId) != bikes.end())
 				{
-					string key = locationNames[nameId];
 					locationObjects.at(location).putBackOtherLocation(bikeId, userId, database, user,locationObjects[key]);
+				}
+				else if(thisBikes.find(bikeId)!=thisBikes.end())
+				{
+					this->putBackOtherLocation(bikeId, userId, database, user, locationObjects[key]);
 				}
 			}
 		}
