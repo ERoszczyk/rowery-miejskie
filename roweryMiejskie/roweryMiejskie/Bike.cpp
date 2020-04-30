@@ -236,7 +236,7 @@ bool Bike::StandAssignment(BikeDatabase& database, map<int, bool>& states)
     else
     {
         use = true;
-        database.setBikeStand(id, state);
+        database.setBikeStand(id, stateid);
         cout << "You returned the bike" << endl;
     }
     return use;

@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "CppUnitTest.h"
-#include "../roweryMiejskie/Bike.cpp"
+//#include "../roweryMiejskie/Bike.cpp"
 #include "../roweryMiejskie/ElectricBike.cpp" 
 #include "../roweryMiejskie/Tandem.cpp" 
 

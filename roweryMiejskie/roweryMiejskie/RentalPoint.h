@@ -51,6 +51,7 @@ protected:
 	int pointId = 1;
 	const int size = 10;
 	int bikesCount = 0;
+	bool active = true;
 	std::vector<int> myBikes;    // currently all bikes share the same ids
 	std::vector<int> bikesFree;   // 
 	std::map<int, Bike> rentedBikes;      //therefore three seperate maps are needed
@@ -64,7 +65,7 @@ public:
 	RentalLocation(std::vector<int> bikeIds, BikeDatabase& database); //tested
 	RentalLocation(BikeDatabase& database); //tested
 	RentalLocation(std::map<int, Record> bikes, BikeDatabase& database);
-	~RentalLocation() { bikesCount = 0; myBikes.clear(); };//?
+	~RentalLocation() { bikesCount = 0; myBikes.clear(); };//? =default
 
 	void setPointId(const int id) { pointId = id; }
 	int getPointId() const { return pointId; }
@@ -81,9 +82,10 @@ public:
 	void addBikes(const std::vector<int> bikeIds, BikeDatabase& base);
 
 	void removeBike(const int bikeId, BikeDatabase& base);
-	void removeBikes(const std::vector<int> bikeIds); //tested
+	void removeBikes(const std::vector<int> bikeIds, BikeDatabase& base); //tested
 
 	void disactivateLocation(BikeDatabase& base);
+	bool isActive()const { return active; }
 
 	void defaultStands(void);
 	void takeStand(const int standId);
@@ -96,7 +98,9 @@ public:
 	std::vector<int> getBikes() const { return myBikes; }
 	std::vector<int> getFreeBikes() const { return bikesFree; }
 	std::map<int, Bike> getRentedBikes() const { return rentedBikes; };
+
 	int getSpaces() const { return size - bikesCount; } //done
+
 	std::vector<string> getBikeTypes() { return bikeTypes; }
 	int determineBikeType(const int bikeId);
 };
@@ -107,6 +111,7 @@ class MainLocation : public RentalLocation
 	std::vector<string> locationNames;
 	std::map<string, RentalLocation> locationObjects;
 	BikeDatabase& base;
+
 public:
 	MainLocation(std::vector<string>names, BikeDatabase& database);
 	void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId = -1, int bikeType =0); //tested

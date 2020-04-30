@@ -37,9 +37,9 @@ class BikeDatabase
 	std::map<int,Record> allBikes;
 	int idCount = 0;
 public:
-	BikeDatabase() {};
+	BikeDatabase()=default;
 	BikeDatabase(int newBikes) { addBikes(newBikes); }; //constructs a database of a given size
-	BikeDatabase(std::vector<Record> newBikes) { addBikes(newBikes); }; // ie.bikes sorted by production number
+	BikeDatabase(std::vector<Record> newBikes) { addBikes(newBikes); }; // ie.bikes sorted by production number//not used?
 
 	void addBike(void); //tested
 	void addBike(const Record); //tested
