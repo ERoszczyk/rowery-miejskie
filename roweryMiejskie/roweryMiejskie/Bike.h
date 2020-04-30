@@ -37,14 +37,14 @@ public:
     }
 
     //bool RentingBicycle(map<int, char> bikes);
-    Bike& operator=(const Bike& b);
-    void StartOfRent(BikeDatabase& database, int person, const float money);
+    virtual Bike& operator=(const Bike& b);
+    virtual void StartOfRent(BikeDatabase& database, int person, const float money);
     bool StandAssignment(BikeDatabase& database, map<int, bool>& states);
     int FindStand(map<int, bool>& states);
     //void AvailableBikes(map<int, char> bikes);
-    void Pay(Client& user);
+    virtual void Pay(Client& user);
     void FullHistory();
-    void Stop(BikeDatabase& database, map<int, bool>& states, Client& user);
+    virtual void Stop(BikeDatabase& database, map<int, bool>& states, Client& user);
     void HistoryOfRent(Bike& b);
 
     friend

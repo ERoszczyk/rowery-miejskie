@@ -28,7 +28,7 @@ bool ElectricBike::CheckBattery() {
             return false;
         }
         battery -= 1;
-        Sleep(100);
+        Sleep(5000);
     }
     return true;
 };
