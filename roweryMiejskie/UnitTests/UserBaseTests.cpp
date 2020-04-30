@@ -1,3 +1,4 @@
+//Testy jednostkowe, Ewa Roszczyk
 #include "pch.h"
 #include "CppUnitTest.h"
 #include "../roweryMiejskie/userBase.h"
