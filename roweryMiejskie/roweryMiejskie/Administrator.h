@@ -11,6 +11,10 @@ class Administrator: public User
 public:
 	Administrator(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword, const int& id);
 	void menu(MainLocation& rental, BikeDatabase& database, UserBase& base);
+	void viewRentalPointLocation(MainLocation& rental);
+	void disactivateRentalPoint(MainLocation& rental);
+	void addBike(MainLocation& rental) {}
+	void deleteBike(MainLocation& rental) {}
 	void changeUsersPassword(UserBase& base);
 	void changeUsersName(UserBase& base);
 	void changeUsersSurname(UserBase& base);

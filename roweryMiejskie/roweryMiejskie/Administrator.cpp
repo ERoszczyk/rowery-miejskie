@@ -1,6 +1,7 @@
 //Plik zawieraj¹cy funkcje klasy Administrator, Ewa Roszczyk, nr. indeksu: 304077
 #include "Administrator.h"
 #include "UserBase.h"
+#include "RentalPoint.h"
 
 Administrator::Administrator(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword, const int& id)
 	:User(userName, userSurname, userUsername, userPassword, id),
@@ -39,7 +40,7 @@ void Administrator::menu(MainLocation& rental, BikeDatabase& database, UserBase&
 		cout << "This option is not available yet" << endl;  //od wypozyczalni
 		break;
 	case 2:
-		cout << "This option is not available yet" << endl;  //od wypozyczalni
+		disactivateRentalPoint(rental);
 		break;
 	case 3:
 		cout << "This option is not available yet" << endl;  //od wypozyczalni
@@ -96,6 +97,43 @@ void Administrator::menu(MainLocation& rental, BikeDatabase& database, UserBase&
 	{
 		cout << "You've been logged out" << endl;
 		return;
+	}
+}
+
+void Administrator::viewRentalPointLocation(MainLocation& rental)
+{
+	for (int i = 0; i < rental.getRentalLocationNames().size(); i++)
+	{
+		cout << i + 1 << ". ";
+		cout << rental.getRentalLocationNames()[i] << endl;
+	}
+	cout << rental.getRentalLocationNames().size() + 1 << ". Main location" << endl;
+}
+
+void Administrator::disactivateRentalPoint(MainLocation& rental)
+{
+	int location;
+	string answer;
+	viewRentalPointLocation(rental);
+	cout << "Enter number of location you would like to disactivate: ";
+	cin >> location;
+	if (location < 1 || location > rental.getRentalLocationNames().size() + 1)
+	{
+		cout << "Wrong number!" << endl;
+		cout << "Would you like to try again? (y/n) ";
+		cin >> answer; 
+		if (answer == "y")
+			disactivateRentalPoint(rental);
+		else
+			return;
+	}
+	else
+	{
+		if (location == rental.getRentalLocationNames().size() + 1)
+			location = -1;
+		else
+			location -= 1;
+		rental.disactivateLocation(location);
 	}
 }
 

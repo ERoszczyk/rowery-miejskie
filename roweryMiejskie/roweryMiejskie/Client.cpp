@@ -18,7 +18,7 @@ void Client::menu(MainLocation& rental, BikeDatabase& database, UserBase& base)
 
 	system("CLS");
 	cout << "Hello " << getName() << "!" << endl;
-	cout << "1. Rent a bike" << endl;
+	cout << "1. Rent a bike(s)" << endl;
 	cout << "2. View rented bike(s)" << endl;
 	cout << "3. Return rented bike(s)" << endl;
 	cout << "4. View location" << endl;
@@ -172,18 +172,36 @@ void Client::changePassword()
 
 void Client::rentBike(MainLocation& const rental, BikeDatabase& database)
 {
-	string loginAnswer, rentAnswer;
-	int bikesNumber;
-	cout << "How many bikes would you like to rent?" << endl;
-	cin >> bikesNumber;
-	addRentedBikesAmount(bikesNumber);
-	for (int i = 0; i < bikesNumber; i++)
+	string answer;
+	int bikesNumber, bikeType;
+	cout << "1. Normal bike" << endl;
+	cout << "2. Electric bike" << endl;
+	cout << "3. Tandem" << endl;
+	cout << "Enter bike type you would like to rent (number): ";
+	cin >> bikeType;
+	if (bikeType >= 1 && bikeType <= 3)
 	{
-		if (rental.getFreeBikes(location).size() > i)
+		cout << "How many bikes would you like to rent?" << endl;
+		cin >> bikesNumber;
+		addRentedBikesAmount(bikesNumber);
+		for (int i = 0; i < bikesNumber; i++)
 		{
-			addRentedBikeId(rental.getFreeBikes(location)[i]);
-			rental.rent(rental.getFreeBikes(location)[i], getId(), database, *this, location);
+			if (rental.getFreeBikes(location).size() > i)
+			{
+				addRentedBikeId(rental.getFreeBikes(location)[i]);
+				rental.rent(rental.getFreeBikes(location)[i], getId(), database, *this, location, bikeType - 1);
+			}
 		}
+	}
+	else
+	{
+		cout << "Wrong number!" << endl;
+		cout << "Would you like to try again? (y/n) ";
+		cin >> answer;
+		if (answer == "y")
+			rentBike(rental, database);
+		else
+			return;
 	}
 }
 
