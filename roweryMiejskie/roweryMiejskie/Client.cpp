@@ -177,7 +177,7 @@ void Client::rentBike(MainLocation& const rental, BikeDatabase& database)
 		if (rental.getFreeBikes().size() > i)
 		{
 			addRentedBikeId(rental.getFreeBikes()[i]);
-			rental.rent(rental.getFreeBikes()[i], getId(), database, *this, "another location");
+			rental.rent(rental.getFreeBikes()[i], getId(), database, *this,1);
 		}
 	}
 }

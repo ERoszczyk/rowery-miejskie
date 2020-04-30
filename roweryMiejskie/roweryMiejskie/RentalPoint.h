@@ -5,6 +5,8 @@
 
 //#include "BikeDatabase.h"
 #include "Bike.h"
+#include "ElectricBike.h"
+#include "Tandem.h"
 
 #include <algorithm>
 #ifdef _DEBUG
@@ -15,8 +17,8 @@ class RentalPoint
 public:
 	virtual ~RentalPoint()=0 {};
 
-	virtual void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user)=0;
-	virtual void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user)=0;
+	virtual void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int bikeType)=0;
+	virtual void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user, int bikeType)=0;
 
 	virtual void addBike(const int bikeId) = 0;
 	virtual void addBike(const int bikeId, BikeDatabase& database) = 0;
@@ -52,7 +54,10 @@ protected:
 	std::vector<int> myBikes;
 	std::vector<int> bikesFree;
 	std::map<int, Bike> rentedBikes;
+	//std::map<int, ElectricBike& > rentedElectrics;
+	std::map<int, Tandem> rentedTandems;
 	std::map<int, bool> standStates;
+	std::vector<string> bikeTypes = {"Bike", "Electric Bike", "Tandem"};
 
 public:
 	RentalLocation() { defaultStands(); };
@@ -67,8 +72,8 @@ public:
     void setLocation(const string locationName) { location = locationName; };
 	string getLocation()const { return location; }
 
-	void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user); //tested
-	void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user); //tested
+	void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int bikeType=0); //tested
+	void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user, int bikeType =0); //tested
 	void putBackOtherLocation(const int bikeId, const int userId, BikeDatabase& database, Client& user, RentalLocation& otherLocation);
 
 	void addBike(const int bikeId); 
@@ -92,7 +97,7 @@ public:
 	std::vector<int> getFreeBikes() const { return bikesFree; }
 	std::map<int, Bike> getRentedBikes() const { return rentedBikes; };
 	int getSpaces() const { return size - bikesCount; } //done
-
+	std::vector<string> getBikeTypes() { return bikeTypes; }
 
 };
 

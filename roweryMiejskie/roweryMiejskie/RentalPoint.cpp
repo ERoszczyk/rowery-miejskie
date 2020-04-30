@@ -65,36 +65,80 @@ RentalLocation::RentalLocation(std::map<int, Record> allBikes, BikeDatabase& dat
 	}
 }
 
-void RentalLocation::rent(int bikeId, int userId, BikeDatabase& database, Client& user)
+void RentalLocation::rent(int bikeId, int userId, BikeDatabase& database, Client& user, int bikeType)
 {
 	if (find(myBikes.begin(), myBikes.end(), bikeId) != myBikes.end() && database.getBikeState(bikeId) == false)
 	{
-		Bike bike(bikeId);
 		int standId = database.getBikeStand(bikeId);
 		double account = user.getCash();
-		bike.StartOfRent(database, userId, account);
-		if (database.getBikeState(bikeId))
+		Bike bike(bikeId);
+		//ElectricBike ebike(bikeId);
+		Tandem tbike(bikeId);
+		switch (bikeType)
 		{
-			bikesFree.erase(find(bikesFree.begin(), bikesFree.end(), bikeId));
-			rentedBikes[bikeId] = bike;
-			freeStand(standId);
-			bikesCount -= 1;
-			
+		case(0):
+			bike.StartOfRent(database, userId, account);
+			if (database.getBikeState(bikeId))
+			{
+				bikesFree.erase(find(bikesFree.begin(), bikesFree.end(), bikeId));
+				rentedBikes[bikeId] = bike;
+				freeStand(standId);
+				bikesCount -= 1;
+
+			}
+			break;
+		/*case(1):
+			ebike.StartOfRent(database, userId, account);
+			if (database.getBikeState(bikeId))
+			{
+				bikesFree.erase(find(bikesFree.begin(), bikesFree.end(), bikeId));
+				rentedElectrics.insert(pair<int, ElectricBike&>(bikeId, ebike));
+				freeStand(standId);
+				bikesCount -= 1;
+
+			}
+			break;*/
+		case(2):
+			tbike.StartOfRent(database, userId, account);
+			if (database.getBikeState(bikeId))
+			{
+				bikesFree.erase(find(bikesFree.begin(), bikesFree.end(), bikeId));
+				//rentedTandems[bikeId] = tbike;
+				freeStand(standId);
+				bikesCount -= 1;
+
+			}
 		}
+	
+		
 	}
 	else { cout << "Invalid bike ID"; };
 }
 
-void RentalLocation::putBack(int bikeId, int userId, BikeDatabase& database, Client& user)
+void RentalLocation::putBack(int bikeId, int userId, BikeDatabase& database, Client& user, int bikeType)
 {
 	if (this->getSpaces() > 0) 
 	{
 		map<int, Record> bikes = database.getAllBikes();
 		if (bikes.find(bikeId) != bikes.end())
 		{
-			rentedBikes.at(bikeId).Stop(database, standStates, user);
-			bikesFree.push_back(bikeId);
-			rentedBikes.erase(bikeId);
+			switch (bikeType)
+			{
+			case(0):
+				rentedBikes.at(bikeId).Stop(database, standStates, user);
+				rentedBikes.erase(bikeId);
+				break;
+			/*case(1):
+				rentedElectrics.at(bikeId).Stop(database, standStates, user);
+				rentedElectrics.erase(bikeId);
+				break;*/
+			case(2):
+				rentedTandems.at(bikeId).Stop(database, standStates, user);
+				rentedTandems.erase(bikeId);
+				break;
+				
+			}
+			bikesFree.push_back(bikeId);			
 			int standId = database.getBikeStand(bikeId);
 			if (standId != 0)
 			{
