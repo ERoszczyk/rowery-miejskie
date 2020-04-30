@@ -21,6 +21,10 @@ void BikeDatabase::addBike(Record newRecord)
 	allBikes.insert(pair<int, Record>(newId, newRecord)); 
 	idCount++;
 }
+void BikeDatabase::addBike(int bikeId, Record newRecord)
+{
+	allBikes.insert(pair<int, Record>(bikeId, newRecord));
+}
 
 void BikeDatabase::addBikes(int newBikes)
 {

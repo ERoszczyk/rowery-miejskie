@@ -15,7 +15,7 @@
 
 struct Record
 {
-	bool state = false;
+	bool state = false; //default as free
 	int user = 0; //default as no user
 	int stand = 0; //default as no stand  (ie.if both 0= out of use)
 public:
@@ -43,6 +43,7 @@ public:
 
 	void addBike(void); //tested
 	void addBike(const Record); //tested
+	void addBike(const int bikeId, const Record);
 
 	void addBikes(const int);
 	void addBikes(const std::vector<Record>); //tested

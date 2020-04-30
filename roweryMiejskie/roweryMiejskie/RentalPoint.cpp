@@ -7,14 +7,14 @@
 
 using namespace std;
 
-RentalLocation::RentalLocation(vector<int> bikeIds)
+RentalLocation::RentalLocation(vector<int> bikeIds, BikeDatabase& database)
 {
 	defaultStands();
 	for (int bikeId:bikeIds)
 	{
 		if (bikesCount < size)
 		{
-			addBike(bikeId);
+			addBike(bikeId, database);
 		}
 		else
 		{
@@ -89,11 +89,6 @@ void RentalLocation::putBack(int bikeId, int userId, BikeDatabase& database, Cli
 {
 	if (this->getSpaces() > 0) 
 	{
-		cout << "Free stands:" << endl;      //optional or
-		for (int standId : getFreeStands())  //to be moved
-		{									//?
-			cout << standId << endl;		//
-		}									//
 		map<int, Record> bikes = database.getAllBikes();
 		if (bikes.find(bikeId) != bikes.end())
 		{
@@ -111,15 +106,35 @@ void RentalLocation::putBack(int bikeId, int userId, BikeDatabase& database, Cli
 	else { cout << "No spaces available"; };
 }
 
+void RentalLocation::putBackOtherLocation(int bikeId, int userId, BikeDatabase& database, Client& user, RentalLocation& otherLocation)
+{
+	if (otherLocation.getSpaces() > 0)
+	{
+		map<int, Record> bikes = database.getAllBikes();
+		if (bikes.find(bikeId) != bikes.end())
+		{
+			rentedBikes.at(bikeId).Stop(database, otherLocation.standStates, user);
+			otherLocation.bikesFree.push_back(bikeId);
+			rentedBikes.erase(bikeId);
+			int standId = database.getBikeStand(bikeId);
+			if (standId != 0)
+			{
+				otherLocation.takeStand(standId);
+			}
+		}
+		else { cout << "Invalid bike ID"; };
+	}
+	else { cout << "No spaces available"; };
+}
 void RentalLocation::addBike(int bikeId)
 {
 	if (bikeId > 0)
 	{
-		takeStand(findFreeStand());
+		int stand = findFreeStand();
+		takeStand(stand);
 		myBikes.push_back(bikeId);
 		bikesFree.push_back(bikeId);
 		bikesCount += 1;
-		//change bike stand in database
 	}
 	else
 	{
@@ -128,18 +143,59 @@ void RentalLocation::addBike(int bikeId)
 #endif
 	}
 }
-void RentalLocation::addBikes(vector<int> bikeIds)
+void RentalLocation::addBike(int bikeId, BikeDatabase& base)
+{
+	if (bikeId > 0 && base.getAllBikes().find(bikeId)==base.getAllBikes().end())
+	{
+		int stand = findFreeStand();
+		takeStand(stand);
+		myBikes.push_back(bikeId);
+		bikesFree.push_back(bikeId);
+		bikesCount += 1;
+		Record bike;
+		bike.setStand(stand);
+		base.addBike(bikeId, bike);
+	}
+	else
+	{
+#if _DEBUG
+		cout << "Bike Id out of range";
+#endif
+	}
+}
+void RentalLocation::addBikes(vector<int> bikeIds, BikeDatabase& database)
 {
 	for (int bikeId:bikeIds)
 	{
 		if (bikesCount < size)
 		{
-			addBike(bikeId);
+			addBike(bikeId, database);
 		}
 		else
 		{
 #if _DEBUG
 			cout << "No spaces available";
+#endif
+		}
+	}
+}
+void RentalLocation::removeBike(const int bikeId, BikeDatabase& base)
+{
+	if (base.getAllBikes().find(bikeId)!=base.getAllBikes().end())
+	{
+		if (find(bikesFree.begin(), bikesFree.end(), bikeId) != bikesFree.end())
+		{
+			int stand = base.getBikeStand(bikeId);
+			myBikes.erase(find(myBikes.begin(), myBikes.end(), bikeId));
+			bikesFree.erase(find(bikesFree.begin(), bikesFree.end(), bikeId));
+			freeStand(stand);
+			base.removeBike(bikeId);
+			bikesCount -= 1;
+		}
+		else
+		{
+#if _DEBUG
+			cout << "Invalid bike ID";
 #endif
 		}
 	}
@@ -160,6 +216,20 @@ void RentalLocation::removeBikes(vector<int> bikeIds)
 			cout << "Invalid bike ID";
 #endif
 		}
+	}
+}
+
+void RentalLocation::disactivateLocation(BikeDatabase& base)
+{
+	if (rentedBikes.size() == 0)
+	{
+		freeAllStands();
+		for (int bikeId : bikesFree)
+		{
+			base.setBikeStand(bikeId, 0);
+		}
+		myBikes.clear();
+
 	}
 }
 
@@ -236,7 +306,9 @@ istream& operator>>(istream& is, RentalPoint& point)
 	return is;
 }
 
-MainLocation::MainLocation(std::vector<string> names, BikeDatabase& database) :RentalLocation(database), locationNames(names)
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+MainLocation::MainLocation(std::vector<string> names, BikeDatabase& database) :RentalLocation(database), locationNames(names), base(database)
 {
 	this->setLocation("Main Location");
 
@@ -256,28 +328,89 @@ MainLocation::MainLocation(std::vector<string> names, BikeDatabase& database) :R
 	}
 }
 
-void MainLocation::rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, string name)
+void MainLocation::rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId)
 {
-	if (name == "Main Location")
+
+	if (nameId == -1)
 	{
 		RentalLocation::rent(bikeId, userId, database,user);
 	}
 	else
 	{
-		locationObjects.at(name).rent(bikeId, userId, database, user);
+		locationObjects.at(locationNames[nameId]).rent(bikeId, userId, database, user);
 	}
 
 }
 
-void MainLocation::putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user, string name)
+void MainLocation::putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId)
 {
-	if (name == "Main Location")
+	if (nameId == -1)
 	{
 		RentalLocation::putBack(bikeId, userId, database, user);
 	}
 	else
 	{
-		locationObjects.at(name).putBack(bikeId, userId, database, user);
+		try
+		{
+			locationObjects.at(locationNames[nameId]).putBack(bikeId, userId, database, user);
+		}
+		catch (std::out_of_range)
+		{
+			for (auto location : locationNames)
+			{
+				std::map<int, Bike> bikes = locationObjects.at(location).getRentedBikes();
+				if (bikes.find(bikeId) != bikes.end())
+				{
+					locationObjects.at(location).putBackOtherLocation(bikeId, userId, database, user,locationObjects.at(location));
+				}
+			}
+		}
 	}
 
+}
+
+void MainLocation::addBike(const int bikeId, int nameId)
+{
+	if (nameId == -1)
+	{
+		RentalLocation::addBike(bikeId, this->base);
+	}
+	else
+	{
+		locationObjects.at(locationNames[nameId]).addBike(bikeId, this -> base);
+	}
+}
+
+void MainLocation::removeBike(const int bikeId, int nameId)
+{
+	if (nameId == -1)
+	{
+		RentalLocation::removeBike(bikeId, this->base);
+	}
+	else
+	{
+		locationObjects.at(locationNames[nameId]).removeBike(bikeId, this->base);
+	}
+}
+void MainLocation::disactivateLocation(int nameId)
+{
+	if (nameId == -1)
+	{
+		RentalLocation::disactivateLocation(base);  //fix
+	}
+	else
+	{
+		locationObjects.at(locationNames[nameId]).disactivateLocation(base);
+	}
+}
+std::vector<int> MainLocation::getFreeBikes(int nameId) const
+{
+	if (nameId == -1)
+	{
+		return RentalLocation::getFreeBikes();
+	}
+	else
+	{
+		return locationObjects.at(locationNames[nameId]).getFreeBikes();
+	}
 }
