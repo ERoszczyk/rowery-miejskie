@@ -8,7 +8,7 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 Client userx("a", "b", "c", "d", 1);
-BikeDatabase database;
+BikeDatabase database(12);
 Bike ss(123);
 Bike xx(324);
 Bike aa(90);
