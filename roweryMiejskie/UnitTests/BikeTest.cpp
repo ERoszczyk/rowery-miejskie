@@ -95,7 +95,7 @@ namespace BikeTests
 			float check = 5;
 			float acc = 25;
 			float i = 30;
-			int battery = 97;
+			int battery = 99;
 			map<int, bool> standStates = {
 				{ 12, true },
 				{ 38, false },
@@ -105,7 +105,6 @@ namespace BikeTests
 				{ 56, false }
 			};
 			x.StartOfRent(database, userid, account);
-			Sleep(15000);
 			x.Stop(database,standStates ,userx);
 			Assert::AreEqual(acc, x.account);
 			Assert::AreEqual(check, x.price);

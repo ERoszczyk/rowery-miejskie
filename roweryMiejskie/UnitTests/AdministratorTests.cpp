@@ -1,3 +1,4 @@
+//Testy jednostkowe, Ewa Roszczyk
 //W tym pliku testowane s¹ metody z klasy UserBase. Ze wzglêdu na to, i¿ z nich korzysta klasa Administrator 
 //testy te znajduj¹ siê w pliku o nazwie AdministratorTests, a nie UserBaseTests.
 #include "pch.h"

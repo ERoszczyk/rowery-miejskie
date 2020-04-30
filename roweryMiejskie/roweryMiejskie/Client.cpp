@@ -6,6 +6,7 @@
 Client::Client(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword, const int& id)
 	: User(userName, userSurname, userUsername, userPassword, id),
 	cash(20),
+	location(-1),
 	rentedBikes(0)
 {
 }
@@ -20,12 +21,14 @@ void Client::menu(MainLocation& rental, BikeDatabase& database, UserBase& base)
 	cout << "1. Rent a bike" << endl;
 	cout << "2. View rented bike(s)" << endl;
 	cout << "3. Return rented bike(s)" << endl;
-	cout << "4. View a list of rental points" << endl; // od wypozyczalni
-	cout << "5. Transfer money" << endl;
-	cout << "6. Check account balance" << endl;
-	cout << "7. Check account history" << endl;
-	cout << "8. Change password" << endl;
-	cout << "9. Log out" << endl;
+	cout << "4. View location" << endl;
+	cout << "5. Change location" << endl;
+	cout << "6. View a list of rental points" << endl;
+	cout << "7. Transfer money" << endl;
+	cout << "8. Check account balance" << endl;
+	cout << "9. Check account history" << endl;
+	cout << "10. Change password" << endl;
+	cout << "11. Log out" << endl;
 	cout << "Enter what would you like to do: ";
 	cin >> optionNumber;
     switch (optionNumber)
@@ -39,26 +42,28 @@ void Client::menu(MainLocation& rental, BikeDatabase& database, UserBase& base)
     case 3:
         returnBike(rental, database);
         break;
-    case 4:
-		for (int i = 0; i < rental.getRentalLocationNames().size(); i++)
-		{
-			cout << i+1 << ". ";
-			cout << rental.getRentalLocationNames()[i] << endl;
-		}
-        break;
-    case 5:
-        transferMoney();
-        break;
+	case 4:
+		cout << viewLocation(rental);
+		break;
+	case 5:
+		changeLocation(rental);
+		break;
     case 6:
-        cout << getCash() << endl;
+		viewRentalPointLocation(rental);
         break;
     case 7:
-        cout << "This option is not available yet" << endl;
+        transferMoney();
         break;
     case 8:
-        changePassword();
+        cout << getCash() << endl;
         break;
     case 9:
+        cout << "This option is not available yet" << endl;
+        break;
+    case 10:
+        changePassword();
+        break;
+    case 11:
 		cout << "You've been logged out" << endl;
 		return;
     default:
@@ -177,7 +182,7 @@ void Client::rentBike(MainLocation& const rental, BikeDatabase& database)
 		if (rental.getFreeBikes().size() > i)
 		{
 			addRentedBikeId(rental.getFreeBikes()[i]);
-			rental.rent(rental.getFreeBikes()[i], getId(), database, *this,1);
+			rental.rent(rental.getFreeBikes()[i], getId(), database, *this, location);
 		}
 	}
 }
@@ -187,7 +192,7 @@ void Client::returnBike(MainLocation& rental, BikeDatabase& database)
 	vector<int> rentedBikesId = getRentedBikesId();
 	removeRentedBikes();
 	for (int i = 0; i < rentedBikesId.size(); i++)
-		rental.putBack(rentedBikesId[i], getId(), database, *this);
+		rental.putBack(rentedBikesId[i], getId(), database, *this, location);
 	removeRentedBikesId();
 }
 
@@ -217,4 +222,49 @@ void Client::viewRentedBikes()
 			cout << *i << endl;
 		}
 	}
+}
+
+string Client::viewLocation(MainLocation& rental)
+{
+	string localization = "Your current location: ";
+	if (location == -1)
+		localization.append("Main location");
+	else
+		localization.append(rental.getRentalLocationNames()[location]);
+	localization.append(" \n");
+	return localization;
+}
+
+void Client::changeLocation(MainLocation& rental)
+{
+	int newLocation;
+	string answer;
+	cout << viewLocation(rental);
+	viewRentalPointLocation(rental);
+	cout << "Enter new location number: ";
+	cin >> newLocation;
+	if (newLocation < 1 || newLocation > rental.getRentalLocationNames().size() + 1)
+	{
+		cout << "Wrong location number!" << endl;
+		cout << "Would you like to try again? (y/n) ";
+		cin >> answer;
+		if (answer == "y")
+			changeLocation(rental);
+		else
+			return;
+	}
+	else if (newLocation == rental.getRentalLocationNames().size() + 1)
+		location = -1;
+	else
+		location = newLocation - 1;
+}
+
+void Client::viewRentalPointLocation(MainLocation& rental)
+{
+	for (int i = 0; i < rental.getRentalLocationNames().size(); i++)
+	{
+		cout << i + 1 << ". ";
+		cout << rental.getRentalLocationNames()[i] << endl;
+	}
+	cout << rental.getRentalLocationNames().size() + 1 << ". Main location" << endl;
 }
