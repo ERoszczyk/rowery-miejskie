@@ -27,7 +27,7 @@ Opis klas
 Po sprawdzeniu przez wypożyczalnie stanu roweru, wypożyczalnia wywołuje ‘StartOfRent’ która zwalnia stojak do którego był przypięty rower oraz rozpoczyna czas wypożyczenia. Druga funkcja - ‘Stop’ jest odpowiedzialna za zwrot roweru.
 Prosi ona użytkownika o podanie id stojaka do którego użytkownik chce przypiąć rower. Zapisuje dane do bazy oraz zwalnia użytkownika od danego roweru.
 Pobiera również z konta odpowiednią sumę (różnica czasu od wypożyczenia roweru do przypięcia do wolnego stojaka). Funkcja ma również opcję zapisania do historii wypożyczeń. Klasy ElectrickBike oraz Tandem dziedziczą po klasie Bike. 
-Obie klasy różnią się funkcją Pay. ElectrickBike posiada dodatkową funkcję asynchroniczną rozładowującą baterię roweru oraz po oddaniu funkcję która ładuje baterię ponownie do 100%. (Krupa Olga)
+Obie klasy różnią się funkcją Pay. ElectricBike posiada dodatkową funkcję asynchroniczną rozładowującą baterię roweru oraz po oddaniu funkcję która ładuje baterię ponownie do 100%. (Krupa Olga)
 - Klasa BikeDatabase- nadaje rowerom numery oraz przechowuje i zwraca informacje o ich stanie i aktualnym użytkowniku/ stojaku.
 Może zostać zaimportowana z przykładowego pliku database.txt. (Kwoka Kinga)
 - Klasa RentalPoint- klasa abstrakcyjna. Instancje klasy (MainLocation i RentalLocation) powstają na podstawie bazy rowerów. Na życzenie użytkownika MainLocation zarządzająca wszystkimi lokalizacjami zwraca użytkownikowi numery wolnych rowerów w jego aktualnej lokalizacji.
