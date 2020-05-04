@@ -99,7 +99,7 @@ namespace BikeTests
 			float check = 5;
 			float acc = 25;
 			float i = 30;
-			int battery = 99;
+			int battery = 100;
 			map<int, bool> standStates = {
 				{ 12, true },
 				{ 38, false },
