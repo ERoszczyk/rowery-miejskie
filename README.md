@@ -27,9 +27,9 @@ Opis klas
 Po sprawdzeniu przez wypożyczalnie stanu roweru, wypożyczalnia wywołuje ‘StartOfRent’ która zwalnia stojak do którego był przypięty rower oraz rozpoczyna czas wypożyczenia. Druga funkcja - ‘Stop’ jest odpowiedzialna za zwrot roweru. Prosi ona użytkownika o podanie id stojaka do którego użytkownik chce przypiąć rower. Zapisuje dane do bazy oraz zwalnia użytkownika od danego roweru. Pobiera również z konta odpowiednią sumę (różnica czasu od wypożyczenia roweru do przypięcia do wolnego stojaka). Funkcja ma również opcję zapisania do historii wypożyczeń oraz wyświetlenie całej historii. (Krupa Olga)
 - Klasa BikeDatabase- nadaje rowerom numery oraz przechowuje i zwraca informacje o ich stanie i aktualnym użytkowniku/ stojaku.
 Może zostać zaimportowana z przykładowego pliku database.txt. (Kwoka Kinga)
-- Klasa RentalPoint- powstaje na podstawie bazy rowerów. Na życzenie użytkownika sprawdza dostępne rowery w obiekcie klasy BikeDatabase i zwraca ich numery użytkownikowi.
+- Klasa RentalPoint- klasa abstrakcyjna. Instancje klasy (MainLocation i RentalLocation) powstają na podstawie bazy rowerów. Na życzenie użytkownika MainLocation zarządzająca wszystkimi lokalizacjami zwraca użytkownikowi numery wolnych rowerów w jego aktualnej lokalizacji.
 Kiedy użytkownik dokona wyboru roweru, wypożyczalnia przekazuje klasie Bike informacje o użytkowniku i rozpoczęciu wypożyczenia.
-Analogicznie przy zwracaniu roweru, przekazuje informacje o zakończeniu do obiektu klasy Bike. (Kwoka Kinga)
+Analogicznie przy zwracaniu roweru, przekazuje informacje o zakończeniu do obiektu klasy Bike. Zwrot możliwy jest w dowolnej lokalizacji wypożyczalni.(Kwoka Kinga)
 - Klasy User oraz UserBase pozwalają użytkownikowi na stworzenie swojego własnego konta oraz dostępu do niego za pomocą loginu i hasła, które można zmienić. Użytkownik na swoim
 koncie ma możliwość wypożyczyć, bądź zwrócić rower/y oraz sprawdzić aktualny stan wypożyczenia. Dodatkowo użytkownik przechowuje na swoim koncie pieniądze, służące do zapłaty za 
 wypożyczenie. Istnieje możliwość dodanie pieniędzy do swojego konta. Klasa userBase pozwala wyeksportować bazę użytkowników do pliku .txt. Obecnie do projektu została dodana 
