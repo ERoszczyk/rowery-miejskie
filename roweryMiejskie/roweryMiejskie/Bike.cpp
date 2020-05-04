@@ -40,17 +40,9 @@ Bike& Bike::operator=(const Bike& b)
     return *this;
 }
 
-void Bike::FullHistory() //Funkcja wypisuje cala historie wypozyczenia
+void Bike::HistoryOfRent() //wpisanie obiektu do historii
 {
-    cout << endl;
-    for (auto const& v : history)
-    {
-        cout << v << endl;
-    }
-}
-void Bike::HistoryOfRent(Bike& b) //wpisanie obiektu do historii
-{
-    if (b.id == id)
+    /*if (b.id == id)
     {
         string line = b.holder + " | " + to_string(b.state) + " | " + to_string(b.time_hold) + " | " + to_string(b.price);
         if (history.empty())
@@ -67,7 +59,23 @@ void Bike::HistoryOfRent(Bike& b) //wpisanie obiektu do historii
     else
     {
         b.HistoryOfRent(b);
+    }*/
+    ofstream file;
+    file.open("history.txt", ofstream::app);
+
+    if (file.is_open())
+    {
+        string line = to_string(id) + " | " + holder + " | " + to_string(state) + " | " + to_string(time_hold) + " | " + to_string(price) + "\n";
+        file << line;
     }
+    else
+    {
+#if _DEBUG
+        cout << "Unable to open file" ;
+#endif
+     }
+     file.close();
+
 }
 
 void Bike::Stop(BikeDatabase& database, map<int, bool>& states, Client& user) //koniec wypozyczenia, po wys³aniu wiadomosci o checi oddania roweru od uzytkownika lub wypozyczalni
@@ -80,6 +88,7 @@ void Bike::Stop(BikeDatabase& database, map<int, bool>& states, Client& user) //
         time_hold = difftime(end, start) / 60;
         cout << "Time of rent " << time_hold << " minutes." << endl;
         Pay(user);
+        HistoryOfRent();
         database.setBikeState(id, false);
         database.setBikeOwner(id, 0);
     }
@@ -152,76 +161,6 @@ void Bike::StartOfRent(BikeDatabase& database, int person, float money)
     }
 
 };
-
-//bool Bike::FindStand(map<int, bool>& states, int stateid)
-//{
-//    bool available = false;
-//    std::map<int, bool>::iterator itr;
-//    itr = states.find(stateid);
-//    if (states.find(stateid) != states.end())
-//    {
-//        if (itr->second == false)
-//        {
-//            available = true;
-//        }
-//    }
-//    return available;
-//};
-//
-//bool Bike::StandAssignment(BikeDatabase& database, map<int, bool>& states)
-//{
-//    int stateid;
-//    bool choice = false;
-//    bool use = false;
-//    char c;
-//    bool ava;
-//    do
-//    {
-//        cout << "Give id of state" << endl;
-//        cin >> stateid;
-//        ava = FindStand(states, stateid);
-//        if (ava == true)
-//        {
-//            cout << "Would you like to use this state [Y - YES/N - NO]" << endl;
-//            cin >> c;
-//            if (c == 'Y' || c == 'y')
-//            {
-//                states[stateid] = true;
-//                state = stateid;
-//                choice = true;
-//                use = true;
-//                database.setBikeStand(id, state);
-//            }
-//            else if (c == 'N' || c == 'n')
-//            {
-//                cout << "Would you like to use another state [Y - YES/N - NO]" << endl;
-//                cin >> c;
-//                if (c == 'N' || c == 'n')
-//                {
-//                    choice = true;
-//                }
-//
-//            }
-//            else
-//            {
-//                cout << "You put wrong value" << endl;
-//            }
-//        }
-//        else
-//        {
-//            cout << "State is not available" << endl;
-//            cout << "Would you like to use another state [Y - YES/N - NO]" << endl;
-//            cin >> c;
-//            if (c == 'N' || c == 'n')
-//            {
-//                choice = true;
-//            }
-//        }
-//
-//    } while (choice == false);
-//    return use;
-//
-//};
 
 bool Bike::StandAssignment(BikeDatabase& database, map<int, bool>& states)
 {

@@ -79,6 +79,7 @@ void ElectricBike::Stop(BikeDatabase& database, map<int, bool>& states, Client& 
         time_hold = difftime(end, start) / 60;
         cout << "Time of rent " << time_hold << " minutes." << endl;
         Pay(user);
+        HistoryOfRent();
         if (battery != 100)
         {
             //std::future<void> but = std::async(this->Loading, database);

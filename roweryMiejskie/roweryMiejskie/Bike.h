@@ -22,7 +22,6 @@ protected:
     int id;
     string holder;
     time_t start, end;
-    //vector <int> available_bikes_list;
 
 public:
 
@@ -36,16 +35,13 @@ public:
         this->id = id;
     }
 
-    //bool RentingBicycle(map<int, char> bikes);
     virtual Bike& operator=(const Bike& b);
     virtual void StartOfRent(BikeDatabase& database, int person, const float money);
     bool StandAssignment(BikeDatabase& database, map<int, bool>& states);
     int FindStand(map<int, bool>& states);
-    //void AvailableBikes(map<int, char> bikes);
     virtual void Pay(Client& user);
-    void FullHistory();
     virtual void Stop(BikeDatabase& database, map<int, bool>& states, Client& user);
-    void HistoryOfRent(Bike& b);
+    void HistoryOfRent();
 
     friend
         ostream& operator<< (ostream& os, const Bike& b);
