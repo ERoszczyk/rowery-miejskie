@@ -33,11 +33,13 @@ Może zostać zaimportowana z przykładowego pliku database.txt. (Kwoka Kinga)
 - Klasa RentalPoint- klasa abstrakcyjna. Instancje klasy (MainLocation i RentalLocation) powstają na podstawie bazy rowerów. Na życzenie użytkownika MainLocation zarządzająca wszystkimi lokalizacjami zwraca użytkownikowi numery wolnych rowerów w jego aktualnej lokalizacji.
 Kiedy użytkownik dokona wyboru roweru, wypożyczalnia przekazuje klasie Bike informacje o użytkowniku i rozpoczęciu wypożyczenia.
 Analogicznie przy zwracaniu roweru, przekazuje informacje o zakończeniu do obiektu klasy Bike. Zwrot możliwy jest w dowolnej lokalizacji wypożyczalni.(Kwoka Kinga)
-- Klasy User oraz UserBase pozwalają użytkownikowi na stworzenie swojego własnego konta oraz dostępu do niego za pomocą loginu i hasła, które można zmienić. Użytkownik na swoim
-koncie ma możliwość wypożyczyć, bądź zwrócić rower/y oraz sprawdzić aktualny stan wypożyczenia. Dodatkowo użytkownik przechowuje na swoim koncie pieniądze, służące do zapłaty za 
-wypożyczenie. Istnieje możliwość dodanie pieniędzy do swojego konta. Klasa userBase pozwala wyeksportować bazę użytkowników do pliku .txt. Obecnie do projektu została dodana 
-również możliwość stworzenia konta administratora, które pozwala na zarządzanie kontami klientów, bazą rowerów oraz bazą wypożyczalni. W projekcie dostępne są dwa przykładowe 
-konta testowe - jedno klienta (**login:** user **hasło:** haslo) oraz jedno aministratora (**login:** admin **hasło:** haslo). (Roszczyk Ewa)
+- Klasa Client (dziedzicząca z klasy User) pozwala użytkownikowi na stworzenie swojego własnego konta oraz dostępu do niego za pomocą loginu i hasła, które 
+można zmienić. Użytkownik na swoim koncie ma możliwość wypożyczyć, bądź zwrócić rower/y oraz sprawdzić aktualny stan wypożyczenia. Dodatkowo użytkownik przechowuje na 
+swoim koncie pieniądze, służące do zapłaty za wypożyczenie. Istnieje możliwość dodanie pieniędzy do swojego konta. Klasa userBase przechowuje bazę kont uklientów oraz pozwala 
+wyeksportować ją do pliku .txt. Obecnie do projektu została dodana również klasa Administrator (dziedzicząca po klasie User). Dzięki niej zostaje stworzene konto administratora, 
+które pozwala na zarządzanie kontami klientów, bazą rowerów oraz bazą wypożyczalni. Administrator ma również możliwość dodania/usunięcia innego administratora. 
+W projekcie dostępne są dwa przykładowe konta testowe - jedno klienta (**login:** user **hasło:** haslo) oraz jedno aministratora (**login:** admin **hasło:** haslo). 
+(Roszczyk Ewa)
 
 
 ![Diagram hierarchii klas](projectGraph.png)
