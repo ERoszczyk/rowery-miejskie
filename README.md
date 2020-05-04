@@ -37,7 +37,7 @@ również możliwość stworzenia konta administratora, które pozwala na zarzą
 konta testowe - jedno klienta (**login:** user **hasło:** haslo) oraz jedno aministratora (**login:** admin **hasło:** haslo). (Roszczyk Ewa)
 
 
-![Diagramm hierarchii klas](https://gitlab-stud.elka.pw.edu.pl/proi.20l/rowery-miejskie/-/blob/developer/projectGraph.png)
+![Diagram hierarchii klas](projectGraph.png)
 
 Na powyższym diagramie przedstawiona jest hierarchia klas. Za pomocą ciągłych strzałek przedstawione zostały klasy dziedziczące, które są już zaimplementowane w projekcie,
 natomiast za pomocą strzałek przerywanych przedstawione są klasy planowane do zaimplementowania. Pochyłą czcionką ukazane zostały klasy wirtualne. Dodatkowo za pomocą zwykłych 
