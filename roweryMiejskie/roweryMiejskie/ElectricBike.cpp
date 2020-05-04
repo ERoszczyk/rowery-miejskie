@@ -83,9 +83,12 @@ void ElectricBike::Stop(BikeDatabase& database, map<int, bool>& states, Client& 
         if (battery != 100)
         {
             //std::future<void> but = std::async(this->Loading, database);
-            std::future<void> but = async(launch::async, &ElectricBike::Loading, this, &database);
+            loading = async(launch::async, &ElectricBike::Loading, this, &database);
         }
-        database.setBikeState(id, false);
+        else
+        {
+            database.setBikeState(id, false);
+        }
         database.setBikeOwner(id, 0);
     }
 }

@@ -10,9 +10,9 @@ private:
     bool actualstate = true;
     shared_future<bool> zut;
     future<bool> batterystate;
+    future<void> loading;
 public:
     int battery = 100; 
-
     ElectricBike() {};
     ElectricBike(int id) {
         this->id = id;
