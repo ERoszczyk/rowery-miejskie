@@ -6,27 +6,67 @@ using namespace std;
 
 UserBase::UserBase()
 {
-	activeUserId = -1;
+	userNames.insert({0, new Administrator("Administrator", "Przykladowy", "admin", "haslo", 0) });
+	userNames.insert({ 1, new Client("Uzytkownik", "Przykladowy", "user", "haslo", 1) });
 }
 
-void UserBase::setUserNames(string userName, string userSurname, string userUsername, string userPassword)
+void UserBase::menuStart(MainLocation& rental, BikeDatabase& database)
 {
-	userNames.insert({ getCurrentLoginIndex(), User(userName, userSurname, userUsername, userPassword) });
+	int optionNumber;
+	string answer;
+
+	system("CLS");
+	cout << "You're not logged in" << endl;
+	cout << "1. Log in" << endl;
+	cout << "2. Sign up" << endl;
+	cout << "Enter what would you like to do: ";
+	cin >> optionNumber;
+
+	switch (optionNumber)
+	{
+	case 1:
+		login(rental, database, *this);
+		break;
+	case 2:
+		createNewUser();
+		break;
+	default:
+		cout << "Wrong number!" << endl;
+		break;
+	}
+	cout << "Would you like to continue? (y/n) ";
+	cin >> answer;
+	if (answer == "y")
+		menuStart(rental, database);
+	else
+		return;
 }
 
-void UserBase::setActiveUserId(int userId)
+void UserBase::addNewUser(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword)
 {
-	activeUserId = userId;
+	int id = getCurrentLoginIndex();
+	userNames.insert({ id, new Client(userName, userSurname, userUsername, userPassword, id) });
 }
 
-map<int, User> UserBase::getUserNames()
+void UserBase::addNewAdministrator(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword)
+{
+	int id = getCurrentLoginIndex();
+	userNames.insert({ id, new Administrator(userName, userSurname, userUsername, userPassword, id) });
+}
+
+map<int, User*> UserBase::getUserNames()
 {
 	return userNames;
 }
 
-int UserBase::getActiveUserId()
+bool UserBase::ifUsernameExists(const string& username)
 {
-	return activeUserId;
+	for (auto i = userNames.begin(); i != userNames.end(); ++i)
+	{
+		if (username == i->second->getUsername())
+			return true;
+	}
+	return false;
 }
 
 int UserBase::getCurrentLoginIndex()
@@ -43,15 +83,16 @@ int UserBase::getCurrentLoginIndex()
 
 }
 
-bool UserBase::ifUsernameAvailable(string username)
+bool UserBase::ifUsernameAvailable(const string& username)
 {
 	for (auto i = userNames.begin(); i != userNames.end(); ++i)
 	{
-		if (username == i->second.getUsername())
+		if (username == i->second->getUsername())
 			return false;
 	}
 	return true;
 }
+
 
 void UserBase::createNewUser()
 {
@@ -77,230 +118,180 @@ void UserBase::createNewUser()
 		character = _getch();
 	}
 	cout << endl;
-	userNames.insert({ getCurrentLoginIndex(), User(name, surname, username, password) });
+	addNewUser(name, surname, username, password);
 }
 
-void UserBase::login()
+void UserBase::createNewUserAsAdministrator()
+{
+	string name, surname, username, password = "";
+	char character;
+	cout << "Enter user's first name: " << endl;
+	cin >> name;
+	cout << "Enter user's surname: " << endl;
+	cin >> surname;
+	cout << "Enter user's username: " << endl;
+	cin >> username;
+	while (!ifUsernameAvailable(username))
+	{
+		cout << "This username is already taken. Enter another one: " << endl;
+		cin >> username;
+	}
+	cout << "Enter user's password: " << endl;
+	character = _getch();
+	while (character != 13)
+	{
+		password.push_back(character);
+		cout << "*";
+		character = _getch();
+	}
+	cout << endl;
+	addNewUser(name, surname, username, password);
+}
+
+void UserBase::createNewAdministrator()
+{
+	string name, surname, username, password = "";
+	char character;
+	cout << "Enter administrator's first name: " << endl;
+	cin >> name;
+	cout << "Enter administrator's surname: " << endl;
+	cin >> surname;
+	cout << "Enter administrator's username: " << endl;
+	cin >> username;
+	while (!ifUsernameAvailable(username))
+	{
+		cout << "This username is already taken. Enter another one: " << endl;
+		cin >> username;
+	}
+	cout << "Enter administrator's password: " << endl;
+	character = _getch();
+	while (character != 13)
+	{
+		password.push_back(character);
+		cout << "*";
+		character = _getch();
+	}
+	cout << endl;
+	addNewAdministrator(name, surname, username, password);
+}
+
+void UserBase::login(MainLocation& rental, BikeDatabase& database, UserBase& base)
 {
 	string username, tryAgainAnswer, password = "";
 	char character;
 	bool wrongUsername = true;
-	if (ifLogged())
-		cout << "You're already logged in!" << endl;
-	else
+	cout << "Enter your username: " << endl;
+	cin >> username;
+	for (auto i = userNames.begin(); i != userNames.end(); ++i)
 	{
-		cout << "Enter your username: " << endl;
-		cin >> username;
-		for (auto i = userNames.begin(); i != userNames.end(); ++i)
+		if (username == i->second->getUsername())
 		{
-			if (username == i->second.getUsername())
-			{
-				wrongUsername = false;
-				cout << "Enter your password: " << endl;
-				character = _getch();
-				while (character != 13)
-				{
-					password.push_back(character);
-					cout << "*";
-					character = _getch();
-				}
-				cout << endl;
-				if (password == i->second.getPassword())
-				{
-					cout << "Hello " << username << "! " << "You're logged in!" << endl;
-					activeUserId = i->first;
-					return;
-				}
-				else
-				{
-					cout << "Wrong password!" << endl;
-					cout << "Do you want to try again? (y/n) ";
-					cin >> tryAgainAnswer;
-					if (tryAgainAnswer == "y")
-						login();
-					else
-						return;
-				}
-			}
-		}
-		if (wrongUsername)
-		{
-			cout << "Wrong username!" << endl;
-			cout << "Do you want to try again? (y/n) ";
-			cin >> tryAgainAnswer;
-			if (tryAgainAnswer == "y")
-				login();
-			else
-				return;
-		}
-	}
-}
-
-bool UserBase::ifLogged()
-{
-	if (activeUserId >= 0)
-		return true;
-	else
-		return false;
-}
-
-void UserBase::logout()
-{
-	string answer;
-	cout << "Are you sure you want to log out? (y/n) ";
-	cin >> answer;
-	if (answer == "y")
-		activeUserId = -1;
-	else
-		return;
-}
-
-double UserBase::checkAccountBalance()
-{
-	string answer;
-	if (ifLogged())
-		return userNames.find(activeUserId)->second.getCash();
-	else
-	{
-		cout << "You're not logged in! Do you want to log in now? (y/n) ";
-		cin >> answer;
-		if (answer == "y")
-		{
-			login();
-			return userNames.find(activeUserId)->second.getCash();
-		}
-		else
-		{
-			cout << "You're not logged in! We cannot check your account!" << endl;
-			return -1;
-		}
-	}
-}
-
-void UserBase::changePassword()
-{
-	string currentPassword = "", newPassword = "", answer;
-	char character;
-	cout << "Enter your current password: " << endl;
-	character = _getch();
-	while (character != 13)
-	{
-		currentPassword.push_back(character);
-		cout << "*";
-		character = _getch();
-	}
-	cout << endl;
-	while (currentPassword != userNames.find(activeUserId)->second.getPassword())
-	{
-		cout << "Wrong password!" << endl;
-		cout << "Do you want to try again? (y/n) ";
-		cin >> answer;
-		if (answer != "y")
-		{
-			cout << "You haven't changed your password" << endl;
-			return;
-		}
-		cout << "Enter your current password once more: " << endl;
-		currentPassword = "";
-		character = _getch();
-		while (character != 13)
-		{
-			currentPassword.push_back(character);
-			cout << "*";
+			wrongUsername = false;
+			cout << "Enter your password: " << endl;
 			character = _getch();
-		}
-		cout << endl;
-	}
-	cout << "Enter new password:" << endl;
-	character = _getch();
-	while (character != 13)
-	{
-		newPassword.push_back(character);
-		cout << "*";
-		character = _getch();
-	}
-	cout << endl;
-	userNames.find(activeUserId)->second.getPassword() = newPassword;
-}
-
-void UserBase::rentBike(RentalPoint& rental, BikeDatabase& database)
-{
-	string loginAnswer, rentAnswer;
-	int bikesNumber;
-	if (activeUserId >= 0)
-	{
-		cout << "How many bikes would you like to rent?" << endl;
-		cin >> bikesNumber;
-		userNames.find(activeUserId)->second.addRentedBikesAmount(bikesNumber);
-		for (int i = 0; i < bikesNumber; i++)
-		{
-			if (rental.getFreeBikes().size() > i)
+			while (character != 13)
 			{
-				userNames.find(activeUserId)->second.addRentedBikeId(rental.getFreeBikes()[i]);
-				rental.rent(rental.getFreeBikes()[i], getActiveUserId(), database, userNames.find(activeUserId)->second);
+				password.push_back(character);
+				cout << "*";
+				character = _getch();
+			}
+			cout << endl;
+			if (password == i->second->getPassword())
+			{
+				cout << "Hello " << username << "! " << "You're logged in!" << endl;
+				//activeUserId = i->first;
+				i->second->menu(rental, database, base);
+				return;
+			}
+			else
+			{
+				cout << "Wrong password!" << endl;
+				cout << "Do you want to try again? (y/n) ";
+				cin >> tryAgainAnswer;
+				if (tryAgainAnswer == "y")
+					login(rental, database, base);
+				else
+					return;
 			}
 		}
 	}
-	else
+	if (wrongUsername)
 	{
-		cout << "You're not logged in! Do you want to log in now? (y/n) ";
-		cin >> loginAnswer;
-		if (loginAnswer == "y")
-		{
-			login();
-
-		}
+		cout << "Wrong username!" << endl;
+		cout << "Do you want to try again? (y/n) ";
+		cin >> tryAgainAnswer;
+		if (tryAgainAnswer == "y")
+			login(rental, database, base);
 		else
-		{
-			cout << "You're not logged in! We cannot check your account!" << endl;
 			return;
-		}
 	}
 }
 
-void UserBase::returnBike(RentalPoint& rental, BikeDatabase& database)
+void UserBase::changeUsernameAsAdministrator(const string& currentUsername, const string& newUsername)
 {
-	vector<int> rentedBikesId = userNames.find(activeUserId)->second.getRentedBikesId();
-	userNames.find(activeUserId)->second.removeRentedBikes();
-	for (int i = 0; i < rentedBikesId.size(); i++)
-		rental.putBack(rentedBikesId[i], getActiveUserId(), database, userNames.find(activeUserId)->second);
-	userNames.find(activeUserId)->second.removeRentedBikesId();
-}
-
-void UserBase::transferMoney()
-{
-	double money;
-	cout << "Enter how much would you like to transer: " << endl;
-	cin >> money;
-	userNames.find(activeUserId)->second.setCash(money);
-}
-
-void UserBase::viewRentedBikes()
-{
-	if (userNames.find(activeUserId)->second.getRentedBikes() == 0)
-		cout << "You don't have any rented bikes" << endl;
-	else if (userNames.find(activeUserId)->second.getRentedBikes() == 1)
-		cout << "You have " << userNames.find(activeUserId)->second.getRentedBikes() << " rented bike:" << endl;
-	else
-		cout << "You have " << userNames.find(activeUserId)->second.getRentedBikes() << " rented bikes:" << endl;
-	vector<int> rentedBikesId = userNames.find(activeUserId)->second.getRentedBikesId();
-	if (rentedBikesId.size() > 0)
+	for (auto i = userNames.begin(); i != userNames.end(); ++i)
 	{
-		for (auto i = rentedBikesId.begin(); i != rentedBikesId.end(); ++i)
+		if (currentUsername == i->second->getUsername())
 		{
-			cout << *i << endl;
+			i->second->setUsername(newUsername);
 		}
 	}
 }
 
-void UserBase::saveBaseToFile(string filename)
+void UserBase::changePasswordAsAdministrator(const string& username, const string& newPassword)
+{
+	for (auto i = userNames.begin(); i != userNames.end(); ++i)
+	{
+		if (username == i->second->getUsername())
+		{
+			i->second->setPassword(newPassword);
+		}
+	}
+}
+
+void UserBase::changeNameAsAdministrator(const string& username, const string& newName)
+{
+	for (auto i = userNames.begin(); i != userNames.end(); ++i)
+	{
+		if (username == i->second->getUsername())
+		{
+			i->second->setName(newName);
+		}
+	}
+}
+
+void UserBase::changeSurnameAsAdministrator(const string& username, const string& newSurname)
+{
+	for (auto i = userNames.begin(); i != userNames.end(); ++i)
+	{
+		if (username == i->second->getUsername())
+		{
+			i->second->setSurname(newSurname);
+		}
+	}
+}
+
+void UserBase::deleteUserAsAdministrator(const string& username)
+{
+	for (auto i = userNames.begin(); i != userNames.end(); ++i)
+	{
+		if (username == i->second->getUsername())
+		{
+			auto it = userNames.find(i->second->getId());
+			userNames.erase(it);
+			break;
+		}
+	}
+}
+
+void UserBase::exportBaseToFile(const string& filename)
 {
 	ofstream file(filename);
 	file << "User's ID" << '\t' << "User's name" << '\t' << "User's surname" << '\t' << "User's username" << '\t' << "User's password" << endl;
 	for (auto i = userNames.begin(); i != userNames.end(); ++i)
 	{
-		file << i->first << '\t' << i->second.getName() << '\t' << i->second.getSurname() << '\t' << i->second.getUsername() << '\t';
-		for (int j = 0; j < i->second.getPassword().length(); j++)
+		file << i->first << '\t' << i->second->getName() << '\t' << i->second->getSurname() << '\t' << i->second->getUsername() << '\t';
+		for (int j = 0; j < i->second->getPassword().length(); j++)
 			file << "*";
 		file << endl;
 	}

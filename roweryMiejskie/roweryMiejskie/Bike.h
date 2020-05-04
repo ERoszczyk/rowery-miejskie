@@ -1,8 +1,11 @@
 #pragma once
 //Klasa Bike
 //Olga Krupa,nr indeksu 304048
+#ifndef Bike_h
+#define Bike_h
+
 #include "BikeDatabase.h"
-#include "user.h"
+#include "Client.h"
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -15,11 +18,10 @@
 using namespace std;
 
 class Bike {
-private:
+protected:
     int id;
     string holder;
     time_t start, end;
-    //vector <int> available_bikes_list;
 
 public:
 
@@ -33,16 +35,13 @@ public:
         this->id = id;
     }
 
-    //bool RentingBicycle(map<int, char> bikes);
-    Bike& operator=(const Bike& b);
-    void StartOfRent(BikeDatabase& database, int person, const float money);
+    virtual Bike& operator=(const Bike& b);
+    virtual void StartOfRent(BikeDatabase& database, int person, const float money);
     bool StandAssignment(BikeDatabase& database, map<int, bool>& states);
-    bool FindStand(map<int, bool>& states, int stateid);
-    //void AvailableBikes(map<int, char> bikes);
-    void Pay(User& user);
-    void FullHistory();
-    void Stop(BikeDatabase& database, map<int, bool>& states, User& user);
-    void HistoryOfRent(Bike& b);
+    int FindStand(map<int, bool>& states);
+    virtual void Pay(Client& user);
+    virtual void Stop(BikeDatabase& database, map<int, bool>& states, Client& user);
+    void HistoryOfRent();
 
     friend
         ostream& operator<< (ostream& os, const Bike& b);
@@ -50,3 +49,4 @@ public:
         istream& operator>> (istream& is, Bike& b);
 };
 
+#endif
