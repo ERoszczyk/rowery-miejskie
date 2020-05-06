@@ -125,7 +125,7 @@ void ElectricBike::Pay(Client& user)
         price = 24 + ((ftime / 60 + 1) * 10);
         account -= price;
     }
-    user.transferCash(account);
+    user.transferCash(-price);
 };
 
 void ElectricBike::Loading( BikeDatabase* database) {

@@ -31,5 +31,5 @@ void Tandem::Pay(Client& user)
         price = 20 + ((ftime / 60 + 1) * 8);
         account -= price;
     }
-    user.transferCash(account);
+    user.transferCash(-price);
 };
