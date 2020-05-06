@@ -1,6 +1,13 @@
 //Plik nag³ówkowy klasy User, Ewa Roszczyk, nr. indeksu: 304077
+#ifndef user_h
+#define user_h
+
 #include <iostream>
 #include <vector>
+
+class MainLocation;
+class BikeDatabase;
+class UserBase;
 
 using namespace std;
 
@@ -10,26 +17,20 @@ class User
 	string surname;
 	string username;
 	string password;
-	double cash;
-	int rentedBikes;
-	vector<int> rentedBikesId;
+	int id;
 
 public:
-	User(string userName, string userSurname, string userUsername, string userPassword);
+	User(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword, const int& userId);
 	void setName(const string& name);
-	void setSurname(string surname);
-	void setUsername(string username);
-	void setPassword(string password);
-	void setCash(double cash);
-	void addRentedBikesAmount(int rentedBikes);
-	void removeRentedBikes();
-	void addRentedBikeId(int BikeId);
-	void removeRentedBikesId();
+	void setSurname(const string& surname);
+	void setUsername(const string& username);
+	void setPassword(const string& password);
 	string getName();
 	string getSurname();
 	string getUsername();
 	string getPassword();
-	double getCash();
-	int getRentedBikes();
-	vector<int> getRentedBikesId();
+	int getId();
+	virtual void menu(MainLocation& rental, BikeDatabase& database, UserBase& base) = 0;
 };
+
+#endif

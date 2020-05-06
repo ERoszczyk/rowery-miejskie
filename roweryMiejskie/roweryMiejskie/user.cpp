@@ -1,15 +1,14 @@
-//Plik zawieraj¹cy funkcje klasy User, Ewa Roszczyk, nr. indeksu: 304077
+//Plik zawieraj¹cy funkcje klasy User, Ewa Roszczyk, nr. indeksu: 304077 
 #include "user.h"
 #include <iostream>
 using namespace std;
 
-User::User(string userName, string userSurname, string userUsername, string userPassword)
-   : name(userName),
-     surname(userSurname),
-     username(userUsername),
-     password(userPassword),
-     cash(20),
-     rentedBikes(0)
+User::User(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword, const int& userId)
+	: name(userName),
+	surname(userSurname),
+	username(userUsername),
+	password(userPassword),
+	id(userId)
 {
 }
 
@@ -18,45 +17,19 @@ void User::setName(const string& usersName)
 	name = usersName;
 }
 
-void User::setSurname(string usersSurname)
+void User::setSurname(const string& usersSurname)
 {
 	surname = usersSurname;
 }
 
-void User::setUsername(string usersUsername)
+void User::setUsername(const string& usersUsername)
 {
 	username = usersUsername;
 }
 
-void User::setPassword(string usersPassword)
+void User::setPassword(const string& usersPassword)
 {
 	password = usersPassword;
-}
-
-void User::setCash(double usersCash)
-{
-	cash += usersCash;
-}
-
-void User::addRentedBikesAmount(int usersRentedBikes)
-{
-	rentedBikes += usersRentedBikes;
-}
-
-void User::removeRentedBikes()
-{
-	rentedBikes = 0;
-}
-
-void User::addRentedBikeId(int usersBikeId)
-{
-	rentedBikesId.push_back(usersBikeId);
-}
-
-void User::removeRentedBikesId()
-{
-	vector<int> noBikes;
-	rentedBikesId = noBikes;
 }
 
 string User::getName()
@@ -79,17 +52,7 @@ string User::getPassword()
 	return password;
 }
 
-double User::getCash()
+int User::getId()
 {
-	return cash;
-}
-
-int User::getRentedBikes()
-{
-	return rentedBikes;
-}
-
-vector<int>User::getRentedBikesId()
-{
-	return rentedBikesId;
+	return id;
 }
