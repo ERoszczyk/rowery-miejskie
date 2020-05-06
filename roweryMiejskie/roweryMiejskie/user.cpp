@@ -1,4 +1,4 @@
-//Plik zawieraj¹cy funkcje klasy User, Ewa Roszczyk, nr. indeksu: 304077
+//Plik zawieraj¹cy funkcje klasy User, Ewa Roszczyk, nr. indeksu: 304077 
 #include "user.h"
 #include <iostream>
 using namespace std;

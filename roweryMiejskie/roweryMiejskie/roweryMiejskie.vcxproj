@@ -159,7 +159,7 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="RentalPoint.cpp" />
     <ClCompile Include="roweryMiejskie.cpp" />
-    <ClCompile Include="user.cpp" />
+    <ClCompile Include="User.cpp" />
     <ClCompile Include="userBase.cpp" />
     <ClCompile Include="ElectricBike.cpp" />
     <ClCompile Include="Tandem.cpp" />
@@ -172,7 +172,7 @@
     <ClInclude Include="ElectricBike.h" />
     <ClInclude Include="Tandem.h" />
     <ClInclude Include="RentalPoint.h" />
-    <ClInclude Include="user.h" />
+    <ClInclude Include="User.h" />
     <ClInclude Include="userBase.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -42,7 +42,11 @@
     <ClCompile Include="Client.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="user.cpp">
+=======
+    <ClCompile Include="User.cpp">
+>>>>>>> master
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,7 +75,11 @@
     <ClInclude Include="Client.h">
       <Filter>Pliki źródłowe</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="user.h">
+=======
+    <ClInclude Include="User.h">
+>>>>>>> master
       <Filter>Pliki źródłowe</Filter>
     </ClInclude>
   </ItemGroup>
