@@ -27,9 +27,6 @@
     <ClCompile Include="RentalPoint.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="user.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
     <ClCompile Include="userBase.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
@@ -45,6 +42,9 @@
     <ClCompile Include="Client.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="user.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bike.h">
@@ -54,9 +54,6 @@
       <Filter>Pliki źródłowe</Filter>
     </ClInclude>
     <ClInclude Include="RentalPoint.h">
-      <Filter>Pliki źródłowe</Filter>
-    </ClInclude>
-    <ClInclude Include="user.h">
       <Filter>Pliki źródłowe</Filter>
     </ClInclude>
     <ClInclude Include="userBase.h">
@@ -72,6 +69,9 @@
       <Filter>Pliki źródłowe</Filter>
     </ClInclude>
     <ClInclude Include="Client.h">
+      <Filter>Pliki źródłowe</Filter>
+    </ClInclude>
+    <ClInclude Include="user.h">
       <Filter>Pliki źródłowe</Filter>
     </ClInclude>
   </ItemGroup>
