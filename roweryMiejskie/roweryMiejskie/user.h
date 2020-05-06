@@ -30,7 +30,6 @@ public:
 	string getUsername();
 	string getPassword();
 	int getId();
-
 	virtual void menu(MainLocation& rental, BikeDatabase& database, UserBase& base) = 0;
 };
 

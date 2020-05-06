@@ -1,4 +1,4 @@
-//Plik zawieraj¹cy funkcje klasy Administrator, Ewa Roszczyk, nr. indeksu: 304077
+//Plik zawierajcy funkcje klasy Administrator, Ewa Roszczyk, nr. indeksu: 304077
 #include "Administrator.h"
 #include "UserBase.h"
 #include "RentalPoint.h"
@@ -121,7 +121,7 @@ void Administrator::disactivateRentalPoint(MainLocation& rental)
 	{
 		cout << "Wrong number!" << endl;
 		cout << "Would you like to try again? (y/n) ";
-		cin >> answer; 
+		cin >> answer;
 		if (answer == "y")
 			disactivateRentalPoint(rental);
 		else
