@@ -1,4 +1,4 @@
-//Plik nag³ówkowy klasy User, Ewa Roszczyk, nr. indeksu: 304077 
+//Plik nag³ówkowy klasy User, Ewa Roszczyk, nr. indeksu: 304077
 #ifndef user_h
 #define user_h
 
