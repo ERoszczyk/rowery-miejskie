@@ -2,20 +2,20 @@
 #ifndef userBase_h
 #define userBase_h
 
-#include <iostream>
+//#include <iostream>
 #include <map>
-#include <conio.h>
-#include <vector>
-#include <fstream>
+//#include <conio.h> -> lepiej do cpp
+//#include <vector>  
+#include <fstream> //-> lepiej do cpp
 #include "Administrator.h"
 #include "Client.h"
 
 class MainLocation;
 class BikeDatabase;
 
-using namespace std;
+using namespace std; // Nie wolno (nie powinno siê) wstawiaæ w plikach nag³ówkowych!!
 
-class UserBase
+class UserBase  //Mo¿e UsersDataBase? 
 {
 	map<int, User*> userNames;
 
@@ -28,10 +28,13 @@ public:
 	bool ifUsernameExists(const string& username);
 	int getCurrentLoginIndex();
 	bool ifUsernameAvailable(const string& username);
-	void createNewUser();
+
+	// To do odrêbnej klasy
+   void createNewUser();
 	void createNewUserAsAdministrator();
 	void createNewAdministrator();
-	void login(MainLocation& rental, BikeDatabase& database, UserBase& base);
+
+   void login(MainLocation& rental, BikeDatabase& database, UserBase& base);
 	void changeUsernameAsAdministrator(const string& currentUsername, const string& newUsername);
 	void changePasswordAsAdministrator(const string& username, const string& newPassword);
 	void changeNameAsAdministrator(const string& username, const string& newName);

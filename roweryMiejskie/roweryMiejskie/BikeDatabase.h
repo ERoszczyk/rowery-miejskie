@@ -37,7 +37,7 @@ class BikeDatabase
 	std::map<int,Record> allBikes;
 	int idCount = 0;
 public:
-	BikeDatabase()=default;
+	BikeDatabase() = default;
 	BikeDatabase(int newBikes) { addBikes(newBikes); }; //constructs a database of a given size
 	BikeDatabase(std::vector<Record> newBikes) { addBikes(newBikes); }; // ie.bikes sorted by production number//not used?
 
@@ -46,7 +46,7 @@ public:
 	void addBike(const int bikeId, const Record);
 
 	void addBikes(const int);
-	void addBikes(const std::vector<Record>); //tested
+	void addBikes(const std::vector<Record>&); //tested
 	void addBikes(const std::map<int, Record>); //tested in testing operator+
 
 	void removeBike(const int bikeId) { allBikes.erase(bikeId); }

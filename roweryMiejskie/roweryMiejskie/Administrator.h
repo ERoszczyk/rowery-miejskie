@@ -9,7 +9,7 @@ class Administrator: public User
 	bool ifAdministrator;
 
 public:
-	Administrator(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword, const int& id);
+	Administrator(const std::string& userName, const std::string& userSurname, const std::string& userUsername, const std::string& userPassword, const int& id);
 	void menu(MainLocation& rental, BikeDatabase& database, UserBase& base);
 	void viewRentalPointLocation(MainLocation& rental);
 	void disactivateRentalPoint(MainLocation& rental);

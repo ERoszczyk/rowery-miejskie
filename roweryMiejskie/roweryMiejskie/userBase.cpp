@@ -1,14 +1,18 @@
 //Plik zawieraj¹cy funkcje klasy UserBase, Ewa Roszczyk, nr. indeksu: 304077
 #include <iostream>
+#include <conio.h>
+
 #include "userBase.h"
 
 using namespace std;
 
 UserBase::UserBase()
 {
-	userNames.insert({0, new Administrator("Administrator", "Przykladowy", "admin", "haslo", 0) });
-	userNames.insert({ 1, new Client("Uzytkownik", "Przykladowy", "user", "haslo", 1) });
+	userNames.insert({0, new Administrator("Administrator", "Przykladowy", "admin", "haslo", 0)});
+	userNames.insert({1, new Client("Uzytkownik", "Przykladowy", "user", "haslo", 1) });
 }
+
+// To (tzn. menu i obs³ugê wejœcia/wyjœcia lepiej odseparowaæ logiki przechowywania uzytkowników 
 
 void UserBase::menuStart(MainLocation& rental, BikeDatabase& database)
 {
