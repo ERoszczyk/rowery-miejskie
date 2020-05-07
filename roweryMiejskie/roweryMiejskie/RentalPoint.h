@@ -6,7 +6,7 @@
 //#include "BikeDatabase.h"
 #include "Bike.h"
 #include "ElectricBike.h"
-#include "Tandem.h"
+//#include "Tandem.h"
 
 #include <algorithm>
 #ifdef _DEBUG
@@ -15,7 +15,7 @@
 class RentalPoint
 {
 public:
-	virtual ~RentalPoint()=0 {};
+	virtual ~RentalPoint() = 0 {};
 
 	virtual void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int bikeType)=0;
 	virtual void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user)=0;
@@ -53,11 +53,16 @@ protected:
 	int bikesCount = 0;
 	bool active = true;
 	std::vector<int> myBikes;    // currently all bikes share the same ids
-	std::vector<int> bikesFree;   // 
+	std::vector<int> bikesFree;   //
+
+   // To utrudnia rozbudowê, nowy typ roweru wymusza zmiany
+
 	std::map<int, Bike> rentedBikes;      //therefore three seperate maps are needed
 	std::map<int, Bike*> rentedElectrics; //later on the distiction will be made based on id
 	std::map<int, Bike*> rentedTandems;
 	std::map<int, bool> standStates;
+
+   
 	std::vector<string> bikeTypes = {"Bike", "Electric Bike", "Tandem"};
 
 public:
@@ -73,7 +78,7 @@ public:
     void setLocation(const string locationName) { location = locationName; };
 	string getLocation()const { return location; }
 
-	void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int bikeType=0); //tested
+	void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int bikeType = 0) override; // mo¿na dodaæ //tested
 	void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user); //tested
 	void putBackOtherLocation(const int bikeId, const int userId, BikeDatabase& database, Client& user, RentalLocation& otherLocation);
 
@@ -113,8 +118,8 @@ class MainLocation : public RentalLocation
 	BikeDatabase& base;
 
 public:
-	MainLocation(std::vector<string>names, BikeDatabase& database);
-	void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId = -1, int bikeType =0); //tested
+	MainLocation(std::vector<string> names, BikeDatabase& database);
+	void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId = -1, int bikeType = 0); //tested
 	void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId = -1); //tested
 	vector<string> getRentalLocationNames() const { return locationNames; }
 	void addBike(const int bikeId, int nameId = -1);

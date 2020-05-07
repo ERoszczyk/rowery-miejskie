@@ -1,6 +1,8 @@
 //Plik nag³ówkowy klasy Client, Ewa Roszczyk, nr. indeksu: 304077
 #ifndef Client_h
 #define Client_h
+#include <vector>
+
 #include "User.h"
 
 class MainLocation;
@@ -12,10 +14,10 @@ class Client :public User
 	double cash;
 	int location;
 	int rentedBikes;
-	vector<int> rentedBikesId;
+	std::vector<int> rentedBikesId;
 
 public:
-	Client(const string & userName, const string & userSurname, const string & userUsername, const string & userPassword, const int & id);
+	Client(const std::string & userName, const std::string & userSurname, const std::string & userUsername, const std::string & userPassword, const int & id);
 	virtual void menu(MainLocation& rental, BikeDatabase& database, UserBase& base);
 	
 	void transferCash(const double& cash);
@@ -25,13 +27,13 @@ public:
 	void removeRentedBikesId();
 	double getCash();
 	int getRentedBikes();
-	vector<int> getRentedBikesId();
+	std::vector<int> getRentedBikesId();
 	void changePassword();
 	void rentBike(MainLocation& const rental, BikeDatabase& database);
 	void returnBike(MainLocation& rental, BikeDatabase& database);
 	void transferMoney(double money = 0);
 	void viewRentedBikes();
-	string viewLocation(MainLocation& rental);
+	std::string viewLocation(MainLocation& rental);
 	void changeLocation(MainLocation& rental);
 	void viewRentalPointLocation(MainLocation& rental);
 };

@@ -33,8 +33,8 @@ void BikeDatabase::addBikes(int newBikes)
 		addBike();
 	}
 }
-void BikeDatabase::addBikes(vector<Record> newBikes)
-{
+void BikeDatabase::addBikes(const vector<Record>& newBikes)
+{  //for(auto b : newBikes){}
 	for (auto it = newBikes.begin(); it != newBikes.end(); ++it)
 	{
 		addBike(*it);

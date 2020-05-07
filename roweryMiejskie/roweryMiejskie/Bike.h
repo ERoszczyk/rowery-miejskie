@@ -15,7 +15,7 @@
 #include <conio.h>
 #include <sstream>
 
-using namespace std;
+using namespace std; // proszê siê tego pozbyæ - nie wolno w plikach nag³ówkowych!
 
 class Bike {
 protected:
@@ -30,12 +30,12 @@ public:
     double time_hold;
     int state;
     vector <string> history;
-    Bike() {};
+    Bike() : account(0) {}; // niezainicjalizowane pola klasy ...
     Bike(int id) {
         this->id = id;
     }
-
-    virtual Bike& operator=(const Bike& b);
+    // warto (na wszelki wypadek) dodaæ wirtualny destruktor
+    virtual Bike& operator=(const Bike& b);  // Jak bêdzie zmieniana funkcja? virtual nie bardzo ma sens
     virtual void StartOfRent(BikeDatabase& database, int person, const float money);
     bool StandAssignment(BikeDatabase& database, map<int, bool>& states);
     int FindStand(map<int, bool>& states);

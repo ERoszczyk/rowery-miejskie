@@ -4,8 +4,8 @@
 #include "RentalPoint.h"
 
 Administrator::Administrator(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword, const int& id)
-	:User(userName, userSurname, userUsername, userPassword, id),
-	ifAdministrator(true)
+	: User(userName, userSurname, userUsername, userPassword, id),
+     ifAdministrator(true)
 {
 }
 
