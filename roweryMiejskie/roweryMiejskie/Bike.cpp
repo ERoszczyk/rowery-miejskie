@@ -1,6 +1,9 @@
 #include "Bike.h"
 //Klasa Bike
 //Olga Krupa,nr indeksu 304048
+
+using namespace std;
+
 ostream& operator<<(ostream& os, const Bike& b)
 {
     os << b.id << endl;
@@ -10,8 +13,6 @@ ostream& operator<<(ostream& os, const Bike& b)
     os << b.time_hold << endl;
     os << b.start << endl;
     os << b.end << endl;
-    for (std::vector<string>::const_iterator i = b.history.begin(); i != b.history.end(); ++i)
-        os << *i << endl;
 
     return os;
 }

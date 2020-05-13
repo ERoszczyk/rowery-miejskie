@@ -15,12 +15,11 @@
 #include <conio.h>
 #include <sstream>
 
-using namespace std; // proszê siê tego pozbyæ - nie wolno w plikach nag³ówkowych!
 
 class Bike {
 protected:
     int id;
-    string holder;
+    std::string holder;
     time_t start, end;
 
 public:
@@ -29,24 +28,24 @@ public:
     float price;
     double time_hold;
     int state;
-    vector <string> history;
     Bike() : account(0) {}; // niezainicjalizowane pola klasy ...
     Bike(int id) {
         this->id = id;
     }
+    virtual ~Bike();
     // warto (na wszelki wypadek) dodaæ wirtualny destruktor
-    virtual Bike& operator=(const Bike& b);  // Jak bêdzie zmieniana funkcja? virtual nie bardzo ma sens
+    Bike& operator=(const Bike& b);  // Jak bêdzie zmieniana funkcja? virtual nie bardzo ma sens
     virtual void StartOfRent(BikeDatabase& database, int person, const float money);
-    bool StandAssignment(BikeDatabase& database, map<int, bool>& states);
-    int FindStand(map<int, bool>& states);
+    bool StandAssignment(BikeDatabase& database, std::map<int, bool>& states);
+    int FindStand(std::map<int, bool>& states);
     virtual void Pay(Client& user);
-    virtual void Stop(BikeDatabase& database, map<int, bool>& states, Client& user);
+    virtual void Stop(BikeDatabase& database, std::map<int, bool>& states, Client& user);
     void HistoryOfRent();
 
     friend
-        ostream& operator<< (ostream& os, const Bike& b);
+        std::ostream& operator<< (std::ostream& os, const Bike& b);
     friend
-        istream& operator>> (istream& is, Bike& b);
+        std::istream& operator>> (std::istream& is, Bike& b);
 };
 
 #endif

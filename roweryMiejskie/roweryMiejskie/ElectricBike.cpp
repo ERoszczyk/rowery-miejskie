@@ -1,5 +1,6 @@
 #include "ElectricBike.h"
 
+using namespace std;
 
 ElectricBike& ElectricBike::operator=(const ElectricBike& b)
 {

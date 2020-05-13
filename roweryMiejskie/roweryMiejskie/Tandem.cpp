@@ -1,5 +1,7 @@
 #include "Tandem.h"
 
+using namespace std;
+
 void Tandem::Pay(Client& user)
 {
     //Pobieranie œrodków z konta u¿ytkownika

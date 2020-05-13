@@ -9,5 +9,6 @@ public:
     Tandem(int id) {
         this->id = id;
     }
+    virtual ~Tandem();
     void Pay(Client& user);
 };
