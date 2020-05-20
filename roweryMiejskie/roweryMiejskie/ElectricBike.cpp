@@ -15,7 +15,8 @@ ElectricBike& ElectricBike::operator=(const ElectricBike& b)
     end = 0;
     time_hold = 0;
     battery = b.battery;
-    zut = b.zut;
+    batterystate = b.batterystate;
+    damage = b.damage;
     //batterystate = b.batterystate;
     //shared_future<bool> shfut = b.batterystate.share();
     return *this;
@@ -55,8 +56,8 @@ void ElectricBike::StartOfRent(BikeDatabase& database, int person, float money)
         cout << "Rental time has begun." << endl;
         time(&start);
         
-        batterystate = async(launch::async,&ElectricBike::CheckBattery,this);
-        zut = async(launch::async, &ElectricBike::CheckBattery, this);
+        batterystate = async(launch::async, &ElectricBike::CheckBattery, this);
+        damage = async(launch::async, &ElectricBike::Breakdown, this);
     }
 
 };
@@ -71,7 +72,7 @@ void ElectricBike::Stop(BikeDatabase& database, map<int, bool>& states, Client& 
     if (endassingnment)
     {
         actualstate = false;
-        bool koniec = zut.get();
+        bool koniec = batterystate.get();
         //bool koniec = batterystate.get();
         actualstate = true;
         cout << "Battery state " << battery << endl;
@@ -136,4 +137,19 @@ void ElectricBike::Loading( BikeDatabase* database) {
         Sleep(5000);
     }
     database->setBikeState(id, false);
+};
+
+void ElectricBike::Breakdown() {
+    srand(time(NULL));
+    int val;
+    while (actualstate == false)
+    {
+        val = rand() % 100;
+        if (val < 20)
+        {
+            //mechanic.notification();
+            break;
+        }
+        Sleep(10000);
+    }
 };

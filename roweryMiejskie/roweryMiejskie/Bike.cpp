@@ -158,6 +158,7 @@ void Bike::StartOfRent(BikeDatabase& database, int person, float money)
             //  Obliczanie czasu wypozyczenia, informacja o czasie wypzyczenia oraz wywolanie funkcji do pobrania srodkow
         cout << "Rental time has begun" << endl;
         time(&start);
+        damage = async(launch::async, &Bike::Breakdown, this);
         //odliczanie czasu od wynajecia 
     }
 
@@ -198,4 +199,19 @@ int Bike::FindStand(map<int, bool>& states)
         }
     }
     return stateid;
+};
+
+void Bike::Breakdown() {
+    srand(time(NULL));
+    int val;
+    while (true)
+    {
+        val = rand() % 100;
+        if (val < 5)
+        {
+            //mechanic.notification();
+            break;
+        }
+        Sleep(10000);
+    }
 };

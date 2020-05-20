@@ -14,6 +14,9 @@
 #include <time.h>
 #include <conio.h>
 #include <sstream>
+#include <future>
+#include <windows.h>
+
 
 
 class Bike {
@@ -21,6 +24,7 @@ protected:
     int id;
     std::string holder;
     time_t start, end;
+    std::shared_future<void> damage;
 
 public:
 
@@ -40,6 +44,7 @@ public:
     int FindStand(std::map<int, bool>& states);
     virtual void Pay(Client& user);
     virtual void Stop(BikeDatabase& database, std::map<int, bool>& states, Client& user);
+    virtual void Breakdown();
     void HistoryOfRent();
 
     friend
