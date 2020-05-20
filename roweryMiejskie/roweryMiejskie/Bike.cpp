@@ -37,6 +37,7 @@ Bike& Bike::operator=(const Bike& b)
     price = b.price;
     end = 0;
     time_hold = 0;
+    damage = b.damage;
 
     return *this;
 }
