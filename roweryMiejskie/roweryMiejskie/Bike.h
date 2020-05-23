@@ -36,7 +36,6 @@ public:
     Bike(int id) {
         this->id = id;
     }
-    virtual ~Bike();
     // warto (na wszelki wypadek) dodaæ wirtualny destruktor
     Bike& operator=(const Bike& b);  // Jak bêdzie zmieniana funkcja? virtual nie bardzo ma sens
     virtual void StartOfRent(BikeDatabase& database, int person, const float money);
