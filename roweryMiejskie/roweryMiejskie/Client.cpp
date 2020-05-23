@@ -3,6 +3,8 @@
 #include "Client.h"
 #include "RentalPoint.h"
 
+using namespace std;
+
 Client::Client(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword, const int& id)
 	: User(userName, userSurname, userUsername, userPassword, id),
 	cash(20),
