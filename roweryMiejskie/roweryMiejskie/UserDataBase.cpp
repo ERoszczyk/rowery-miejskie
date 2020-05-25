@@ -12,6 +12,7 @@ UserDataBase::UserDataBase()
 	userNames.insert({0, new Administrator("Administrator", "Przykladowy", "admin", "haslo", 0)});
 	userNames.insert({1, new Client("Uzytkownik", "Przykladowy", "user", "haslo", 1) });
 	userNames.insert({ 2, new ClientPremium("Uzytkownik", "Premium", "premium", "haslo", 2) });
+	userNames.insert({ 3, new Mechanic("Mechanik", "Przykladowy", "mechanik", "haslo", 3) });
 }
 
 // To (tzn. menu i obs³ugê wejœcia/wyjœcia lepiej odseparowaæ logiki przechowywania uzytkowników 

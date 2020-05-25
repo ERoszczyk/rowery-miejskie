@@ -1,3 +1,4 @@
+//Plik zawieraj¹cy funkcje klasy ClientPremium, Ewa Roszczyk, nr. indeksu: 304077
 #include <conio.h>
 #include "ClientPremium.h"
 #include "RentalPoint.h"

@@ -48,6 +48,9 @@
     <ClCompile Include="UserDataBase.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="Mechanic.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bike.h">
@@ -78,6 +81,9 @@
       <Filter>Pliki źródłowe</Filter>
     </ClInclude>
     <ClInclude Include="UserDataBase.h">
+      <Filter>Pliki źródłowe</Filter>
+    </ClInclude>
+    <ClInclude Include="Mechanic.h">
       <Filter>Pliki źródłowe</Filter>
     </ClInclude>
   </ItemGroup>

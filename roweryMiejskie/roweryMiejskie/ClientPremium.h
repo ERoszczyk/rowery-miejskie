@@ -1,3 +1,4 @@
+//Plik nag³ówkowy klasy ClientPremium, Ewa Roszczyk, nr. indeksu: 304077
 #ifndef ClientPremium_h
 #define ClientPremium_h
 //#include <vector>

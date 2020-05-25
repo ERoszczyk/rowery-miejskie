@@ -7,6 +7,7 @@
 #include "Administrator.h"
 #include "Client.h"
 #include "ClientPremium.h"
+#include "Mechanic.h"
 
 class MainLocation;
 class BikeDatabase;
