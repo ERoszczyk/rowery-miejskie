@@ -2,6 +2,7 @@
 #include <conio.h>
 #include "Client.h"
 #include "RentalPoint.h"
+#include "UserDataBase.h"
 
 using namespace std;
 
@@ -13,7 +14,7 @@ Client::Client(const string& userName, const string& userSurname, const string& 
 {
 }
 
-void Client::menu(MainLocation& rental, BikeDatabase& database, UserBase& base)
+void Client::menu(MainLocation& rental, BikeDatabase& database, UserDataBase& base)
 {
 	int optionNumber;
 	string answer;
@@ -30,7 +31,8 @@ void Client::menu(MainLocation& rental, BikeDatabase& database, UserBase& base)
 	cout << "8. Check account balance" << endl;
 	cout << "9. Check account history" << endl;
 	cout << "10. Change password" << endl;
-	cout << "11. Log out" << endl;
+	cout << "11. Activate premium" << endl;
+	cout << "12. Log out" << endl;
 	cout << "Enter what would you like to do: ";
 	cin >> optionNumber;
     switch (optionNumber)
@@ -65,7 +67,11 @@ void Client::menu(MainLocation& rental, BikeDatabase& database, UserBase& base)
     case 10:
         changePassword();
         break;
-    case 11:
+	case 11:
+		cout << "This option is not available yet" << endl;
+		//base.premiumActivation(getId(), rental, database);
+		return;
+    case 12:
 		cout << "You've been logged out" << endl;
 		return;
     default:
@@ -119,6 +125,11 @@ double Client::getCash()
 int Client::getRentedBikes()
 {
 	return rentedBikes;
+}
+
+int Client::getLocation()
+{
+	return location;
 }
 
 vector<int>Client::getRentedBikesId()
@@ -183,16 +194,29 @@ void Client::rentBike(MainLocation& const rental, BikeDatabase& database)
 	cin >> bikeType;
 	if (bikeType >= 1 && bikeType <= 3)
 	{
-		cout << "How many bikes would you like to rent?" << endl;
-		cin >> bikesNumber;
-		addRentedBikesAmount(bikesNumber);
-		for (int i = 0; i < bikesNumber; i++)
+		if (bikeType == 1)
 		{
-			if (rental.getFreeBikes(location).size() > i)
+			cout << "How many bikes would you like to rent?" << endl;
+			cin >> bikesNumber;
+			addRentedBikesAmount(bikesNumber);
+			for (int i = 0; i < bikesNumber; i++)
 			{
-				addRentedBikeId(rental.getFreeBikes(location)[i]);
-				rental.rent(rental.getFreeBikes(location)[i], getId(), database, *this, location, bikeType - 1);
+				if (rental.getFreeBikes(location).size() > i)
+				{
+					addRentedBikeId(rental.getFreeBikes(location)[i]);
+					rental.rent(rental.getFreeBikes(location)[i], getId(), database, *this, location, bikeType - 1);
+				}
 			}
+		}
+		else
+		{
+			cout << "This bike is available only for premium users." << endl;
+			cout << "Would you like to try again? (y/n) ";
+			cin >> answer;
+			if (answer == "y")
+				rentBike(rental, database);
+			else
+				return;
 		}
 	}
 	else

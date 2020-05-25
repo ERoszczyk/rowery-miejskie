@@ -1,7 +1,9 @@
 //Plik zawieraj¹cy funkcje klasy Administrator, Ewa Roszczyk, nr. indeksu: 304077
 #include "Administrator.h"
-#include "UserBase.h"
+#include "UserDataBase.h"
 #include "RentalPoint.h"
+
+using namespace std;
 
 Administrator::Administrator(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword, const int& id)
 	: User(userName, userSurname, userUsername, userPassword, id),
@@ -9,7 +11,7 @@ Administrator::Administrator(const string& userName, const string& userSurname, 
 {
 }
 
-void Administrator::menu(MainLocation& rental, BikeDatabase& database, UserBase& base)
+void Administrator::menu(MainLocation& rental, BikeDatabase& database, UserDataBase& base)
 {
 	int optionNumber;
 	string answer, filename;
@@ -137,7 +139,7 @@ void Administrator::disactivateRentalPoint(MainLocation& rental)
 	}
 }
 
-void Administrator::changeUsersPassword(UserBase& base)
+void Administrator::changeUsersPassword(UserDataBase& base)
 {
 	string currentUsername, newPassword = "", answer;
 	char character;
@@ -169,7 +171,7 @@ void Administrator::changeUsersPassword(UserBase& base)
 	}
 }
 
-void Administrator::changeUsersName(UserBase& base)
+void Administrator::changeUsersName(UserDataBase& base)
 {
 	string currentUsername, newName, answer;
 	cout << "Enter user's Username: " << endl;
@@ -192,7 +194,7 @@ void Administrator::changeUsersName(UserBase& base)
 	}
 }
 
-void Administrator::changeUsersSurname(UserBase& base)
+void Administrator::changeUsersSurname(UserDataBase& base)
 {
 	string currentUsername, newSurname, answer;
 	cout << "Enter user's Username: " << endl;
@@ -215,7 +217,7 @@ void Administrator::changeUsersSurname(UserBase& base)
 	}
 }
 
-void Administrator::changeUsersUsername(UserBase& base)
+void Administrator::changeUsersUsername(UserDataBase& base)
 {
 	string currentUsername, newUsername, answer;
 	cout << "Enter current user's Username: " << endl;
@@ -238,7 +240,7 @@ void Administrator::changeUsersUsername(UserBase& base)
 	}
 }
 
-void Administrator::deleteUser(UserBase& base)
+void Administrator::deleteUser(UserDataBase& base)
 {
 	string username, answer;
 	cout << "Enter user's Username: " << endl;
@@ -259,7 +261,7 @@ void Administrator::deleteUser(UserBase& base)
 	}
 }
 
-void Administrator::deleteAdministrator(UserBase& base)
+void Administrator::deleteAdministrator(UserDataBase& base)
 {
 	string username, answer;
 	cout << "Enter administrator's Username: " << endl;

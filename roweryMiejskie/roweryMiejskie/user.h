@@ -8,9 +8,8 @@
 
 class MainLocation;
 class BikeDatabase;
-class UserBase;
+class UserDataBase;
 
-// using namespace std;  Nie wolno (nie powinno siê) wstawiaæ w plikach nag³ówkowych!!
 
 class User
 {
@@ -31,7 +30,7 @@ public:
 	std::string getUsername();
 	std::string getPassword();
 	int getId();
-	virtual void menu(MainLocation& rental, BikeDatabase& database, UserBase& base) = 0;
+	virtual void menu(MainLocation& rental, BikeDatabase& database, UserDataBase& base) = 0;
 
    //na wszelki wypadek lepiej dodaæ wirtualny destruktor
 };
