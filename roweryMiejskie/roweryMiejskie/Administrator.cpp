@@ -33,7 +33,11 @@ void Administrator::menu(MainLocation& rental, BikeDatabase& database, UserDataB
 	cout << "12. Import users database from file" << endl;
 	cout << "13. Add new administrator" << endl;
 	cout << "14. Delete administrator" << endl;
-	cout << "15. Log out" << endl;
+	cout << "15. Add new client premium" << endl;
+	cout << "16. Delete client premium" << endl;
+	cout << "17. Add new mechanic" << endl;
+	cout << "18. Delete mechanic" << endl;
+	cout << "19. Log out" << endl;
 	cout << "Enter what would you like to do: ";
 	cin >> optionNumber;
 	switch (optionNumber)
@@ -84,6 +88,20 @@ void Administrator::menu(MainLocation& rental, BikeDatabase& database, UserDataB
 		deleteAdministrator(base);
 		break;
 	case 15:
+		base.createNewClientPremium();
+		break;
+	case 16:
+		//deleteAdministrator(base);
+		cout << "This option is not available yet" << endl;
+		break;
+	case 17:
+		base.createNewMechanic();
+		break;
+	case 18:
+		//deleteAdministrator(base);
+		cout << "This option is not available yet" << endl;
+		break;
+	case 19:
 		cout << "You've been logged out" << endl;
 		return;
 	default:

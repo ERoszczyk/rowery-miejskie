@@ -22,6 +22,8 @@ public:
 	void menuStart(MainLocation& rental, BikeDatabase& database);
 	void addNewUser(const std::string& userName, const std::string& userSurname, const std::string& userUsername, const std::string& userPassword);
 	void addNewAdministrator(const std::string& userName, const std::string& userSurname, const std::string& userUsername, const std::string& userPassword);
+	void addNewClientPremium(const std::string& userName, const std::string& userSurname, const std::string& userUsername, const std::string& userPassword);
+	void addNewMechanic(const std::string& userName, const std::string& userSurname, const std::string& userUsername, const std::string& userPassword);
 	std::map<int, User*> getUserNames();
 	bool ifUsernameExists(const std::string& username);
 	int getCurrentLoginIndex();
@@ -31,6 +33,8 @@ public:
 	void createNewUser();
 	void createNewUserAsAdministrator();
 	void createNewAdministrator();
+	void createNewClientPremium();
+	void createNewMechanic();
 
 	void login(MainLocation& rental, BikeDatabase& database);
 	void changeUsernameAsAdministrator(const std::string& currentUsername, const std::string& newUsername);

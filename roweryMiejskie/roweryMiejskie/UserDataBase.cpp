@@ -61,6 +61,18 @@ void UserDataBase::addNewAdministrator(const string& userName, const string& use
 	userNames.insert({ id, new Administrator(userName, userSurname, userUsername, userPassword, id) });
 }
 
+void UserDataBase::addNewClientPremium(const std::string& userName, const std::string& userSurname, const std::string& userUsername, const std::string& userPassword)
+{
+	int id = getCurrentLoginIndex();
+	userNames.insert({ id, new ClientPremium(userName, userSurname, userUsername, userPassword, id) });
+}
+
+void UserDataBase::addNewMechanic(const std::string& userName, const std::string& userSurname, const std::string& userUsername, const std::string& userPassword)
+{
+	int id = getCurrentLoginIndex();
+	userNames.insert({ id, new Mechanic(userName, userSurname, userUsername, userPassword, id) });
+}
+
 map<int, User*> UserDataBase::getUserNames()
 {
 	return userNames;
@@ -180,6 +192,60 @@ void UserDataBase::createNewAdministrator()
 	}
 	cout << endl;
 	addNewAdministrator(name, surname, username, password);
+}
+
+void UserDataBase::createNewClientPremium()
+{
+	string name, surname, username, password = "";
+	char character;
+	cout << "Enter client's first name: " << endl;
+	cin >> name;
+	cout << "Enter client's surname: " << endl;
+	cin >> surname;
+	cout << "Enter client's username: " << endl;
+	cin >> username;
+	while (!ifUsernameAvailable(username))
+	{
+		cout << "This username is already taken. Enter another one: " << endl;
+		cin >> username;
+	}
+	cout << "Enter client's password: " << endl;
+	character = _getch();
+	while (character != 13)
+	{
+		password.push_back(character);
+		cout << "*";
+		character = _getch();
+	}
+	cout << endl;
+	addNewClientPremium(name, surname, username, password);
+}
+
+void UserDataBase::createNewMechanic()
+{
+	string name, surname, username, password = "";
+	char character;
+	cout << "Enter mechnic's first name: " << endl;
+	cin >> name;
+	cout << "Enter mechnic's surname: " << endl;
+	cin >> surname;
+	cout << "Enter mechnic's username: " << endl;
+	cin >> username;
+	while (!ifUsernameAvailable(username))
+	{
+		cout << "This username is already taken. Enter another one: " << endl;
+		cin >> username;
+	}
+	cout << "Enter mechnic's password: " << endl;
+	character = _getch();
+	while (character != 13)
+	{
+		password.push_back(character);
+		cout << "*";
+		character = _getch();
+	}
+	cout << endl;
+	addNewMechanic(name, surname, username, password);
 }
 
 void UserDataBase::login(MainLocation& rental, BikeDatabase& database)
