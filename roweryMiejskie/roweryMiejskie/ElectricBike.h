@@ -20,6 +20,6 @@ public:
     void Stop(BikeDatabase& database, std::map<int, bool>& states, Client& user) ;
     bool CheckBattery();
     void Loading( BikeDatabase* database);
-    void Breakdown();
+    bool Breakdown();
     void Pay(Client& user);
 };

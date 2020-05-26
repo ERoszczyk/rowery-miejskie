@@ -24,7 +24,7 @@ protected:
     int id;
     std::string holder;
     time_t start, end;
-    std::shared_future<void> damage;
+    std::shared_future<bool> damage;
 
 public:
 
@@ -43,8 +43,9 @@ public:
     int FindStand(std::map<int, bool>& states);
     virtual void Pay(Client& user);
     virtual void Stop(BikeDatabase& database, std::map<int, bool>& states, Client& user);
-    virtual void Breakdown();
+    virtual bool Breakdown();
     void HistoryOfRent();
+    void HistoryOfRentWithNotification();
 
     friend
         std::ostream& operator<< (std::ostream& os, const Bike& b);

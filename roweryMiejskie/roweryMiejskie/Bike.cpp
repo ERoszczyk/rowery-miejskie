@@ -42,6 +42,28 @@ Bike& Bike::operator=(const Bike& b)
     return *this;
 }
 
+void Bike::HistoryOfRentWithNotification() //wpisanie obiektu do historii z informacj¹ o zepsuciu
+{
+    ofstream file;
+    file.open("history.txt", ofstream::app);
+
+    if (file.is_open())
+    {
+        string line = to_string(id) + " | " + holder + " | " + to_string(state) + " | " + to_string(time_hold) + " | " + to_string(price) + "\n";
+        file << line;
+        string notification = "While renting a bike by the user " + holder + " of the bike with id " + to_string(id) + " got broken.\n";
+        file << notification;
+    }
+    else
+    {
+#if _DEBUG
+        cout << "Unable to open file" ;
+#endif
+     }
+     file.close();
+
+}
+
 void Bike::HistoryOfRent() //wpisanie obiektu do historii
 {
     /*if (b.id == id)
@@ -73,10 +95,10 @@ void Bike::HistoryOfRent() //wpisanie obiektu do historii
     else
     {
 #if _DEBUG
-        cout << "Unable to open file" ;
+        cout << "Unable to open file";
 #endif
-     }
-     file.close();
+    }
+    file.close();
 
 }
 
@@ -90,8 +112,17 @@ void Bike::Stop(BikeDatabase& database, map<int, bool>& states, Client& user) //
         time_hold = difftime(end, start) / 60;
         cout << "Time of rent " << time_hold << " minutes." << endl;
         Pay(user);
-        HistoryOfRent();
-        database.setBikeState(id, false);
+        bool dem = damage.get();
+        if (dem)
+        {
+            //database.notification(id);
+            HistoryOfRentWithNotification();
+        }
+        else
+        {
+            database.setBikeState(id, false);
+            HistoryOfRent();
+        }
         database.setBikeOwner(id, 0);
     }
 }
@@ -202,7 +233,7 @@ int Bike::FindStand(map<int, bool>& states)
     return stateid;
 };
 
-void Bike::Breakdown() {
+bool Bike::Breakdown() {
     srand(time(NULL));
     int val;
     while (true)
@@ -210,9 +241,9 @@ void Bike::Breakdown() {
         val = rand() % 100;
         if (val < 5)
         {
-            //mechanic.notification();
-            break;
+            return true;
         }
         Sleep(10000);
     }
+    return false;
 };

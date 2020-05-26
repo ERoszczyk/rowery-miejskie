@@ -81,15 +81,37 @@ void ElectricBike::Stop(BikeDatabase& database, map<int, bool>& states, Client& 
         time_hold = difftime(end, start) / 60;
         cout << "Time of rent " << time_hold << " minutes." << endl;
         Pay(user);
-        HistoryOfRent();
-        if (battery != 100)
+        bool dem = damage.get();
+        if (dem || battery != 100)
         {
-            //std::future<void> but = std::async(this->Loading, database);
-            loading = async(launch::async, &ElectricBike::Loading, this, &database);
+            if (dem)
+            {
+                //database.notification(id);
+                HistoryOfRentWithNotification();
+            }
+
+            if (battery != 100)
+            {
+                loading = async(launch::async, &ElectricBike::Loading, this, &database);
+                HistoryOfRent();
+            }
         }
+        //if (dem)
+        //{
+        //    //database.notification(id);
+        //    HistoryOfRentWithNotification();
+        //}
+
+        //if (battery != 100)
+        //{
+        //    loading = async(launch::async, &ElectricBike::Loading, this, &database);
+        //    HistoryOfRent();
+        //}
+
         else
         {
             database.setBikeState(id, false);
+            HistoryOfRent();
         }
         database.setBikeOwner(id, 0);
     }
@@ -139,7 +161,7 @@ void ElectricBike::Loading( BikeDatabase* database) {
     database->setBikeState(id, false);
 };
 
-void ElectricBike::Breakdown() {
+bool ElectricBike::Breakdown() {
     srand(time(NULL));
     int val;
     while (actualstate == false)
@@ -147,9 +169,9 @@ void ElectricBike::Breakdown() {
         val = rand() % 100;
         if (val < 20)
         {
-            //mechanic.notification();
-            break;
+            return true;
         }
         Sleep(10000);
     }
+    return false;
 };
