@@ -71,6 +71,9 @@ public:
 	int getBikeType(int bikeId) const { return allBikes.at(bikeId).getType(); };
 	void setBikeType(const int bikeId, const int bikeType) { allBikes.at(bikeId).setStand(bikeType); };
 
+	void breakDown(int bikeId) { allBikes.at(bikeId).breakDown(); };
+	void fix(int bikeId) { allBikes.at(bikeId).fix(); }
+
 	std::map<int, Record> getAllBikes() const { return allBikes; }; // 
 	Record getBike(int bikeId) const { return allBikes.at(bikeId); } // 
 
