@@ -115,12 +115,12 @@ istream& operator>> (istream& is, BikeDatabase& database)
 
 ostream& operator<<(ostream& os, Record& record)
 {
-	os << record.state << ' ' << record.user << ' ' << record.stand;
+	os << record.state << ' ' << record.user << ' ' << record.stand << ' ' << record.type;
 	return os;
 }
 istream& operator>> (istream& is, Record& record)
 {
-	is >> record.state >> record.user >> record.stand;
+	is >> record.state >> record.user >> record.stand >> record.type;
 	return is;
 };
 

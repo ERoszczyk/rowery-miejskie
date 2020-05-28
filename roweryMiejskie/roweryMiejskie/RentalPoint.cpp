@@ -71,13 +71,13 @@ void RentalLocation::rent(int bikeId, int userId, BikeDatabase& database, Client
 	{
 		int standId = database.getBikeStand(bikeId);
 		double account = user.getCash();
-		Bike bike(bikeId);
+		Bike *bike = new Bike(bikeId);
 		ElectricBike *ebike = new ElectricBike(bikeId);
 		Tandem *tbike = new Tandem(bikeId);
 		switch (bikeType)
 		{
 		case(0):
-			bike.StartOfRent(database, userId, account);
+			bike->StartOfRent(database, userId, account);
 			if (database.getBikeState(bikeId))
 			{
 				bikesFree.erase(find(bikesFree.begin(), bikesFree.end(), bikeId));
@@ -91,7 +91,7 @@ void RentalLocation::rent(int bikeId, int userId, BikeDatabase& database, Client
 			if (database.getBikeState(bikeId))
 			{
 				bikesFree.erase(find(bikesFree.begin(), bikesFree.end(), bikeId));
-				rentedElectrics[bikeId] = ebike;
+				rentedBikes[bikeId] = ebike;
 				freeStand(standId);
 				bikesCount -= 1;
 			}
@@ -102,7 +102,7 @@ void RentalLocation::rent(int bikeId, int userId, BikeDatabase& database, Client
 			if (database.getBikeState(bikeId))
 			{
 				bikesFree.erase(find(bikesFree.begin(), bikesFree.end(), bikeId));
-				rentedTandems[bikeId] = tbike;
+				rentedBikes[bikeId] = tbike;
 				freeStand(standId);
 				bikesCount -= 1;
 
@@ -117,7 +117,7 @@ void RentalLocation::rent(int bikeId, int userId, BikeDatabase& database, Client
 
 void RentalLocation::putBack(int bikeId, int userId, BikeDatabase& database, Client& user)
 {
-	int bikeType = determineBikeType(bikeId);
+	int bikeType = determineBikeType(bikeId, database);
 	if (this->getSpaces() > 0) 
 	{
 		map<int, Record> bikes = database.getAllBikes();
@@ -126,16 +126,16 @@ void RentalLocation::putBack(int bikeId, int userId, BikeDatabase& database, Cli
 			switch (bikeType)
 			{
 			case(0):
-				rentedBikes.at(bikeId).Stop(database, standStates, user);
+				rentedBikes.at(bikeId)->Stop(database, standStates, user);
 				rentedBikes.erase(bikeId);
 				break;
 			case(1):
-				rentedElectrics.at(bikeId)->Stop(database, standStates, user);
-				rentedElectrics.erase(bikeId);
+				rentedBikes.at(bikeId)->Stop(database, standStates, user);
+				rentedBikes.erase(bikeId);
 				break;
 			case(2):
-				rentedTandems.at(bikeId)->Stop(database, standStates, user);
-				rentedTandems.erase(bikeId);
+				rentedBikes.at(bikeId)->Stop(database, standStates, user);
+				rentedBikes.erase(bikeId);
 				break;
 				
 			}
@@ -153,7 +153,7 @@ void RentalLocation::putBack(int bikeId, int userId, BikeDatabase& database, Cli
 
 void RentalLocation::putBackOtherLocation(int bikeId, int userId, BikeDatabase& database, Client& user, RentalLocation& otherLocation)
 {
-	int bikeType = otherLocation.determineBikeType(bikeId);
+	int bikeType = otherLocation.determineBikeType(bikeId, database);
 	if (otherLocation.getSpaces() > 0)
 	{
 		if (bikeType != 1)
@@ -161,7 +161,7 @@ void RentalLocation::putBackOtherLocation(int bikeId, int userId, BikeDatabase& 
 			map<int, Record> bikes = database.getAllBikes();
 			if (bikes.find(bikeId) != bikes.end())
 			{
-				rentedBikes.at(bikeId).Stop(database, otherLocation.standStates, user);
+				rentedBikes.at(bikeId)->Stop(database, otherLocation.standStates, user);
 				otherLocation.bikesFree.push_back(bikeId);
 				otherLocation.myBikes.push_back(bikeId);
 				rentedBikes.erase(bikeId);
@@ -328,12 +328,26 @@ std::vector<int> RentalLocation::getFreeStands()
 		}
 	}
 	return freeStands;
+
 }
-int RentalLocation::determineBikeType(const int bikeId)
+
+std::vector<int> RentalLocation::getFreeBikes(BikeDatabase& base, int bikeType ) const
 {
-	if (rentedBikes.find(bikeId) != rentedBikes.end()) { return 0; }
-	else if (rentedElectrics.find(bikeId) != rentedElectrics.end()) { return 1; }
-	else { return 2; };
+	std::vector<int> freeBikesForType;
+	for (int bikeId : myBikes)
+	{
+		if (base.getAllBikes().at(bikeId).getType() == bikeType)
+		{
+			freeBikesForType.push_back(bikeId);
+		}
+	}
+	return freeBikesForType;
+}
+int RentalLocation::determineBikeType(const int bikeId, BikeDatabase& database)
+{
+	if (rentedBikes.find(bikeId) != rentedBikes.end()) { return database.getAllBikes().at(bikeId).getType(); }
+	//else if (rentedElectrics.find(bikeId) != rentedElectrics.end()) { return 1; }
+	//else { return 2; };
 }
 
 ostream& operator<<(ostream& os, RentalPoint& point)
@@ -405,7 +419,7 @@ void MainLocation::putBack(const int bikeId, const int userId, BikeDatabase& dat
 		{
 			for (string location : locationNames)
 			{
-				std::map<int, Bike> bikes = locationObjects.at(location).getRentedBikes();
+				std::map<int, Bike*> bikes = locationObjects.at(location).getRentedBikes();
 				if (bikes.find(bikeId) != bikes.end())
 				{
 					locationObjects.at(location).putBackOtherLocation(bikeId, userId, database, user, *this);
@@ -423,9 +437,9 @@ void MainLocation::putBack(const int bikeId, const int userId, BikeDatabase& dat
 		{
 			for (string location : locationNames)
 			{
-				std::map<int, Bike> bikes = locationObjects.at(location).getRentedBikes();
+				std::map<int, Bike*> bikes = locationObjects.at(location).getRentedBikes();
 				string key = locationNames[nameId];
-				std::map<int, Bike> thisBikes = this->getRentedBikes();
+				std::map<int, Bike*> thisBikes = this->getRentedBikes();
 				if (bikes.find(bikeId) != bikes.end())
 				{
 					locationObjects.at(location).putBackOtherLocation(bikeId, userId, database, user,locationObjects[key]);
@@ -474,14 +488,14 @@ void MainLocation::disactivateLocation(int nameId)
 		locationObjects.at(locationNames[nameId]).disactivateLocation(base);
 	}
 }
-std::vector<int> MainLocation::getFreeBikes(int nameId) const
+std::vector<int> MainLocation::getFreeBikes(int nameId, int bikeType) const
 {
 	if (nameId == -1)
 	{
-		return RentalLocation::getFreeBikes();
+		return RentalLocation::getFreeBikes(base, bikeType);
 	}
 	else
 	{
-		return locationObjects.at(locationNames[nameId]).getFreeBikes();
+		return locationObjects.at(locationNames[nameId]).getFreeBikes(base, bikeType);
 	}
 }

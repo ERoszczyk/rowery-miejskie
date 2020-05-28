@@ -35,7 +35,7 @@ public:
 	virtual std::vector<int> getFreeStands()=0;
 
 	virtual std::vector<int> getBikes() const = 0;
-	virtual std::vector<int> getFreeBikes() const = 0;
+	virtual std::vector<int> getFreeBikes(BikeDatabase& database, int bikeType) const = 0;
 	//virtual int getSpaces() const = 0; 
 
 	friend
@@ -54,13 +54,9 @@ protected:
 	int bikesCount = 0;
 	bool active = true;
 	std::vector<int> myBikes;    // currently all bikes share the same ids
-	std::vector<int> bikesFree;   //
+	std::vector<int> bikesFree;   
 
-   // To utrudnia rozbudowê, nowy typ roweru wymusza zmiany
-
-	std::map<int, Bike> rentedBikes;      //therefore three seperate maps are needed
-	std::map<int, Bike*> rentedElectrics; //later on the distiction will be made based on id
-	std::map<int, Bike*> rentedTandems;
+	std::map<int, Bike*> rentedBikes;
 	std::map<int, bool> standStates;
 
    
@@ -102,13 +98,13 @@ public:
 	std::vector<int> getFreeStands();
 
 	std::vector<int> getBikes() const { return myBikes; }
-	std::vector<int> getFreeBikes() const { return bikesFree; }
-	std::map<int, Bike> getRentedBikes() const { return rentedBikes; };
+	std::vector<int> getFreeBikes(BikeDatabase& base, int bikeType = 0) const;
+	std::map<int, Bike*> getRentedBikes() const { return rentedBikes; };
 
 	int getSpaces() const { return size - bikesCount; } //done
 
 	std::vector<std::string> getBikeTypes() { return bikeTypes; }
-	int determineBikeType(const int bikeId);
+	int determineBikeType(const int bikeId, BikeDatabase& database);
 };
 
 
@@ -126,7 +122,7 @@ public:
 	void addBike(const int bikeId, int nameId = -1);
 	void removeBike(const int bikeId, int nameId = -1);
 	void disactivateLocation(int nameId = -1);
-	std::vector<int> getFreeBikes(int nameId = -1) const;
+	std::vector<int> getFreeBikes(int nameId = -1, int bikeType = 0) const;
 };
 
 #endif

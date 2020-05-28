@@ -18,6 +18,7 @@ struct Record
 	bool state = false; //default as free
 	int user = 0; //default as no user
 	int stand = 0; //default as no stand  (ie.if both 0= out of use)
+	int type = 0;	//{0-bike, 1-electric, 2-tandem}
 public:
 	Record() {};
 	bool getState() const { return state; };
@@ -26,6 +27,8 @@ public:
 	void setUser(const int newUser) { user = newUser; };
 	int getStand() const { return stand; };
 	void setStand(const int newStand) { stand = newStand; };
+	int getType() const { return type; };
+	void setType(const int newType) { type = newType; };
 	friend
 		std::ostream& operator<< (std::ostream& os, Record& database);
 	friend
@@ -60,6 +63,9 @@ public:
 
 	int getBikeStand(int bikeId) const { return allBikes.at(bikeId).getStand(); };
 	void setBikeStand(const int bikeId, const int standId) { allBikes.at(bikeId).setStand(standId); };
+
+	int getBikeType(int bikeId) const { return allBikes.at(bikeId).getType(); };
+	void setBikeType(const int bikeId, const int bikeType) { allBikes.at(bikeId).setStand(bikeType); };
 
 	std::map<int, Record> getAllBikes() const { return allBikes; }; // 
 	Record getBike(int bikeId) const { return allBikes.at(bikeId); } // 
