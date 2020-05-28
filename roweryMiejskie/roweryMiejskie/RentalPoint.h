@@ -8,6 +8,7 @@
 #include "ElectricBike.h"
 //#include <string>
 #include "Tandem.h"
+#include "Mechanic.h"
 
 #include <algorithm>
 #ifdef _DEBUG
@@ -35,7 +36,8 @@ public:
 	virtual std::vector<int> getFreeStands()=0;
 
 	virtual std::vector<int> getBikes() const = 0;
-	virtual std::vector<int> getFreeBikes(BikeDatabase& database, int bikeType) const = 0;
+	virtual std::vector<int> getFreeBikes(BikeDatabase& database, const int bikeType) const = 0;
+	virtual std::vector<int> getBrokenBikes() const = 0;
 	//virtual int getSpaces() const = 0; 
 
 	friend
@@ -53,8 +55,9 @@ protected:
 	const int size = 10;
 	int bikesCount = 0;
 	bool active = true;
-	std::vector<int> myBikes;    // currently all bikes share the same ids
-	std::vector<int> bikesFree;   
+	std::vector<int> myBikes;
+	std::vector<int> bikesFree;
+	std::vector<int> brokenBikes;
 
 	std::map<int, Bike*> rentedBikes;
 	std::map<int, bool> standStates;
@@ -79,6 +82,10 @@ public:
 	void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user); //tested
 	void putBackOtherLocation(const int bikeId, const int userId, BikeDatabase& database, Client& user, RentalLocation& otherLocation);
 
+	void takeBroken(const int bikeId, const int techId, BikeDatabase& database, Mechanic& tech);
+	void returnFixed(const int bikeId, const int techId, BikeDatabase& database, Mechanic& tech);
+	void returnFixedOtherLocation(const int bikeId, const int techId, BikeDatabase& database, Mechanic& tech, RentalLocation& otherLocation);
+
 	void addBike(const int bikeId); 
 	void addBike(const int bikeId, BikeDatabase& base); 
 	void addBikes(const std::vector<int> bikeIds, BikeDatabase& base);
@@ -100,6 +107,7 @@ public:
 	std::vector<int> getBikes() const { return myBikes; }
 	std::vector<int> getFreeBikes(BikeDatabase& base, int bikeType = 0) const;
 	std::map<int, Bike*> getRentedBikes() const { return rentedBikes; };
+	std::vector<int> getBrokenBikes() const { return brokenBikes; }
 
 	int getSpaces() const { return size - bikesCount; } //done
 
@@ -123,6 +131,9 @@ public:
 	void removeBike(const int bikeId, int nameId = -1);
 	void disactivateLocation(int nameId = -1);
 	std::vector<int> getFreeBikes(int nameId = -1, int bikeType = 0) const;
+	std::vector<int> getBrokenBikes(int nameId = -1) const;
+	void takeBroken(const int bikeId, const int techId, BikeDatabase& database, Mechanic& tech, int nameId = -1);
+	void returnFixed(const int bikeId, const int techId, BikeDatabase& database, Mechanic& tech, int nameId = -1);
 };
 
 #endif

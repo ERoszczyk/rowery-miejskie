@@ -19,6 +19,7 @@ struct Record
 	int user = 0; //default as no user
 	int stand = 0; //default as no stand  (ie.if both 0= out of use)
 	int type = 0;	//{0-bike, 1-electric, 2-tandem}
+	bool broken = false;
 public:
 	Record() {};
 	bool getState() const { return state; };
@@ -29,6 +30,9 @@ public:
 	void setStand(const int newStand) { stand = newStand; };
 	int getType() const { return type; };
 	void setType(const int newType) { type = newType; };
+	void breakDown() { broken = true; };
+	void fix() { broken = false; };
+	bool isBroken() { return broken; };
 	friend
 		std::ostream& operator<< (std::ostream& os, Record& database);
 	friend
