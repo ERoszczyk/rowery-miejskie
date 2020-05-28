@@ -126,12 +126,17 @@ public:
 	MainLocation(std::vector<std::string> names, BikeDatabase& database);
 	void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId = -1, int bikeType = 0); //tested
 	void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId = -1); //tested
+
 	std::vector<std::string> getRentalLocationNames() const { return locationNames; }
-	void addBike(const int bikeId, int nameId = -1);
-	void removeBike(const int bikeId, int nameId = -1);
 	void disactivateLocation(int nameId = -1);
+	void addLocation(std::string name); //Adds free bikes from database if available
+
+	void addBike(const int bikeType = 0, int bikeId = -1);
+	void removeBike(const int bikeId, int nameId = -1);
+		
 	std::vector<int> getFreeBikes(int nameId = -1, int bikeType = 0) const;
 	std::vector<int> getBrokenBikes(int nameId = -1) const;
+
 	void takeBroken(const int bikeId, const int techId, BikeDatabase& database, Mechanic& tech, int nameId = -1);
 	void returnFixed(const int bikeId, const int techId, BikeDatabase& database, Mechanic& tech, int nameId = -1);
 };

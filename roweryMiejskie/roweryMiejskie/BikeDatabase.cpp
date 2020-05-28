@@ -8,16 +8,16 @@
 
 using namespace std;
 
-void BikeDatabase::addBike()
+int BikeDatabase::addBike()
 {
-	int newId = idCount + 1;
+	int newId = allBikes.rbegin()->first + 1;
 	Record empty;
 	allBikes.insert(pair<int, Record>(newId, empty)); 
-	idCount++;
+	return newId;
 }
 void BikeDatabase::addBike(Record newRecord)
 {
-	int newId = idCount + 1;
+	int newId = allBikes.rbegin()->first + 1;
 	allBikes.insert(pair<int, Record>(newId, newRecord)); 
 	idCount++;
 }

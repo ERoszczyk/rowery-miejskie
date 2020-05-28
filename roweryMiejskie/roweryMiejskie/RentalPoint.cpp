@@ -251,26 +251,17 @@ void RentalLocation::addBike(int bikeId)
 #endif
 	}
 }
-void RentalLocation::addBike(int bikeId, BikeDatabase& base)
+void RentalLocation::addBike(int bikeType, BikeDatabase& base)
 {
-	std::map<int,Record> bikes = base.getAllBikes();
-	if (bikeId > 0 && bikes.find(bikeId)==bikes.end())
-	{
-		int stand = findFreeStand();
-		takeStand(stand);
-		myBikes.push_back(bikeId);
-		bikesFree.push_back(bikeId);
-		bikesCount += 1;
-		Record bike;
-		bike.setStand(stand);
-		base.addBike(bikeId, bike);
-	}
-	else
-	{
-#if _DEBUG
-		cout << "Bike Id out of range";
-#endif
-	}
+	int newBikeId = base.addBike();
+	int stand = findFreeStand();
+	takeStand(stand);
+	myBikes.push_back(newBikeId);
+	bikesFree.push_back(newBikeId);
+	bikesCount += 1;
+	base.setBikeStand(newBikeId, stand);
+	base.setBikeType(newBikeId, bikeType);
+	
 }
 void RentalLocation::addBikes(vector<int> bikeIds, BikeDatabase& database)
 {
@@ -510,15 +501,15 @@ void MainLocation::putBack(const int bikeId, const int userId, BikeDatabase& dat
 
 }
 
-void MainLocation::addBike(const int bikeId, int nameId)
+void MainLocation::addBike(const int bikeType, int nameId)
 {
 	if (nameId == -1)
 	{
-		RentalLocation::addBike(bikeId, this->base);
+		RentalLocation::addBike(bikeType, this->base);
 	}
 	else
 	{
-		locationObjects.at(locationNames[nameId]).addBike(bikeId, this -> base);
+		locationObjects.at(locationNames[nameId]).addBike(bikeType, this -> base);
 	}
 }
 
@@ -544,6 +535,29 @@ void MainLocation::disactivateLocation(int nameId)
 		locationObjects.at(locationNames[nameId]).disactivateLocation(base);
 	}
 }
+void MainLocation::addLocation(std::string name)
+{
+	if (find(locationNames.begin(), locationNames.end(), name) == locationNames.end())
+	{
+		locationNames.push_back(name);
+		std::map<int, Record> bikes = base.getAllBikes();
+		std::map<int, Record> tempBikes;
+		for (auto it = bikes.begin(); it != bikes.end(); ++it)
+		{
+			if (it->second.getStand() == 0 && it->second.getUser() == 0)
+			{
+				tempBikes.insert(pair<int, Record>(it->first, it->second));
+			}
+		}
+		RentalLocation rental(tempBikes, base);
+		locationObjects.insert(pair<string, RentalLocation>(name, rental));
+	}
+	else
+	{
+		cout << "Location already exists.\n";
+	}
+}
+
 std::vector<int> MainLocation::getFreeBikes(int nameId, int bikeType) const
 {
 	if (nameId == -1)

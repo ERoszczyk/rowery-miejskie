@@ -48,7 +48,7 @@ public:
 	BikeDatabase(int newBikes) { addBikes(newBikes); }; //constructs a database of a given size
 	BikeDatabase(std::vector<Record> newBikes) { addBikes(newBikes); }; // ie.bikes sorted by production number//not used?
 
-	void addBike(void); //tested
+	int addBike(void); //tested
 	void addBike(const Record); //tested
 	void addBike(const int bikeId, const Record);
 
