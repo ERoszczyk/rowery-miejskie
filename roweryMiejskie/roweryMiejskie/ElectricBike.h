@@ -15,6 +15,7 @@ public:
     ElectricBike(int id) {
         this->id = id;
     }
+    virtual ~ElectricBike() {};
     ElectricBike& operator=(const ElectricBike& b);
     void StartOfRent(BikeDatabase& database, int person, const float money);
     void Stop(BikeDatabase& database, std::map<int, bool>& states, Client& user) ;
