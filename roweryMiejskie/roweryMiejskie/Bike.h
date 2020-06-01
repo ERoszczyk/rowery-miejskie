@@ -33,7 +33,7 @@ public:
     float price;
     double time_hold;
     int state;
-    Bike() : account(0) {}; // niezainicjalizowane pola klasy ...
+    Bike() {};
     Bike(int id) {
         this->id = id;
     }
