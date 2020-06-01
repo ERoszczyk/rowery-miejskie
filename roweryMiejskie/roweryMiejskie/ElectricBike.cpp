@@ -1,3 +1,5 @@
+//Klasa ElectricBike, dziedziczy po Bike
+//Olga Krupa,nr indeksu 304048
 #include "ElectricBike.h"
 
 using namespace std;
@@ -17,12 +19,11 @@ ElectricBike& ElectricBike::operator=(const ElectricBike& b)
     battery = b.battery;
     batterystate = b.batterystate;
     damage = b.damage;
-    //batterystate = b.batterystate;
-    //shared_future<bool> shfut = b.batterystate.share();
     return *this;
 }
 
-bool ElectricBike::CheckBattery() {
+bool ElectricBike::CheckBattery() //rozladowywanie baterii az do wartoœci zera lub przerwania przez funkcjê
+{
     while (battery != 0)
     {
         if (actualstate == false)
@@ -35,11 +36,11 @@ bool ElectricBike::CheckBattery() {
     return true;
 };
 
-void ElectricBike::StartOfRent(BikeDatabase& database, int person, float money)
+void ElectricBike::StartOfRent(BikeDatabase& database, int person, float money) //rozpoczecie wypozyczennia
 {
     holder = to_string(person);
     account = money;
-    if (account < 10)
+    if (account < 15)
     {
         cout << "You do not have enough money to rent a bike." << endl;
         database.setBikeState(id, false);
@@ -53,7 +54,9 @@ void ElectricBike::StartOfRent(BikeDatabase& database, int person, float money)
         end = 0;
         time_hold = 0;
         price = 0;
-        cout << "Rental time has begun." << endl;
+#if _DEBUG
+        cout << "Rental time has begun" << endl;
+#endif
         time(&start);
         
         batterystate = async(launch::async, &ElectricBike::CheckBattery, this);
@@ -64,7 +67,7 @@ void ElectricBike::StartOfRent(BikeDatabase& database, int person, float money)
 
 
 
-void ElectricBike::Stop(BikeDatabase& database, map<int, bool>& states, Client& user)
+void ElectricBike::Stop(BikeDatabase& database, map<int, bool>& states, Client& user) //koniec wypozyczenia, po wys³aniu wiadomosci o checi oddania roweru
 {
 
     bool endassingnment;
@@ -73,20 +76,20 @@ void ElectricBike::Stop(BikeDatabase& database, map<int, bool>& states, Client& 
     {
         actualstate = false;
         bool koniec = batterystate.get();
-        //bool koniec = batterystate.get();
         actualstate = true;
         cout << "Battery state " << battery << endl;
-        //koniec bool ret = fut.get();
         time(&end);
         time_hold = difftime(end, start) / 60;
         cout << "Time of rent " << time_hold << " minutes." << endl;
         Pay(user);
+        check_demage = true;
         bool dem = damage.get();
+        check_demage = false;
         if (dem || battery != 100)
         {
             if (dem)
             {
-                //database.notification(id);
+                database.breakDown(id);
                 HistoryOfRentWithNotification();
             }
 
@@ -96,17 +99,6 @@ void ElectricBike::Stop(BikeDatabase& database, map<int, bool>& states, Client& 
                 HistoryOfRent();
             }
         }
-        //if (dem)
-        //{
-        //    //database.notification(id);
-        //    HistoryOfRentWithNotification();
-        //}
-
-        //if (battery != 100)
-        //{
-        //    loading = async(launch::async, &ElectricBike::Loading, this, &database);
-        //    HistoryOfRent();
-        //}
 
         else
         {
@@ -119,7 +111,7 @@ void ElectricBike::Stop(BikeDatabase& database, map<int, bool>& states, Client& 
 
 
 
-void ElectricBike::Pay(Client& user)
+void ElectricBike::Pay(Client& user) //pobieranie srodkow w konta
 {
     int ftime;
     double mtime = time_hold;
@@ -152,7 +144,8 @@ void ElectricBike::Pay(Client& user)
     user.transferCash(-price);
 };
 
-void ElectricBike::Loading( BikeDatabase* database) {
+void ElectricBike::Loading( BikeDatabase* database) //ladowanie baterii
+{
     while (battery != 100)
     {
         battery += 1;
@@ -161,17 +154,25 @@ void ElectricBike::Loading( BikeDatabase* database) {
     database->setBikeState(id, false);
 };
 
-bool ElectricBike::Breakdown() {
+bool ElectricBike::Breakdown() //losowe zepsucia
+{
     srand(time(NULL));
     int val;
-    while (actualstate == false)
+    bool bike_demage = false;
+    while (true)
     {
-        val = rand() % 100;
-        if (val < 20)
+        if (check_demage)
         {
-            return true;
+            return bike_demage;
         }
-        Sleep(10000);
+        val = rand() % 100;
+        if (val < 30)
+        {
+            cout << "Damage found, return the bike to the nearest free stand" << endl;
+            bike_demage = true;
+            return bike_demage;
+        }
+        Sleep(5000);
     }
-    return false;
 };
+

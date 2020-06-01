@@ -18,3 +18,25 @@ BIKE | USER | STATE | TIME OF RENT | PRICE
 356 | 1 | 0 | 0.183333 | 3.000000
 23 | 2 | 0 | 0.566667 | 3.000000
 While renting a bike by the user 2 of the bike with id 23 got broken.
+278 | 1 | 0 | 0.233333 | 1.000000
+440 | 1 | 0 | 0.233333 | 1.000000
+356 | 1 | 0 | 0.116667 | 1.000000
+278 | 1 | 0 | 0.166667 | 1.000000
+440 | 1 | 0 | 0.166667 | 1.000000
+356 | 1 | 0 | 0.083333 | 1.000000
+278 | 1 | 0 | 0.100000 | 1.000000
+440 | 1 | 0 | 0.100000 | 1.000000
+278 | 1 | 0 | 0.066667 | 1.000000
+440 | 1 | 0 | 0.066667 | 1.000000
+278 | 1 | 0 | 0.233333 | 1.000000
+While renting a bike by the user 1 of the bike with id 278 got broken.
+440 | 1 | 0 | 0.233333 | 1.000000
+While renting a bike by the user 1 of the bike with id 440 got broken.
+356 | 1 | 0 | 0.333333 | 1.000000
+While renting a bike by the user 1 of the bike with id 356 got broken.
+278 | 1 | 0 | 0.133333 | 1.000000
+While renting a bike by the user 1 of the bike with id 278 got broken.
+356 | 1 | 0 | 0.133333 | 1.000000
+While renting a bike by the user 1 of the bike with id 356 got broken.
+278 | 1 | 0 | 0.300000 | 1.000000
+While renting a bike by the user 1 of the bike with id 278 got broken.

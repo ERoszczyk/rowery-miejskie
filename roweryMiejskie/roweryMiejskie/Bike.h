@@ -25,6 +25,7 @@ protected:
     std::string holder;
     time_t start, end;
     std::shared_future<bool> damage;
+    bool check_demage = false;
 
 public:
 

@@ -1,3 +1,5 @@
+//Klasa Tandem, dziedziczy po Bike
+//Olga Krupa,nr indeksu 304048
 #pragma once
 #include "Bike.h"
 
