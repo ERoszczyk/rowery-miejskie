@@ -102,9 +102,9 @@ void Bike::Stop(BikeDatabase& database, map<int, bool>& states, Client& user) //
         }
         else
         {
-            database.setBikeState(id, false);
             HistoryOfRent();
         }
+        database.setBikeState(id, false);
         database.setBikeOwner(id, 0);
     }
 }

@@ -91,6 +91,7 @@ void ElectricBike::Stop(BikeDatabase& database, map<int, bool>& states, Client& 
             {
                 database.breakDown(id);
                 HistoryOfRentWithNotification();
+                database.setBikeState(id, false);
             }
 
             if (battery != 100)
