@@ -10,14 +10,22 @@ using namespace std;
 
 int BikeDatabase::addBike()
 {
-	int newId = allBikes.rbegin()->first + 1;
+	int newId = 1;
+	if (allBikes.size() != 0)
+	{
+		newId = allBikes.rbegin()->first + 1;
+	}
 	Record empty;
 	allBikes.insert(pair<int, Record>(newId, empty)); 
 	return newId;
 }
 void BikeDatabase::addBike(Record newRecord)
 {
-	int newId = allBikes.rbegin()->first + 1;
+	int newId = 1;
+	if (allBikes.size() != 0)
+	{
+		newId = allBikes.rbegin()->first + 1;
+	}
 	allBikes.insert(pair<int, Record>(newId, newRecord)); 
 	idCount++;
 }

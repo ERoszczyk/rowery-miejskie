@@ -3,7 +3,7 @@
 //testy te znajduj¹ siê w pliku o nazwie AdministratorTests, a nie UserBaseTests.
 #include "pch.h"
 #include "CppUnitTest.h"
-#include "../roweryMiejskie/userBase.h"
+#include "../roweryMiejskie/UserDataBase.h"
 #include "../roweryMiejskie/User.h"
 #include "../roweryMiejskie/Administrator.h"
 #include "../roweryMiejskie/RentalPoint.h"
@@ -15,7 +15,7 @@ namespace AdministratorTests
 {
 	TEST_CLASS(AdministratorTest)
 	{
-		UserBase base;
+		UserDataBase base;
 		TEST_METHOD(testAdministratorsName)
 		{
 			base.addNewAdministrator("a", "b", "c", "d");

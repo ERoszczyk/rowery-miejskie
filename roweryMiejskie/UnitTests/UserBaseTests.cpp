@@ -1,7 +1,7 @@
 //Testy jednostkowe, Ewa Roszczyk
 #include "pch.h"
 #include "CppUnitTest.h"
-#include "../roweryMiejskie/userBase.h"
+#include "../roweryMiejskie/UserDataBase.h"
 #include "../roweryMiejskie/User.h"
 #include "../roweryMiejskie/Administrator.h"
 #include "../roweryMiejskie/RentalPoint.h"
@@ -13,7 +13,7 @@ namespace UserBaseTests
 {
 	TEST_CLASS(UserBaseTest)
 	{
-		UserBase base;
+		UserDataBase base;
 		TEST_METHOD(testName)
 		{
 			base.addNewUser("a", "b", "c", "d");

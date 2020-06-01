@@ -16,7 +16,7 @@ namespace RentalTests
 			base.setBikeState(2, true);
 			RentalLocation point(base);
 			int size = point.getBikes().size();
-			int free = point.getFreeBikes().size();
+			int free = point.getFreeBikes(base).size();
 			Assert::AreEqual(size, 5);
 			Assert::AreEqual(free, 4);
 
@@ -51,10 +51,11 @@ namespace RentalTests
 		{
 			BikeDatabase base;
 			RentalLocation point;
-			point.addBike(456, base);
+			point.addBike(0, base);
 			int bikesCount = point.getBikes().size();
+			int bikeId = point.getBikes()[0];
 			Assert::AreEqual(1, bikesCount);
-			Assert::AreEqual(1, base.getBikeStand(456));
+			Assert::AreEqual(1, bikeId);
 		}
 		TEST_METHOD(TestAddBikes) // Too many bikes
 		{
@@ -86,7 +87,7 @@ namespace RentalTests
 			Assert::IsTrue(base.getBikeState(4));
 			Assert::AreEqual(base.getBikeOwner(4), 1);
 			Assert::AreEqual(base.getBikeStand(4), 0);
-			std::vector<int> free = point.getFreeBikes();
+			std::vector<int> free = point.getFreeBikes(base);
 			Assert::IsTrue(find(free.begin(), free.end(), 4) == free.end());
 
 		};
@@ -100,7 +101,7 @@ namespace RentalTests
 			Assert::IsFalse(base.getBikeState(4));
 			Assert::AreEqual(base.getBikeOwner(4), 0);
 			Assert::AreEqual(base.getBikeStand(4), 4);
-			std::vector<int> free = point.getFreeBikes();
+			std::vector<int> free = point.getFreeBikes(base);
 			Assert::IsTrue(find(free.begin(), free.end(), 4) != free.end());
 		}
 
@@ -109,9 +110,9 @@ namespace RentalTests
 	TEST_CLASS(TestMainLocation)
 	{
 		BikeDatabase base;
-		string one = "one";
-		string two = "two";
-		std::vector<string> locationNames = {one, two};
+		std::string one = "one";
+		std::string two = "two";
+		std::vector<std::string> locationNames = {one, two};
 		TEST_METHOD(TestConstructor)
 		{
 			MainLocation location(locationNames, base);
@@ -120,8 +121,7 @@ namespace RentalTests
 		TEST_METHOD(TestAddBikeDifferentLocation)
 		{
 			MainLocation location(locationNames, base);
-			location.addBike(123, 0);
-			Assert::AreEqual(1, base.getBikeStand(123));
+			location.addBike(0, 1);
 			int size = location.getBikes().size();
 			Assert::AreEqual(0, size);
 		}
@@ -152,10 +152,10 @@ namespace RentalTests
 		{
 			MainLocation location(locationNames, base);
 			Client& user = Client("a", "b", "c", "d", 0);
-			location.addBike(123, 0); //to other location
-			location.addBike(456); //to main location
-			location.rent(123, 1, base, user, 0);
-			location.putBack(123, 1, base, user);
+			location.addBike(0, 0); //to other location
+			location.addBike(0); //to main location
+			location.rent(1, 1, base, user, 0);
+			location.putBack(1, 1, base, user);
 			int newSize = location.getBikes().size();
 			Assert::AreEqual(2, newSize);
 		}
