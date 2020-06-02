@@ -43,13 +43,14 @@ void Administrator::menu(MainLocation& rental, BikeDatabase& database, UserDataB
 	switch (optionNumber)
 	{
 	case 1:
-		cout << "This option is not available yet" << endl;  //od wypozyczalni
+		addNewRentalPoint(rental);
 		break;
 	case 2:
 		disactivateRentalPoint(rental);
 		break;
 	case 3:
-		cout << "This option is not available yet" << endl;  //od wypozyczalni
+		addBikeToRentalPoint(rental);
+		//rental.addBike();
 		break;
 	case 4:
 		cout << "This option is not available yet" << endl;  //od wypozyczalni
@@ -297,5 +298,59 @@ void Administrator::deleteAdministrator(UserDataBase& base)
 	else
 	{
 		base.deleteUserAsAdministrator(username);
+	}
+}
+
+void Administrator::addNewRentalPoint(MainLocation& rental)
+{
+	string newRentalPointName;
+	cout << "Enter name of new rental point: " << endl;
+	cin >> newRentalPointName;
+	rental.addLocation(newRentalPointName);
+}
+
+void Administrator::addBikeToRentalPoint(MainLocation& rental)
+{
+	int bikeType, rentalPointId;
+	string answer;
+	cout << "1. Normal bike" << endl;
+	cout << "2. Electric bike" << endl;
+	cout << "3. Tandem" << endl;
+	cout << "Enter bike type you would like to add (number): ";
+	cin >> bikeType;
+	if (bikeType >= 1 && bikeType <= 3)
+	{
+		for (int i = 0; i < rental.getRentalLocationNames().size(); i++)
+		{
+			cout << i + 1 << ". ";
+			cout << rental.getRentalLocationNames()[i] << endl;
+		}
+		cout << rental.getRentalLocationNames().size() + 1 << ". Main location" << endl;
+		cout << "Enter location number to which you would like to add: ";
+		cin >> rentalPointId;
+		if (rentalPointId < 1 || rentalPointId > rental.getRentalLocationNames().size() + 1)
+		{
+			cout << "Wrong location number!" << endl;
+			cout << "Would you like to try again? (y/n) ";
+			cin >> answer;
+			if (answer == "y")
+				addBikeToRentalPoint(rental);
+			else
+				return;
+		}
+		else if (rentalPointId == rental.getRentalLocationNames().size() + 1)
+			rental.addBike(bikeType - 1, -1);
+		else
+			rental.addBike(bikeType - 1, rentalPointId - 1);
+	}
+	else
+	{
+		cout << "Wrong number!" << endl;
+		cout << "Would you like to try again? (y/n) ";
+		cin >> answer;
+		if (answer == "y")
+			addBikeToRentalPoint(rental);
+		else
+			return;
 	}
 }

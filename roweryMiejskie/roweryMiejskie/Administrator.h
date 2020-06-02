@@ -21,6 +21,8 @@ public:
 	void changeUsersUsername(UserDataBase& base);
 	void deleteUser(UserDataBase& base);
 	void deleteAdministrator(UserDataBase& base);
+	void addNewRentalPoint(MainLocation& rental);
+	void addBikeToRentalPoint(MainLocation& rental);
 };
 
 #endif
