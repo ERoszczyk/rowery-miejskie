@@ -22,7 +22,7 @@ void Mechanic::menu(MainLocation& rental, BikeDatabase& database, UserDataBase& 
 	cout << "Hello " << getName() << "!" << endl;
 	cout << "1. Get bike to repair it" << endl;
 	cout << "2. View taken bike(s)" << endl;
-	cout << "3. Return repaired bike(s)" << endl;
+	cout << "3. Return fixed bike" << endl;
 	cout << "4. View location" << endl;
 	cout << "5. Change location" << endl;
 	cout << "6. View a list of rental points" << endl;
@@ -42,7 +42,7 @@ void Mechanic::menu(MainLocation& rental, BikeDatabase& database, UserDataBase& 
         viewTakenBikes();
         break;
     case 3:
-        cout << "This option is not available yet" << endl; //od wypo¿yczalni
+        returnFixedBike(rental);
         break;
     case 4:
         cout << viewLocation(rental);
@@ -270,7 +270,36 @@ void Mechanic::takeBrokenBike(MainLocation& rental)
     }
 }
 
-//void Mechanic::returnBrokenBike(MainLocation& rental)
-//{
-//
-//}
+void Mechanic::returnFixedBike(MainLocation& rental)
+{
+    int bikeId;
+    string answer;
+
+    if (takenBikesId.size() == 0)
+    {
+        cout << "You don't have any taken bikes" << endl;
+        return;
+    }
+    viewTakenBikes();
+    cout << "Enter the id of the bike you would like to return: ";
+    cin >> bikeId;
+    for (auto i = takenBikesId.begin(); i != takenBikesId.end(); ++i)
+    {
+        if (*i == bikeId)
+        {
+            rental.returnFixed(bikeId, *this, location);
+            takenBikesId.erase(i);
+            return;
+        }
+        else
+        {
+            cout << "Wrong bike id!" << endl;
+            cout << "Would you like to try again? (y/n) ";
+            cin >> answer;
+            if (answer == "y")
+                returnFixedBike(rental);
+            else
+                return;
+        }
+    }
+}

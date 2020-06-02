@@ -27,7 +27,7 @@ public:
 	void changeLocation(MainLocation& rental);
 	void viewRentalPointLocation(MainLocation& rental);
 	void takeBrokenBike(MainLocation& rental);
-	//void returnBrokenBike(MainLocation& rental);
+	void returnFixedBike(MainLocation& rental);
 };
 
 #endif
