@@ -195,7 +195,7 @@ void RentalLocation::takeBroken(const int bikeId, const int techId, BikeDatabase
 	if (find(myBikes.begin(), myBikes.end(), bikeId) != myBikes.end() && database.getBikeState(bikeId) == false)
 	{
 		int standId = database.getBikeStand(bikeId);
-		bikesFree.erase(find(bikesFree.begin(), bikesFree.end(), bikeId));
+		brokenBikes.erase(find(brokenBikes.begin(), brokenBikes.end(), bikeId));
 		database.setBikeOwner(bikeId, techId);
 		database.setBikeState(bikeId, 1);
 		freeStand(standId);
