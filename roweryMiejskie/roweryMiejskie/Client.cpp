@@ -204,7 +204,7 @@ void Client::rentBike(MainLocation& const rental, BikeDatabase& database)
 				if (rental.getFreeBikes(location).size() > i)
 				{
 					addRentedBikeId(rental.getFreeBikes(location)[i]);
-					rental.rent(rental.getFreeBikes(location)[i], getId(), database, *this, location, bikeType - 1);
+					rental.rent(rental.getFreeBikes(location)[i], *this, location, bikeType - 1);
 				}
 			}
 		}
@@ -236,7 +236,7 @@ void Client::returnBike(MainLocation& rental, BikeDatabase& database)
 	vector<int> rentedBikesId = getRentedBikesId();
 	removeRentedBikes();
 	for (int i = 0; i < rentedBikesId.size(); i++)
-		rental.putBack(rentedBikesId[i], getId(), database, *this, location);
+		rental.putBack(rentedBikesId[i], *this, location);
 	removeRentedBikesId();
 }
 

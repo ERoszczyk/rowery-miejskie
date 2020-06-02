@@ -107,7 +107,7 @@ void ClientPremium::rentBike(MainLocation& const rental, BikeDatabase& database)
 			if (rental.getFreeBikes(getLocation()).size() > i)
 			{
 				addRentedBikeId(rental.getFreeBikes(getLocation())[i]);
-				rental.rent(rental.getFreeBikes(getLocation())[i], getId(), database, *this, getLocation(), bikeType - 1);
+				rental.rent(rental.getFreeBikes(getLocation())[i], *this, getLocation(), bikeType - 1);
 			}
 		}
 	}

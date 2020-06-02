@@ -26,8 +26,8 @@ public:
 	std::string viewLocation(MainLocation& rental);
 	void changeLocation(MainLocation& rental);
 	void viewRentalPointLocation(MainLocation& rental);
-	int chooseLocation(MainLocation& rental);
 	void takeBrokenBike(MainLocation& rental);
+	//void returnBrokenBike(MainLocation& rental);
 };
 
 #endif
