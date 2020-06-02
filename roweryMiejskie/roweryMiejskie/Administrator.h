@@ -23,6 +23,9 @@ public:
 	void deleteAdministrator(UserDataBase& base);
 	void addNewRentalPoint(MainLocation& rental);
 	void addBikeToRentalPoint(MainLocation& rental);
+	int chooseLocation(MainLocation& rental);
+	int chooseBikeType(MainLocation& rental);
+	void deleteBikeFromRentalPoint(MainLocation& rental);
 };
 
 #endif
