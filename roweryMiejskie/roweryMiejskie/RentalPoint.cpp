@@ -77,7 +77,7 @@ void RentalLocation::rent(int bikeId, int userId, BikeDatabase& database, Client
 		switch (bikeType)
 		{
 		case(0):
-			bike->StartOfRent(database, userId, account);
+			bike->StartOfRent(database, userId, account, user);
 			if (database.getBikeState(bikeId))
 			{
 				bikesFree.erase(find(bikesFree.begin(), bikesFree.end(), bikeId));
@@ -87,7 +87,7 @@ void RentalLocation::rent(int bikeId, int userId, BikeDatabase& database, Client
 			}
 			break;
 		case(1):
-			ebike->StartOfRent(database, userId, account);
+			ebike->StartOfRent(database, userId, account, user);
 			if (database.getBikeState(bikeId))
 			{
 				bikesFree.erase(find(bikesFree.begin(), bikesFree.end(), bikeId));
@@ -97,7 +97,7 @@ void RentalLocation::rent(int bikeId, int userId, BikeDatabase& database, Client
 			}
 			break;
 		case(2):
-			tbike->StartOfRent(database, userId, account);
+			tbike->StartOfRent(database, userId, account, user);
 			if (database.getBikeState(bikeId))
 			{
 				bikesFree.erase(find(bikesFree.begin(), bikesFree.end(), bikeId));

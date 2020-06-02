@@ -19,7 +19,7 @@ public:
     }
     virtual ~ElectricBike() {};
     ElectricBike& operator=(const ElectricBike& b);
-    void StartOfRent(BikeDatabase& database, int person, const float money);
+    void StartOfRent(BikeDatabase& database, int person, const float money, Client& user);
     void Stop(BikeDatabase& database, std::map<int, bool>& states, Client& user) ;
     bool CheckBattery();
     void Loading( BikeDatabase* database);

@@ -44,3 +44,4 @@ While renting a bike by the user 1 of the bike with id 278 got broken.
 356 | 2 | 0 | 0.166667 | 5.000000
 While renting a bike by the user 2 of the bike with id 356 got broken.
 356 | 2 | 0 | 0.166667 | 5.000000
+278 | 1 | 0 | 0.066667 | 1.000000

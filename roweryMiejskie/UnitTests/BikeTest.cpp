@@ -88,7 +88,6 @@ namespace BikeTests
 		};
 		TEST_METHOD(TestElectricBike2)
 		{
-			//double account = userx.getCash();
 			BikeDatabase base(2);
 			BikeDatabase database(3);
 			Record example;
@@ -108,7 +107,7 @@ namespace BikeTests
 				{ 41, true },
 				{ 56, false }
 			};
-			x.StartOfRent(database, userid, account);
+			x.StartOfRent(database, userid, account, userx);
 			x.Stop(database,standStates ,userx);
 			Assert::AreEqual(acc, x.account);
 			Assert::AreEqual(check, x.price);
