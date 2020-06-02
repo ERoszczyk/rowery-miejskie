@@ -445,27 +445,27 @@ MainLocation::MainLocation(std::vector<string> names, BikeDatabase& database) :R
 	}
 }
 
-void MainLocation::rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId, int bikeType)
+void MainLocation::rent(const int bikeId, Client& user, int nameId, int bikeType)
 {
 
 	if (nameId == -1)
 	{
-		RentalLocation::rent(bikeId, userId, database,user, bikeType);
+		RentalLocation::rent(bikeId, user.getId(), base,user, bikeType);
 	}
 	else
 	{
-		locationObjects.at(locationNames[nameId]).rent(bikeId, userId, database, user, bikeType);
+		locationObjects.at(locationNames[nameId]).rent(bikeId, user.getId(), base, user, bikeType);
 	}
 
 }
 
-void MainLocation::putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user, int nameId)
+void MainLocation::putBack(const int bikeId, Client& user, int nameId)
 {
 	if (nameId == -1)
 	{
 		try
 		{
-			RentalLocation::putBack(bikeId, userId, database, user);
+			RentalLocation::putBack(bikeId, user.getId(), base, user);
 		}
 		catch (std::out_of_range)
 		{
@@ -474,7 +474,7 @@ void MainLocation::putBack(const int bikeId, const int userId, BikeDatabase& dat
 				std::map<int, Bike*> bikes = locationObjects.at(location).getRentedBikes();
 				if (bikes.find(bikeId) != bikes.end())
 				{
-					locationObjects.at(location).putBackOtherLocation(bikeId, userId, database, user, *this);
+					locationObjects.at(location).putBackOtherLocation(bikeId, user.getId(), base, user, *this);
 				}
 			}
 		}
@@ -483,7 +483,7 @@ void MainLocation::putBack(const int bikeId, const int userId, BikeDatabase& dat
 	{
 		try
 		{
-			locationObjects.at(locationNames[nameId]).putBack(bikeId, userId, database, user);
+			locationObjects.at(locationNames[nameId]).putBack(bikeId, user.getId(), base, user);
 		}
 		catch (std::out_of_range)
 		{
@@ -494,11 +494,11 @@ void MainLocation::putBack(const int bikeId, const int userId, BikeDatabase& dat
 				std::map<int, Bike*> thisBikes = this->getRentedBikes();
 				if (bikes.find(bikeId) != bikes.end())
 				{
-					locationObjects.at(location).putBackOtherLocation(bikeId, userId, database, user,locationObjects[key]);
+					locationObjects.at(location).putBackOtherLocation(bikeId, user.getId(), base, user,locationObjects[key]);
 				}
 				else if(thisBikes.find(bikeId)!=thisBikes.end())
 				{
-					this->putBackOtherLocation(bikeId, userId, database, user, locationObjects[key]);
+					this->putBackOtherLocation(bikeId, user.getId(), base, user, locationObjects[key]);
 				}
 			}
 		}
@@ -587,25 +587,25 @@ std::vector<int> MainLocation::getBrokenBikes(int nameId) const
 	}
 }
 
-void MainLocation::takeBroken(const int bikeId, const int techId, BikeDatabase& database, Mechanic& tech, int nameId)
+void MainLocation::takeBroken(const int bikeId, Mechanic& tech, int nameId)
 {
 	if (nameId == -1)
 	{
-		RentalLocation::takeBroken(bikeId, techId, database, tech);
+		RentalLocation::takeBroken(bikeId, tech.getId(), base, tech);
 	}
 	else
 	{
-		locationObjects.at(locationNames[nameId]).takeBroken(bikeId, techId, database, tech);
+		locationObjects.at(locationNames[nameId]).takeBroken(bikeId, tech.getId(), base, tech);
 	}
 }
 
-void MainLocation::returnFixed(const int bikeId, const int techId, BikeDatabase& database, Mechanic& tech, int nameId)
+void MainLocation::returnFixed(const int bikeId, Mechanic& tech, int nameId)
 {
 	if (nameId == -1)
 	{
 		try
 		{
-			RentalLocation::returnFixed(bikeId, techId, database, tech);
+			RentalLocation::returnFixed(bikeId, tech.getId(), base, tech);
 		}
 		catch (std::out_of_range)
 		{
@@ -614,7 +614,7 @@ void MainLocation::returnFixed(const int bikeId, const int techId, BikeDatabase&
 				std::map<int, Bike*> bikes = locationObjects.at(location).getRentedBikes();
 				if (bikes.find(bikeId) != bikes.end())
 				{
-					locationObjects.at(location).returnFixedOtherLocation(bikeId, techId, database, tech, *this);
+					locationObjects.at(location).returnFixedOtherLocation(bikeId, tech.getId(), base, tech, *this);
 				}
 			}
 		}
@@ -623,7 +623,7 @@ void MainLocation::returnFixed(const int bikeId, const int techId, BikeDatabase&
 	{
 		try
 		{
-			locationObjects.at(locationNames[nameId]).returnFixed(bikeId, techId, database, tech);
+			locationObjects.at(locationNames[nameId]).returnFixed(bikeId, tech.getId(), base, tech);
 		}
 		catch (std::out_of_range)
 		{
@@ -634,11 +634,11 @@ void MainLocation::returnFixed(const int bikeId, const int techId, BikeDatabase&
 				std::map<int, Bike*> thisBikes = this->getRentedBikes();
 				if (bikes.find(bikeId) != bikes.end())
 				{
-					locationObjects.at(location).returnFixedOtherLocation(bikeId, techId, database, tech, locationObjects[key]);
+					locationObjects.at(location).returnFixedOtherLocation(bikeId, tech.getId(), base, tech, locationObjects[key]);
 				}
 				else if (thisBikes.find(bikeId) != thisBikes.end())
 				{
-					this->returnFixedOtherLocation(bikeId, techId, database, tech, locationObjects[key]);
+					this->returnFixedOtherLocation(bikeId, tech.getId(), base, tech, locationObjects[key]);
 				}
 			}
 		}
