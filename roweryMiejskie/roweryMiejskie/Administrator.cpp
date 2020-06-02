@@ -422,13 +422,13 @@ void Administrator::deleteBikeFromRentalPoint(MainLocation& rental)
 	cin >> answer;
 	if (answer == "y")
 	{
+		if (rental.getBrokenBikes(rentalPointId).size() == 0)
+		{
+			cout << "There are no broken bikes in this location." << endl;
+			return;
+		}
 		for (int i = 0; i < rental.getBrokenBikes(rentalPointId).size(); i++)
 		{
-			if (rental.getBrokenBikes(rentalPointId).size() == 0)
-			{
-				cout << "There are no broken bikes in this location." << endl;
-				return;
-			}
 			cout << rental.getBrokenBikes(rentalPointId)[i] << endl;
 		}
 	}

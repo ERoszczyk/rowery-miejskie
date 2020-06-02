@@ -20,7 +20,7 @@ void Mechanic::menu(MainLocation& rental, BikeDatabase& database, UserDataBase& 
 
 	system("CLS");
 	cout << "Hello " << getName() << "!" << endl;
-	cout << "1. Get bike(s) to repair it(them)" << endl;
+	cout << "1. Get bike to repair it" << endl;
 	cout << "2. View taken bike(s)" << endl;
 	cout << "3. Return repaired bike(s)" << endl;
 	cout << "4. View location" << endl;
@@ -36,7 +36,9 @@ void Mechanic::menu(MainLocation& rental, BikeDatabase& database, UserDataBase& 
     switch (optionNumber)
     {
     case 1:
-        cout << "This option is not available yet" << endl; //od wypo¿yczalni
+        takeBrokenBike(rental);
+        //rental.takeBroken();
+        //cout << "This option is not available yet" << endl; //od wypo¿yczalni
         break;
     case 2:
         viewTakenBikes();
@@ -232,4 +234,72 @@ void Mechanic::viewRentalPointLocation(MainLocation& rental)
         cout << rental.getRentalLocationNames()[i] << endl;
     }
     cout << rental.getRentalLocationNames().size() + 1 << ". Main location" << endl;
+}
+
+int Mechanic::chooseLocation(MainLocation& rental)
+{
+    int rentalPointId;
+    string answer;
+
+    for (int i = 0; i < rental.getRentalLocationNames().size(); i++)
+    {
+        cout << i + 1 << ". ";
+        cout << rental.getRentalLocationNames()[i] << endl;
+    }
+    cout << rental.getRentalLocationNames().size() + 1 << ". Main location" << endl;
+    cout << "Enter location number from which you would like to get bike: ";
+    cin >> rentalPointId;
+    if (rentalPointId < 1 || rentalPointId > rental.getRentalLocationNames().size() + 1)
+    {
+        cout << "Wrong location number!" << endl;
+        cout << "Would you like to try again? (y/n) ";
+        cin >> answer;
+        if (answer == "y")
+            chooseLocation(rental);
+        else
+            return -2;
+    }
+    else if (rentalPointId == rental.getRentalLocationNames().size() + 1)
+        return -1;
+    else
+        return rentalPointId - 1;
+}
+
+void Mechanic::takeBrokenBike(MainLocation& rental)
+{
+    string answer;
+    int rentalPointId, bikeId;
+    rentalPointId = chooseLocation(rental);
+    if (rentalPointId == -2)
+        return;
+    if (rental.getBrokenBikes(rentalPointId).size() == 0)
+    {
+        cout << "There are no broken bikes in this location." << endl;
+        return;
+    }
+    for (int i = 0; i < rental.getBrokenBikes(rentalPointId).size(); i++)
+    {
+        cout << rental.getBrokenBikes(rentalPointId)[i] << endl;
+    }
+    cout << "Enter the id of the bike you would like to repair: ";
+    cin >> bikeId;
+    for (int i = 0; i < rental.getBrokenBikes(rentalPointId).size(); i++)
+    {
+        if (rental.getBrokenBikes(rentalPointId)[i] == bikeId)
+        {
+           //rental.takeBroken();
+            takenBikesId.push_back(bikeId);
+            return;
+        }
+        else
+        {
+            cout << "Wrong bike id!" << endl;
+            cout << "Would you like to try again? (y/n) ";
+            cin >> answer;
+            if (answer == "y")
+                takeBrokenBike(rental);
+            else
+                return;
+        }
+    }
 }
