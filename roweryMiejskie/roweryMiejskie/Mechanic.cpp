@@ -128,11 +128,11 @@ void Mechanic::getMoney()
 void Mechanic::viewTakenBikes()
 {
     if (getTakenBikesId().size() == 0)
-        cout << "You don't have any rented bikes" << endl;
+        cout << "You don't have any taken bikes" << endl;
     else if (getTakenBikesId().size() == 1)
-        cout << "You have " << getTakenBikesId().size() << " rented bike:" << endl;
+        cout << "You have " << getTakenBikesId().size() << " taken bike:" << endl;
     else
-        cout << "You have " << getTakenBikesId().size() << " rented bikes:" << endl;
+        cout << "You have " << getTakenBikesId().size() << " taken bikes:" << endl;
     vector<int> takenBikesId = getTakenBikesId();
     if (takenBikesId.size() > 0)
     {
@@ -257,17 +257,14 @@ void Mechanic::takeBrokenBike(MainLocation& rental)
             takenBikesId.push_back(bikeId);
             return;
         }
-        else
-        {
-            cout << "Wrong bike id!" << endl;
-            cout << "Would you like to try again? (y/n) ";
-            cin >> answer;
-            if (answer == "y")
-                takeBrokenBike(rental);
-            else
-                return;
-        }
     }
+    cout << "Wrong bike id!" << endl;
+    cout << "Would you like to try again? (y/n) ";
+    cin >> answer;
+    if (answer == "y")
+        takeBrokenBike(rental);
+    else
+        return;
 }
 
 void Mechanic::returnFixedBike(MainLocation& rental)
