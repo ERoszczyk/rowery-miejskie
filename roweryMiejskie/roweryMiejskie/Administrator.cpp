@@ -418,12 +418,17 @@ void Administrator::deleteBikeFromRentalPoint(MainLocation& rental)
 	if (rentalPointId == -2)
 		return;
 	else
-		cout << "Would you line to delete broken bike? (y/n) ";
+		cout << "Would you like to delete a broken bike? (y/n) ";
 	cin >> answer;
 	if (answer == "y")
 	{
-		for (int i = 0; i < rental.getBrokenBikes().size(); i++)
+		for (int i = 0; i < rental.getBrokenBikes(rentalPointId).size(); i++)
 		{
+			if (rental.getBrokenBikes(rentalPointId).size() == 0)
+			{
+				cout << "There are no broken bikes in this location." << endl;
+				return;
+			}
 			cout << rental.getBrokenBikes(rentalPointId)[i] << endl;
 		}
 	}
@@ -434,7 +439,13 @@ void Administrator::deleteBikeFromRentalPoint(MainLocation& rental)
 			return;
 		else
 		{
-			for (int i = 0; i < rental.getFreeBikes().size(); i++)
+			if (rental.getFreeBikes(rentalPointId, bikeType).size() == 0)
+			{
+				cout << "There are no bikes of this type in this location." << endl;
+				return;
+			}
+				
+			for (int i = 0; i < rental.getFreeBikes(rentalPointId, bikeType).size(); i++)
 			{
 				cout << rental.getFreeBikes(rentalPointId, bikeType)[i] << endl;
 			}
@@ -443,7 +454,7 @@ void Administrator::deleteBikeFromRentalPoint(MainLocation& rental)
 	else
 		return;
 
-	cout << "Enter id of the bike you would like to remove: ";
+	cout << "Enter the id of the bike you would like to remove: ";
 	cin >> bikeId;
 	rental.removeBike(bikeId, rentalPointId);
 }
