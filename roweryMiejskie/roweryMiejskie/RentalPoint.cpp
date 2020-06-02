@@ -236,7 +236,7 @@ void RentalLocation::returnFixedOtherLocation(const int bikeId, const int techId
 }
 void RentalLocation::addBike(int bikeId)
 {
-	if (bikeId > 0)
+	if (bikeId > 0 && bikesCount < size)
 	{
 		int stand = findFreeStand();
 		takeStand(stand);
@@ -253,15 +253,17 @@ void RentalLocation::addBike(int bikeId)
 }
 void RentalLocation::addBike(int bikeType, BikeDatabase& base)
 {
-	int newBikeId = base.addBike();
-	int stand = findFreeStand();
-	takeStand(stand);
-	myBikes.push_back(newBikeId);
-	bikesFree.push_back(newBikeId);
-	bikesCount += 1;
-	base.setBikeStand(newBikeId, stand);
-	base.setBikeType(newBikeId, bikeType);
-	
+	if (bikesCount < size)
+	{
+		int newBikeId = base.addBike();
+		int stand = findFreeStand();
+		takeStand(stand);
+		myBikes.push_back(newBikeId);
+		bikesFree.push_back(newBikeId);
+		bikesCount += 1;
+		base.setBikeStand(newBikeId, stand);
+		base.setBikeType(newBikeId, bikeType);
+	};
 }
 void RentalLocation::addBikes(vector<int> bikeIds, BikeDatabase& database)
 {
@@ -293,11 +295,14 @@ void RentalLocation::removeBike(const int bikeId, BikeDatabase& base)
 			base.removeBike(bikeId);
 			bikesCount -= 1;
 		}
-		else
+		else if (find(brokenBikes.begin(), brokenBikes.end(), bikeId) != brokenBikes.end())
 		{
-#if _DEBUG
-			cout << "Invalid bike ID "<<bikeId;
-#endif
+			int stand = base.getBikeStand(bikeId);
+			myBikes.erase(find(myBikes.begin(), myBikes.end(), bikeId));
+			brokenBikes.erase(find(brokenBikes.begin(), brokenBikes.end(), bikeId));
+			freeStand(stand);
+			base.removeBike(bikeId);
+			bikesCount -= 1;
 		}
 	}
 }
@@ -392,14 +397,15 @@ std::vector<int> RentalLocation::getFreeBikes(BikeDatabase& base, int bikeType )
 }
 int RentalLocation::determineBikeType(const int bikeId, BikeDatabase& database)
 {
-	if (rentedBikes.find(bikeId) != rentedBikes.end()) { return database.getAllBikes().at(bikeId).getType(); }
-	//else if (rentedElectrics.find(bikeId) != rentedElectrics.end()) { return 1; }
-	//else { return 2; };
+	if (rentedBikes.find(bikeId) != rentedBikes.end())
+	{
+		return database.getAllBikes().at(bikeId).getType();
+	}
+	
 }
 
 ostream& operator<<(ostream& os, RentalPoint& point)
 {
-	//os << "ID: " << point.getPointId() << endl;
 	vector<int> myBikes = point.getBikes();
 	for (int i = 0; i < myBikes.size(); i++)
 	{
@@ -409,7 +415,6 @@ ostream& operator<<(ostream& os, RentalPoint& point)
 }
 istream& operator>>(istream& is, RentalPoint& point)
 {
-	//is >> point.pointId;
 	int id;
 	while (is >> id)
 	{
@@ -528,7 +533,7 @@ void MainLocation::disactivateLocation(int nameId)
 {
 	if (nameId == -1)
 	{
-		RentalLocation::disactivateLocation(base);  //fix
+		RentalLocation::disactivateLocation(base);
 	}
 	else
 	{
