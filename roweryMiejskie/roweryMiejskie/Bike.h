@@ -39,7 +39,7 @@ public:
     }
     virtual ~Bike() {};
     Bike& operator=(const Bike& b);
-    virtual void StartOfRent(BikeDatabase& database, int person, const float money);
+    virtual void StartOfRent(BikeDatabase& database, int person, const float money, Client& user);
     bool StandAssignment(BikeDatabase& database, std::map<int, bool>& states);
     int FindStand(std::map<int, bool>& states);
     virtual void Pay(Client& user);

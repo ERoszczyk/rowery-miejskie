@@ -36,14 +36,28 @@ bool ElectricBike::CheckBattery() //rozladowywanie baterii az do wartoœci zera l
     return true;
 };
 
-void ElectricBike::StartOfRent(BikeDatabase& database, int person, float money) //rozpoczecie wypozyczennia
+void ElectricBike::StartOfRent(BikeDatabase& database, int person, float money, Client& user) //rozpoczecie wypozyczennia
 {
     holder = to_string(person);
     account = money;
     if (account < 15)
     {
+        int answer;
         cout << "You do not have enough money to rent a bike." << endl;
         database.setBikeState(id, false);
+        cout << "Would you like to deposit money? " << endl;
+        cout << "1.YES " << endl << "2.NO " << endl;
+        cin >> answer;
+        switch (answer)
+        {
+        case 1:
+            cout << "Now you can deposit money" << endl;
+            user.transferMoney();
+            break;
+
+        default:
+            cout << "You didn't rent any bikes " << endl;
+        }
     }
     else
     {

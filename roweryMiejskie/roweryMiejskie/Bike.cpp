@@ -143,16 +143,29 @@ void Bike::Pay(Client& user)
     user.transferCash(-price);
 };
 
-void Bike::StartOfRent(BikeDatabase& database, int person, float money)
+void Bike::StartOfRent(BikeDatabase& database, int person, float money, Client& user)
 {
     holder = to_string(person);
     account = money;
     //Sprawdzanie konta
     if (account < 10)
     {
+        int answer;
         cout << "You do not have enough money to rent a bike." << endl;
         database.setBikeState(id, false);
-        //funkcja do dodania œrodków, odes³anie do u¿ytkownika?
+        cout << "Would you like to deposit money? " << endl;
+        cout << "1.YES " << endl << "2.NO " << endl;
+        cin >> answer;
+        switch (answer)
+        {
+        case 1:
+            cout << "Now you can deposit money" << endl;
+            user.transferMoney();
+            break;
+        
+        default:
+            cout << "You didn't rent any bikes " << endl;
+        }
     }
     else
     {
