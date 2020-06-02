@@ -209,7 +209,6 @@ void RentalLocation::returnFixed(const int bikeId, const int techId, BikeDatabas
 		map<int, Record> bikes = database.getAllBikes();
 		if (bikes.find(bikeId) != bikes.end())
 		{
-			brokenBikes.erase(find(brokenBikes.begin(), brokenBikes.end(), bikeId));
 			bikesFree.push_back(bikeId);
 			database.setBikeOwner(bikeId, 0);
 			database.setBikeState(bikeId, 0);
