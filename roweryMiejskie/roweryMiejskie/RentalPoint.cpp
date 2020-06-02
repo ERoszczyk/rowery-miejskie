@@ -36,7 +36,14 @@ RentalLocation::RentalLocation(BikeDatabase& database)
 			bikesCount += 1;
 			if (database.getBikeState(it->first) == false)
 			{
-				bikesFree.push_back(it->first);
+				if (database.isBikeBroken(it->first))
+				{
+					brokenBikes.push_back(it->first);
+				}
+				else
+				{
+					bikesFree.push_back(it->first);
+				}				
 				int standId = findFreeStand();
 				takeStand(standId);
 				database.setBikeStand(it->first, standId);
@@ -56,7 +63,14 @@ RentalLocation::RentalLocation(std::map<int, Record> allBikes, BikeDatabase& dat
 			bikesCount += 1;
 			if (database.getBikeState(it->first) == false)
 			{
-				bikesFree.push_back(it->first);
+				if (database.isBikeBroken(it->first))
+				{
+					brokenBikes.push_back(it->first);
+				}
+				else
+				{
+					bikesFree.push_back(it->first);
+				}
 				int standId = findFreeStand();
 				takeStand(standId);
 				database.setBikeStand(it->first, standId);

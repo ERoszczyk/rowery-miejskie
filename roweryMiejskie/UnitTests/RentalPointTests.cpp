@@ -132,7 +132,7 @@ namespace RentalTests
 			location.addBike(123, 0); //to other location
 			location.addBike(456); //to main location
 			int startSize = location.getBikes().size();
-			location.rent(123, 1, base, user, 0);
+			location.rent(123, user, 0);
 			int newSize = location.getBikes().size();
 			Assert::AreEqual(startSize, newSize);
 		}
@@ -143,8 +143,8 @@ namespace RentalTests
 			location.addBike(123, 0); //to other location
 			location.addBike(456); //to main location
 			int startSize = location.getBikes().size();
-			location.rent(123, 1, base, user, 0);
-			location.putBack(123, 1, base, user, 0);
+			location.rent(123, user, 0);
+			location.putBack(123, user, 0);
 			int newSize = location.getBikes().size();
 			Assert::AreEqual(startSize, newSize);
 		}
@@ -154,8 +154,8 @@ namespace RentalTests
 			Client& user = Client("a", "b", "c", "d", 0);
 			location.addBike(0, 0); //to other location
 			location.addBike(0); //to main location
-			location.rent(1, 1, base, user, 0);
-			location.putBack(1, 1, base, user);
+			location.rent(1, user, 0);
+			location.putBack(1, user);
 			int newSize = location.getBikes().size();
 			Assert::AreEqual(2, newSize);
 		}

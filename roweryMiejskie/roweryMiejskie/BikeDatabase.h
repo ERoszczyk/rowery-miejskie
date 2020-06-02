@@ -73,6 +73,7 @@ public:
 
 	void breakDown(int bikeId) { allBikes.at(bikeId).breakDown(); };
 	void fix(int bikeId) { allBikes.at(bikeId).fix(); }
+	bool isBikeBroken(int bikeId) { return allBikes.at(bikeId).isBroken(); }
 
 	std::map<int, Record> getAllBikes() const { return allBikes; }; // 
 	Record getBike(int bikeId) const { return allBikes.at(bikeId); } // 
