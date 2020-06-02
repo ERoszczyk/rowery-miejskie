@@ -31,8 +31,13 @@ bool ElectricBike::CheckBattery() //rozladowywanie baterii az do wartoœci zera l
             return false;
         }
         battery -= 1;
+        if (battery <=5)
+        {
+            cout << "Low battery state" << endl;
+        }
         Sleep(5000);
     }
+    cout << "Electric Bike battery died" << endl;
     return true;
 };
 
