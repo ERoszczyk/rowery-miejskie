@@ -21,13 +21,13 @@ Klasy
 	numer wypożyczonego roweru (jeśli taki jest); możliwość dodania nowego użytkownika do bazy.
 
 
-
 Opis klas
-- Klasa Bike - jej 2 głównymi funkcjami są StartOfRent oraz Stop.
+- Klasa Bike - jej 2 głównymi funkcjami są StartOfRent oraz Stop.       
 Po sprawdzeniu przez wypożyczalnie stanu roweru, wypożyczalnia wywołuje ‘StartOfRent’ która zwalnia stojak do którego był przypięty rower oraz rozpoczyna czas wypożyczenia. Druga funkcja - ‘Stop’ jest odpowiedzialna za zwrot roweru.
-Prosi ona użytkownika o podanie id stojaka do którego użytkownik chce przypiąć rower. Zapisuje dane do bazy oraz zwalnia użytkownika od danego roweru.
-Pobiera również z konta odpowiednią sumę (różnica czasu od wypożyczenia roweru do przypięcia do wolnego stojaka). Funkcja ma również opcję zapisania do historii wypożyczeń. Klasy ElectricBike oraz Tandem dziedziczą po klasie Bike. 
-Obie klasy różnią się funkcją Pay. ElectricBike posiada dodatkową funkcję asynchroniczną rozładowującą baterię roweru oraz po oddaniu funkcję która ładuje baterię ponownie do 100%. (Krupa Olga)
+Zapisuje dane do bazy oraz zwalnia użytkownika od danego roweru.
+Pobiera również z konta odpowiednią sumę (różnica czasu od wypożyczenia roweru do przypięcia do wolnego stojaka). Funkcja również zapisuje do historii wypożyczeń. Klasy ElectricBike oraz Tandem dziedziczą po klasie Bike.
+Wszystkie  klasy różnią się funkcją Pay. ElectricBike posiada dodatkową funkcję asynchroniczną rozładowującą baterię roweru oraz po oddaniu funkcję która ładuje baterię ponownie do 100%. (Krupa Olga)
+
 - Klasa BikeDatabase- nadaje rowerom numery oraz przechowuje i zwraca informacje o ich stanie i aktualnym użytkowniku/ stojaku.
 Może zostać zaimportowana z przykładowego pliku database.txt. (Kwoka Kinga)
 - Klasa RentalPoint- klasa abstrakcyjna. Instancje klasy (MainLocation i RentalLocation) powstają na podstawie bazy rowerów. Na życzenie użytkownika MainLocation zarządzająca wszystkimi lokalizacjami zwraca użytkownikowi numery wolnych rowerów w jego aktualnej lokalizacji.
@@ -47,4 +47,15 @@ W projekcie dostępne są dwa przykładowe konta testowe - jedno klienta (**logi
 Na powyższym diagramie przedstawiona jest hierarchia klas. Za pomocą ciągłych strzałek przedstawione zostały klasy dziedziczące, które są już zaimplementowane w projekcie,
 natomiast za pomocą strzałek przerywanych przedstawione są klasy planowane do zaimplementowania. Pochyłą czcionką ukazane zostały klasy wirtualne. Dodatkowo za pomocą zwykłych 
 kresek przedstawione zostało połączenie klas.
+
+
+
+**Szczegółowy opis klas**
+- Rozszerzony opis klasy Bike oraz dziedziczących po nich :ElectricBike oraz Tandem.                    
+Funkcja StartOfRent służy do rozpoczęcia wypożyczenia. Sprawdzany jest stan konta użytkownika, jeśli nie ma wystarczająco dużo środków na koncie, użytkownik może przelać środki na konto (odesłanie do funkcji ‘user.transferMoney()’).  Jeśli na koncie znajduje się odpowiednia kwota  (zależy od typu roweru), rower zwalniany jest ze stojaka, ustawiamy status roweru jako zajęty, i przypisujemy dany rower do osoby. Jednocześnie zostanie wywołana funkcja asynchroniczna ‘Breakdown’, która jest odpowiedzialna za losowe zepsucia roweru. Szansa na uszkodzenie zależy od typu roweru (Bike i Tandem 15%, ElectricBike 30%).  
+Podczas funkcji StartOfRent wywołana przez ElectricBike dodatkowo uruchamia funkcję asynchroniczną CheckBattery która rozładowuje baterię. Funkcja poinformuje użytkownika o niskim poziomie baterii.       
+Funkcja Stop służy do zwrotu roweru. Funkcja StandAssignment przypisuje rower do wolnego stojaka. Jeśli rower został przypisany do stojaka, zostaną wykonane dalsze instrukcję. Czas wypożyczenia zostanie zatrzymany, oraz zostanie wykonana funkcja Pay(), inna dla każdego typu rowerów. Sprawdza również czy rower nie uległ uszkodzeniu, jeśli tak wysyła zawiadomienie do bazy. W zależności czy rower został uszkodzony, do historii wypożyczeni zostaje wpisana odpowiednia formuła. Następnie status roweru zmieniany jest na wolny i usuwa przypisanie roweru do użytkownika.         
+ElectricBike posiada również funkcję asynchroniczną służąca do ładowania baterii roweru. Dopóki bateria nie naładuje się do 100% status roweru pozostanie ‘zajęty’.
+ (Krupa Olga)
+
 
