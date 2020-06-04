@@ -67,4 +67,35 @@ Funkcjonalność RentalLocation to wypożyczanie i zwracanie różnego typu rowe
 oraz możliwość zabrania do naprawy roweru przez mechanika. Wszystkie zwroty mogą odbywać się w lokalizacji innej niż lokalizacja wypożyczenia. 
 (Kinga Kwoka)
 
+- Rozszerzony opis klas UserDataBase, User, Client, ClientPremium, Administrator oraz Mechanic
+Klasa User jest klasą abstrakcyjną, po której dziedziczą klasy
+Client, Administrator oraz Mechanic. Dodatkowo po klasie
+Client dziedziczy ClientPremium.
+    -Client oraz ClientPremium mają możliwość wypożyczyć 
+oraz zwrócić rower(y). Różnica między nimi polega na tym,
+iż premium daje możliwość wypożyczenia nie tylko podstawowych
+rowerów, ale także: rowery elektryczne oraz tandemy. 
+Każdy z klientów ma swoje własne konto, które jest obciążane 
+płatnościami za wypożyczenia oraz które można doładować. 
+Ze względu na to, iż nasz system przewiduje możliwość posiadania
+więcej niż jednej stacji rowerowej, klienci mogą zmieniać swoją 
+lokalizację. Oczywiście poza tymi funkcjami, każdy z klientów ma 
+możliwość zmiany hasła, wyświetlenia listy stacji rowerowych,
+swojej lokalizacji, stanu konta oraz listy wypożyczonych
+rowerów. 
+    -Administrator zarządza bazą użytkowników. Ma on możliwość
+dodania oraz usunięcia konta każdego z nich: Client, 
+ClientPremium oraz Mechanic. Może również modyfikować dane konta:
+imię, nazwisko, nick oraz hasło każdego użytkownika. 
+Zarządza on również stacjami 
+rowerowymi. Może dodać bądź zdezaktywować stację oraz dodać bądź
+usunąć rower ze stacji. 
+    -Mechanic natomiast ma możliwość zabrania roweru, aby go naprawić oraz 
+zwrotu naprawionego roweru. On również posiada swoją lokalizację, którą może
+zmieniać oraz konto, z którego może wypłacać pieniądze. Za każdą naprawę jego
+konto powiększa się o odpowiednią kwotę. Tak samo jak Client oraz ClientPremium
+może on zobaczyć listę rowerów zabranych do naprawy oraz listę stacji
+rowerowych. 
+    -Klasa UserDataBase przechowuje wszystkich użytkowników rowerów miejskich.
+Istnieje możliwość eksportu bazy do pliku .txt. 
 
