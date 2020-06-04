@@ -94,5 +94,5 @@ konto powiększa się o odpowiednią kwotę. Tak samo jak Client oraz ClientPrem
 może on zobaczyć listę rowerów zabranych do naprawy oraz listę stacji
 rowerowych. 
     - Klasa UserDataBase przechowuje wszystkich użytkowników rowerów miejskich.
-Istnieje możliwość eksportu bazy do pliku .txt. 
+Istnieje możliwość eksportu bazy do pliku .txt. (Ewa Roszczyk)
 
