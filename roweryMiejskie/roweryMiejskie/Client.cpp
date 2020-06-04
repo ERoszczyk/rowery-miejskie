@@ -213,6 +213,12 @@ void Client::rentBike(MainLocation& const rental, BikeDatabase& database)
 			if (takenBikes == 0)
 			{
 				cout << "This rental point has no bikes. You didn't take any bikes. Try in another location." << endl;
+				cout << "Would you like to change location? (y/n) ";
+				cin >> answer;
+				if (answer == "y")
+				{
+					changeLocation(rental);
+				}
 			}
 			else if (takenBikes == 1 && takenBikes == bikesNumber)
 			{
@@ -221,10 +227,22 @@ void Client::rentBike(MainLocation& const rental, BikeDatabase& database)
 			else if (takenBikes == 1 && takenBikes != bikesNumber)
 			{
 				cout << "You took only " << takenBikes << " bike. This rental point has no more bikes. Try in another location." << endl;
+				cout << "Would you like to change location? (y/n) ";
+				cin >> answer;
+				if (answer == "y")
+				{
+					changeLocation(rental);
+				}
 			}
 			else if (takenBikes < bikesNumber)
 			{
 				cout << "You took only " << takenBikes << " bikes. This rental point has no more bikes. Try in another location." << endl;
+				cout << "Would you like to change location? (y/n) ";
+				cin >> answer;
+				if (answer == "y")
+				{
+					changeLocation(rental);
+				}
 			}
 			else if (takenBikes == bikesNumber)
 			{
