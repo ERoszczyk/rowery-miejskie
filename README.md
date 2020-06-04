@@ -65,8 +65,7 @@ Funkcjonalność RentalLocation to wypożyczanie i zwracanie różnego typu rowe
 oraz możliwość zabrania do naprawy roweru przez mechanika. Wszystkie zwroty mogą odbywać się w lokalizacji innej niż lokalizacja wypożyczenia. 
 (Kinga Kwoka)
 
-- Rozszerzony opis klas UserDataBase, User, Client, ClientPremium, Administrator oraz Mechanic
-Klasa User jest klasą abstrakcyjną, po której dziedziczą klasy
+- Rozszerzony opis klas UserDataBase, User, Client, ClientPremium, Administrator oraz Mechanic. Klasa User jest klasą abstrakcyjną, po której dziedziczą klasy
 Client, Administrator oraz Mechanic. Dodatkowo po klasie
 Client dziedziczy ClientPremium.
     - Client oraz ClientPremium mają możliwość wypożyczyć 
