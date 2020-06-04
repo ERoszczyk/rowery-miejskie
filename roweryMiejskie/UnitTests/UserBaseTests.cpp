@@ -16,32 +16,37 @@ namespace UserBaseTests
 		UserDataBase base;
 		TEST_METHOD(testName)
 		{
+			int usersAmount = base.getUserNames().size();
 			base.addNewClient("a", "b", "c", "d");
-			Assert::IsTrue("a" == base.getUserNames().find(2)->second->getName());
+			Assert::IsTrue("a" == base.getUserNames().find(usersAmount)->second->getName());
 		}
 
 		TEST_METHOD(testSurname)
 		{
+			int usersAmount = base.getUserNames().size();
 			base.addNewClient("a", "b", "c", "d");
-			Assert::IsTrue("b" == base.getUserNames().find(2)->second->getSurname());
+			Assert::IsTrue("b" == base.getUserNames().find(usersAmount)->second->getSurname());
 		}
 
 		TEST_METHOD(testUsername)
 		{
+			int usersAmount = base.getUserNames().size();
 			base.addNewClient("a", "b", "c", "d");
-			Assert::IsTrue("c" == base.getUserNames().find(2)->second->getUsername());
+			Assert::IsTrue("c" == base.getUserNames().find(usersAmount)->second->getUsername());
 		}
 
 		TEST_METHOD(testPassword)
 		{
+			int usersAmount = base.getUserNames().size();
 			base.addNewClient("a", "b", "c", "d");
-			Assert::IsTrue("d" == base.getUserNames().find(2)->second->getPassword());
+			Assert::IsTrue("d" == base.getUserNames().find(usersAmount)->second->getPassword());
 		}
 
 		TEST_METHOD(testGetUserNames)
 		{
+			int usersAmount = base.getUserNames().size();
 			base.addNewClient("a", "b", "c", "d");
-			Assert::IsTrue(3 == base.getUserNames().size());
+			Assert::IsTrue(usersAmount+1 == base.getUserNames().size());
 		}
 
 
@@ -71,7 +76,8 @@ namespace UserBaseTests
 
 		TEST_METHOD(testGetCurrentLoginIndex)
 		{
-			Assert::IsTrue(2 == base.getCurrentLoginIndex());
+			int usersAmount = base.getUserNames().size();
+			Assert::IsTrue(usersAmount == base.getCurrentLoginIndex());
 		}
 	};
 }
