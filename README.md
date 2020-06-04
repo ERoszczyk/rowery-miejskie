@@ -57,7 +57,8 @@ Podczas funkcji StartOfRent wywołana przez ElectricBike dodatkowo uruchamia fun
 Funkcja Stop służy do zwrotu roweru. Funkcja StandAssignment przypisuje rower do wolnego stojaka. Jeśli rower został przypisany do stojaka, zostaną wykonane dalsze instrukcję. Czas wypożyczenia zostanie zatrzymany, oraz zostanie wykonana funkcja Pay(), inna dla każdego typu rowerów. Sprawdza również czy rower nie uległ uszkodzeniu, jeśli tak wysyła zawiadomienie do bazy. W zależności czy rower został uszkodzony, do historii wypożyczeni zostaje wpisana odpowiednia formuła. Następnie status roweru zmieniany jest na wolny i usuwa przypisanie roweru do użytkownika.         
 ElectricBike posiada również funkcję asynchroniczną służąca do ładowania baterii roweru. Dopóki bateria nie naładuje się do 100% status roweru pozostanie ‘zajęty’.
  (Krupa Olga)
--Rozszerzony opis klas dziedziczących po RentalPoint
+
+- Rozszerzony opis klas dziedziczących po RentalPoint
 Do utworzenia wypożyczalni niezbędna jest baza rowerów. Importowana jest z pliku database.txt.
 Na podstawie obiektu BikeDatabase i ewentualnie dostarczonych nazw tworzona jest główna wypożyczalnia MainLocation i obiekty pozostałych wypożyczalni RentalLocation.
 Każda funkcja odwołuje się do obiektu głównej wypożyczalni, który w zależności od dostarczonego parametru lokalizacji przekierowuje do odpowiedniego obiektu typu RentalLocation.
