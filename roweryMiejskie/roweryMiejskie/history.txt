@@ -54,3 +54,7 @@ While renting a bike by the user 1 of the bike with id 278 got broken.
 While renting a bike by the user 1 of the bike with id 440 got broken.
 278 | 1 | 0 | 0.250000 | 1.000000
 440 | 1 | 0 | 0.250000 | 1.000000
+278 | 1 | 0 | 0.333333 | 1.000000
+While renting a bike by the user 1 of the bike with id 278 got broken.
+440 | 1 | 0 | 0.333333 | 1.000000
+While renting a bike by the user 1 of the bike with id 440 got broken.

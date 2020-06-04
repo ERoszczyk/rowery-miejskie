@@ -186,7 +186,7 @@ void Client::changePassword()
 void Client::rentBike(MainLocation& const rental, BikeDatabase& database)
 {
 	string answer;
-	int bikesNumber, bikeType;
+	int bikesNumber, bikeType, takenBikes = 0;
 	cout << "1. Normal bike" << endl;
 	cout << "2. Electric bike" << endl;
 	cout << "3. Tandem" << endl;
@@ -198,14 +198,37 @@ void Client::rentBike(MainLocation& const rental, BikeDatabase& database)
 		{
 			cout << "How many bikes would you like to rent?" << endl;
 			cin >> bikesNumber;
+			if (bikesNumber == 0)
+				return;
 			for (int i = 0; i < bikesNumber; i++)
 			{
-				if (rental.getFreeBikes(location).size() > i)
+				if (rental.getFreeBikes(location, bikeType - 1).size() > i)
 				{
-					addRentedBikeId(rental.getFreeBikes(location)[i]);
-					rental.rent(rental.getFreeBikes(location)[i], *this, location, bikeType - 1);
+					addRentedBikeId(rental.getFreeBikes(location, bikeType - 1)[i]);
+					rental.rent(rental.getFreeBikes(location, bikeType - 1)[i], *this, location, bikeType - 1);
 					addRentedBikesAmount(1);
+					takenBikes++;
 				}
+			}
+			if (takenBikes == 0)
+			{
+				cout << "This rental point has no bikes. You didn't take any bikes. Try in another location." << endl;
+			}
+			else if (takenBikes == 1 && takenBikes == bikesNumber)
+			{
+				cout << "You took " << takenBikes << " bike." << endl;
+			}
+			else if (takenBikes == 1 && takenBikes != bikesNumber)
+			{
+				cout << "You took only " << takenBikes << " bike. This rental point has no more bikes. Try in another location." << endl;
+			}
+			else if (takenBikes < bikesNumber)
+			{
+				cout << "You took only " << takenBikes << " bikes. This rental point has no more bikes. Try in another location." << endl;
+			}
+			else if (takenBikes == bikesNumber)
+			{
+				cout << "You took " << takenBikes << " bikes." << endl;
 			}
 		}
 		else

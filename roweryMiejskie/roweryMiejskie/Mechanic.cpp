@@ -286,6 +286,7 @@ void Mechanic::returnFixedBike(MainLocation& rental)
         {
             rental.returnFixed(bikeId, *this, location);
             takenBikesId.erase(i);
+            earnedCash += 50;
             return;
         }
         else

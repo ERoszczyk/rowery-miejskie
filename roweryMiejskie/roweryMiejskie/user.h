@@ -2,7 +2,6 @@
 #ifndef user_h
 #define user_h
 
-//#include <iostream>
 #include <vector>
 #include <string>
 
@@ -31,8 +30,7 @@ public:
 	std::string getPassword();
 	int getId();
 	virtual void menu(MainLocation& rental, BikeDatabase& database, UserDataBase& base) = 0;
-
-   //na wszelki wypadek lepiej dodaæ wirtualny destruktor
+	virtual ~User();
 };
 
 #endif

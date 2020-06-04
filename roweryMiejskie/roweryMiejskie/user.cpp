@@ -56,3 +56,12 @@ int User::getId()
 {
 	return id;
 }
+
+User::~User()
+{
+	delete[] & name;
+	delete[] & surname;
+	delete[] & username;
+	delete[] & password;
+	delete[] & id;
+}

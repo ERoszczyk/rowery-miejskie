@@ -18,6 +18,4 @@ int main()
     UserDataBase base;
     base.menuStart(point, database);
     database.exportToFile("exporteddatabase.txt");
-    string x = "password";
-    vector<byte> xyz;
 }
