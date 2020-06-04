@@ -44,9 +44,7 @@ W projekcie dostępne są dwa przykładowe konta testowe - jedno klienta (**logi
 
 ![Diagram hierarchii klas](projectGraph.png)
 
-Na powyższym diagramie przedstawiona jest hierarchia klas. Za pomocą ciągłych strzałek przedstawione zostały klasy dziedziczące, które są już zaimplementowane w projekcie,
-natomiast za pomocą strzałek przerywanych przedstawione są klasy planowane do zaimplementowania. Pochyłą czcionką ukazane zostały klasy wirtualne. Dodatkowo za pomocą zwykłych 
-kresek przedstawione zostało połączenie klas.
+Na powyższym diagramie przedstawiona jest hierarchia klas zgodnie z językiem UML.
 
 
 
