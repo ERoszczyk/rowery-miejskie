@@ -1,20 +1,23 @@
 //Plik zawieraj¹cy funkcje klasy UserBase, Ewa Roszczyk, nr. indeksu: 304077
 #include <iostream>
 #include <conio.h>
+#include <fstream>
 
-#include "userBase.h"
+#include "UserDataBase.h"
 
 using namespace std;
 
-UserBase::UserBase()
+UserDataBase::UserDataBase()
 {
 	userNames.insert({0, new Administrator("Administrator", "Przykladowy", "admin", "haslo", 0)});
 	userNames.insert({1, new Client("Uzytkownik", "Przykladowy", "user", "haslo", 1) });
+	userNames.insert({ 2, new ClientPremium("Uzytkownik", "Premium", "premium", "haslo", 2) });
+	userNames.insert({ 3, new Mechanic("Mechanik", "Przykladowy", "mechanik", "haslo", 3) });
 }
 
 // To (tzn. menu i obs³ugê wejœcia/wyjœcia lepiej odseparowaæ logiki przechowywania uzytkowników 
 
-void UserBase::menuStart(MainLocation& rental, BikeDatabase& database)
+void UserDataBase::menuStart(MainLocation& rental, BikeDatabase& database)
 {
 	int optionNumber;
 	string answer;
@@ -29,7 +32,7 @@ void UserBase::menuStart(MainLocation& rental, BikeDatabase& database)
 	switch (optionNumber)
 	{
 	case 1:
-		login(rental, database, *this);
+		login(rental, database);
 		break;
 	case 2:
 		createNewUser();
@@ -46,24 +49,36 @@ void UserBase::menuStart(MainLocation& rental, BikeDatabase& database)
 		return;
 }
 
-void UserBase::addNewUser(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword)
+void UserDataBase::addNewClient(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword)
 {
 	int id = getCurrentLoginIndex();
 	userNames.insert({ id, new Client(userName, userSurname, userUsername, userPassword, id) });
 }
 
-void UserBase::addNewAdministrator(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword)
+void UserDataBase::addNewAdministrator(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword)
 {
 	int id = getCurrentLoginIndex();
 	userNames.insert({ id, new Administrator(userName, userSurname, userUsername, userPassword, id) });
 }
 
-map<int, User*> UserBase::getUserNames()
+void UserDataBase::addNewClientPremium(const std::string& userName, const std::string& userSurname, const std::string& userUsername, const std::string& userPassword)
+{
+	int id = getCurrentLoginIndex();
+	userNames.insert({ id, new ClientPremium(userName, userSurname, userUsername, userPassword, id) });
+}
+
+void UserDataBase::addNewMechanic(const std::string& userName, const std::string& userSurname, const std::string& userUsername, const std::string& userPassword)
+{
+	int id = getCurrentLoginIndex();
+	userNames.insert({ id, new Mechanic(userName, userSurname, userUsername, userPassword, id) });
+}
+
+map<int, User*> UserDataBase::getUserNames()
 {
 	return userNames;
 }
 
-bool UserBase::ifUsernameExists(const string& username)
+bool UserDataBase::ifUsernameExists(const string& username)
 {
 	for (auto i = userNames.begin(); i != userNames.end(); ++i)
 	{
@@ -73,7 +88,7 @@ bool UserBase::ifUsernameExists(const string& username)
 	return false;
 }
 
-int UserBase::getCurrentLoginIndex()
+int UserDataBase::getCurrentLoginIndex()
 {
 	if (userNames.size() == 0)
 	{
@@ -87,7 +102,7 @@ int UserBase::getCurrentLoginIndex()
 
 }
 
-bool UserBase::ifUsernameAvailable(const string& username)
+bool UserDataBase::ifUsernameAvailable(const string& username)
 {
 	for (auto i = userNames.begin(); i != userNames.end(); ++i)
 	{
@@ -98,7 +113,7 @@ bool UserBase::ifUsernameAvailable(const string& username)
 }
 
 
-void UserBase::createNewUser()
+void UserDataBase::createNewUser()
 {
 	string name, surname, username, password = "";
 	char character;
@@ -122,10 +137,10 @@ void UserBase::createNewUser()
 		character = _getch();
 	}
 	cout << endl;
-	addNewUser(name, surname, username, password);
+	addNewClient(name, surname, username, password);
 }
 
-void UserBase::createNewUserAsAdministrator()
+void UserDataBase::createNewUserAsAdministrator()
 {
 	string name, surname, username, password = "";
 	char character;
@@ -149,10 +164,10 @@ void UserBase::createNewUserAsAdministrator()
 		character = _getch();
 	}
 	cout << endl;
-	addNewUser(name, surname, username, password);
+	addNewClient(name, surname, username, password);
 }
 
-void UserBase::createNewAdministrator()
+void UserDataBase::createNewAdministrator()
 {
 	string name, surname, username, password = "";
 	char character;
@@ -179,7 +194,61 @@ void UserBase::createNewAdministrator()
 	addNewAdministrator(name, surname, username, password);
 }
 
-void UserBase::login(MainLocation& rental, BikeDatabase& database, UserBase& base)
+void UserDataBase::createNewClientPremium()
+{
+	string name, surname, username, password = "";
+	char character;
+	cout << "Enter client's first name: " << endl;
+	cin >> name;
+	cout << "Enter client's surname: " << endl;
+	cin >> surname;
+	cout << "Enter client's username: " << endl;
+	cin >> username;
+	while (!ifUsernameAvailable(username))
+	{
+		cout << "This username is already taken. Enter another one: " << endl;
+		cin >> username;
+	}
+	cout << "Enter client's password: " << endl;
+	character = _getch();
+	while (character != 13)
+	{
+		password.push_back(character);
+		cout << "*";
+		character = _getch();
+	}
+	cout << endl;
+	addNewClientPremium(name, surname, username, password);
+}
+
+void UserDataBase::createNewMechanic()
+{
+	string name, surname, username, password = "";
+	char character;
+	cout << "Enter mechnic's first name: " << endl;
+	cin >> name;
+	cout << "Enter mechnic's surname: " << endl;
+	cin >> surname;
+	cout << "Enter mechnic's username: " << endl;
+	cin >> username;
+	while (!ifUsernameAvailable(username))
+	{
+		cout << "This username is already taken. Enter another one: " << endl;
+		cin >> username;
+	}
+	cout << "Enter mechnic's password: " << endl;
+	character = _getch();
+	while (character != 13)
+	{
+		password.push_back(character);
+		cout << "*";
+		character = _getch();
+	}
+	cout << endl;
+	addNewMechanic(name, surname, username, password);
+}
+
+void UserDataBase::login(MainLocation& rental, BikeDatabase& database)
 {
 	string username, tryAgainAnswer, password = "";
 	char character;
@@ -204,7 +273,7 @@ void UserBase::login(MainLocation& rental, BikeDatabase& database, UserBase& bas
 			{
 				cout << "Hello " << username << "! " << "You're logged in!" << endl;
 				//activeUserId = i->first;
-				i->second->menu(rental, database, base);
+				i->second->menu(rental, database, *this);
 				return;
 			}
 			else
@@ -213,7 +282,7 @@ void UserBase::login(MainLocation& rental, BikeDatabase& database, UserBase& bas
 				cout << "Do you want to try again? (y/n) ";
 				cin >> tryAgainAnswer;
 				if (tryAgainAnswer == "y")
-					login(rental, database, base);
+					login(rental, database);
 				else
 					return;
 			}
@@ -225,13 +294,13 @@ void UserBase::login(MainLocation& rental, BikeDatabase& database, UserBase& bas
 		cout << "Do you want to try again? (y/n) ";
 		cin >> tryAgainAnswer;
 		if (tryAgainAnswer == "y")
-			login(rental, database, base);
+			login(rental, database);
 		else
 			return;
 	}
 }
 
-void UserBase::changeUsernameAsAdministrator(const string& currentUsername, const string& newUsername)
+void UserDataBase::changeUsernameAsAdministrator(const string& currentUsername, const string& newUsername)
 {
 	for (auto i = userNames.begin(); i != userNames.end(); ++i)
 	{
@@ -242,7 +311,7 @@ void UserBase::changeUsernameAsAdministrator(const string& currentUsername, cons
 	}
 }
 
-void UserBase::changePasswordAsAdministrator(const string& username, const string& newPassword)
+void UserDataBase::changePasswordAsAdministrator(const string& username, const string& newPassword)
 {
 	for (auto i = userNames.begin(); i != userNames.end(); ++i)
 	{
@@ -253,7 +322,7 @@ void UserBase::changePasswordAsAdministrator(const string& username, const strin
 	}
 }
 
-void UserBase::changeNameAsAdministrator(const string& username, const string& newName)
+void UserDataBase::changeNameAsAdministrator(const string& username, const string& newName)
 {
 	for (auto i = userNames.begin(); i != userNames.end(); ++i)
 	{
@@ -264,7 +333,7 @@ void UserBase::changeNameAsAdministrator(const string& username, const string& n
 	}
 }
 
-void UserBase::changeSurnameAsAdministrator(const string& username, const string& newSurname)
+void UserDataBase::changeSurnameAsAdministrator(const string& username, const string& newSurname)
 {
 	for (auto i = userNames.begin(); i != userNames.end(); ++i)
 	{
@@ -275,7 +344,7 @@ void UserBase::changeSurnameAsAdministrator(const string& username, const string
 	}
 }
 
-void UserBase::deleteUserAsAdministrator(const string& username)
+void UserDataBase::deleteUserAsAdministrator(const string& username)
 {
 	for (auto i = userNames.begin(); i != userNames.end(); ++i)
 	{
@@ -288,7 +357,18 @@ void UserBase::deleteUserAsAdministrator(const string& username)
 	}
 }
 
-void UserBase::exportBaseToFile(const string& filename)
+void UserDataBase::premiumActivation(const int& userId, MainLocation& rental, BikeDatabase& database)
+{
+	userNames.find(userId)->second = static_cast<ClientPremium*>(userNames.find(userId)->second);
+	//userNames.find(userId)->second->menu(rental, database, *this);
+}
+
+void UserDataBase::premiumResignation(const int& userId)
+{
+	userNames.find(userId)->second = static_cast<Client*>(userNames.find(userId)->second);
+}
+
+void UserDataBase::exportBaseToFile(const string& filename)
 {
 	ofstream file(filename);
 	file << "User's ID" << '\t' << "User's name" << '\t' << "User's surname" << '\t' << "User's username" << '\t' << "User's password" << endl;
@@ -301,3 +381,9 @@ void UserBase::exportBaseToFile(const string& filename)
 	}
 	file.close();
 }
+
+//secure_vector<byte> UserDataBase::hashFunction(string input)
+//{
+//	SHA_256 sha;
+//	return sha.process(input);
+//}

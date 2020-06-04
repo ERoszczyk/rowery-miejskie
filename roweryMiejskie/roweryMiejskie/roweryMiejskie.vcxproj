@@ -73,10 +73,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <TargetExt>.dll</TargetExt>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <TargetExt>.dll</TargetExt>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -157,10 +159,12 @@
     <ClCompile Include="Bike.cpp" />
     <ClCompile Include="BikeDatabase.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="ClientPremium.cpp" />
+    <ClCompile Include="Mechanic.cpp" />
     <ClCompile Include="RentalPoint.cpp" />
     <ClCompile Include="roweryMiejskie.cpp" />
     <ClCompile Include="User.cpp" />
-    <ClCompile Include="userBase.cpp" />
+    <ClCompile Include="UserDataBase.cpp" />
     <ClCompile Include="ElectricBike.cpp" />
     <ClCompile Include="Tandem.cpp" />
   </ItemGroup>
@@ -169,11 +173,13 @@
     <ClInclude Include="Bike.h" />
     <ClInclude Include="BikeDatabase.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="ClientPremium.h" />
     <ClInclude Include="ElectricBike.h" />
+    <ClInclude Include="Mechanic.h" />
     <ClInclude Include="Tandem.h" />
     <ClInclude Include="RentalPoint.h" />
     <ClInclude Include="User.h" />
-    <ClInclude Include="userBase.h" />
+    <ClInclude Include="UserDataBase.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

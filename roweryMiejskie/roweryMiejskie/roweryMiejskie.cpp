@@ -1,7 +1,8 @@
 ﻿#include <iostream>
-#include "userBase.h"
+#include "UserDataBase.h"
 #include "BikeDatabase.h"
 #include "RentalPoint.h"
+#include "ClientPremium.h"
 
 using namespace std;
 
@@ -14,7 +15,7 @@ int main()
     database.importFromFile();
     vector<string> names{ "another location", "one more location" };
     MainLocation point(names, database);
-    UserBase base;
+    UserDataBase base;
     base.menuStart(point, database);
     database.exportToFile("exporteddatabase.txt");
 }

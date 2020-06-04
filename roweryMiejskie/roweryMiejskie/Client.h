@@ -7,7 +7,7 @@
 
 class MainLocation;
 class BikeDatabase;
-class UserBase;
+class UserdDataBase;
 
 class Client :public User
 {
@@ -18,8 +18,8 @@ class Client :public User
 
 public:
 	Client(const std::string & userName, const std::string & userSurname, const std::string & userUsername, const std::string & userPassword, const int & id);
-	virtual void menu(MainLocation& rental, BikeDatabase& database, UserBase& base);
-	
+	virtual void menu(MainLocation& rental, BikeDatabase& database, UserDataBase& base);
+
 	void transferCash(const double& cash);
 	void addRentedBikesAmount(const int& rentedBikes);
 	void removeRentedBikes();
@@ -27,6 +27,7 @@ public:
 	void removeRentedBikesId();
 	double getCash();
 	int getRentedBikes();
+	int getLocation();
 	std::vector<int> getRentedBikesId();
 	void changePassword();
 	void rentBike(MainLocation& const rental, BikeDatabase& database);

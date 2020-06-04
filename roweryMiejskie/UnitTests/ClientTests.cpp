@@ -6,8 +6,10 @@
 #include "../roweryMiejskie/User.cpp"
 #include "../roweryMiejskie/Administrator.cpp"
 #include "../roweryMiejskie/RentalPoint.cpp"
-#include "../roweryMiejskie/UserBase.cpp"
+#include "../roweryMiejskie/UserDataBase.cpp"
 #include "../roweryMiejskie/Bike.cpp"
+#include "../roweryMiejskie/Mechanic.cpp"	// bez tych dwóch by³o LNK 2019
+#include "../roweryMiejskie/ClientPremium.cpp" //
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

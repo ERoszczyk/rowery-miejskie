@@ -1,4 +1,8 @@
+//Klasa Tandem, dziedziczy po Bike
+//Olga Krupa,nr indeksu 304048
 #include "Tandem.h"
+
+using namespace std;
 
 void Tandem::Pay(Client& user)
 {

@@ -8,16 +8,24 @@
 
 using namespace std;
 
-void BikeDatabase::addBike()
+int BikeDatabase::addBike()
 {
-	int newId = idCount + 1;
+	int newId = 1;
+	if (allBikes.size() != 0)
+	{
+		newId = allBikes.rbegin()->first + 1;
+	}
 	Record empty;
 	allBikes.insert(pair<int, Record>(newId, empty)); 
-	idCount++;
+	return newId;
 }
 void BikeDatabase::addBike(Record newRecord)
 {
-	int newId = idCount + 1;
+	int newId = 1;
+	if (allBikes.size() != 0)
+	{
+		newId = allBikes.rbegin()->first + 1;
+	}
 	allBikes.insert(pair<int, Record>(newId, newRecord)); 
 	idCount++;
 }
@@ -34,7 +42,7 @@ void BikeDatabase::addBikes(int newBikes)
 	}
 }
 void BikeDatabase::addBikes(const vector<Record>& newBikes)
-{  //for(auto b : newBikes){}
+{
 	for (auto it = newBikes.begin(); it != newBikes.end(); ++it)
 	{
 		addBike(*it);
@@ -115,12 +123,12 @@ istream& operator>> (istream& is, BikeDatabase& database)
 
 ostream& operator<<(ostream& os, Record& record)
 {
-	os << record.state << ' ' << record.user << ' ' << record.stand;
+	os << record.state << ' ' << record.user << ' ' << record.stand << ' ' << record.type << ' ' << record.broken;
 	return os;
 }
 istream& operator>> (istream& is, Record& record)
 {
-	is >> record.state >> record.user >> record.stand;
+	is >> record.state >> record.user >> record.stand >> record.type >> record.broken;
 	return is;
 };
 

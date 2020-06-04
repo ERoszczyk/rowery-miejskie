@@ -1,6 +1,9 @@
 #include "Bike.h"
 //Klasa Bike
 //Olga Krupa,nr indeksu 304048
+
+using namespace std;
+
 ostream& operator<<(ostream& os, const Bike& b)
 {
     os << b.id << endl;
@@ -10,8 +13,6 @@ ostream& operator<<(ostream& os, const Bike& b)
     os << b.time_hold << endl;
     os << b.start << endl;
     os << b.end << endl;
-    for (std::vector<string>::const_iterator i = b.history.begin(); i != b.history.end(); ++i)
-        os << *i << endl;
 
     return os;
 }
@@ -24,8 +25,6 @@ istream& operator>>(istream& is, Bike& b)
 
 Bike& Bike::operator=(const Bike& b)
 {
-    // self-assignment check
-    //zmiana roweru, np w przypadku checi zmiany rowru lub zepsucia poprzedniego, przypisanie nowego roweru
     if (this == &b)
         return *this;
 
@@ -36,30 +35,13 @@ Bike& Bike::operator=(const Bike& b)
     price = b.price;
     end = 0;
     time_hold = 0;
+    damage = b.damage;
 
     return *this;
 }
 
-void Bike::HistoryOfRent() //wpisanie obiektu do historii
+void Bike::HistoryOfRentWithNotification() //wpisanie obiektu do historii z informacj¹ o zepsuciu
 {
-    /*if (b.id == id)
-    {
-        string line = b.holder + " | " + to_string(b.state) + " | " + to_string(b.time_hold) + " | " + to_string(b.price);
-        if (history.empty())
-        {
-            string pi = "Bike " + to_string(b.id) + ": " + "USER | STATE | TIME OF RENT | PRICE\n";
-            b.history.push_back(pi);
-            b.history.push_back(line);
-        }
-        else
-        {
-            history.push_back(line);
-        }
-    }
-    else
-    {
-        b.HistoryOfRent(b);
-    }*/
     ofstream file;
     file.open("history.txt", ofstream::app);
 
@@ -67,6 +49,8 @@ void Bike::HistoryOfRent() //wpisanie obiektu do historii
     {
         string line = to_string(id) + " | " + holder + " | " + to_string(state) + " | " + to_string(time_hold) + " | " + to_string(price) + "\n";
         file << line;
+        string notification = "While renting a bike by the user " + holder + " of the bike with id " + to_string(id) + " got broken.\n";
+        file << notification;
     }
     else
     {
@@ -78,7 +62,27 @@ void Bike::HistoryOfRent() //wpisanie obiektu do historii
 
 }
 
-void Bike::Stop(BikeDatabase& database, map<int, bool>& states, Client& user) //koniec wypozyczenia, po wys³aniu wiadomosci o checi oddania roweru od uzytkownika lub wypozyczalni
+void Bike::HistoryOfRent() //wpisanie obiektu do historii
+{
+    ofstream file;
+    file.open("history.txt", ofstream::app);
+
+    if (file.is_open())
+    {
+        string line = to_string(id) + " | " + holder + " | " + to_string(state) + " | " + to_string(time_hold) + " | " + to_string(price) + "\n";
+        file << line;
+    }
+    else
+    {
+#if _DEBUG
+        cout << "Unable to open file";
+#endif
+    }
+    file.close();
+
+}
+
+void Bike::Stop(BikeDatabase& database, map<int, bool>& states, Client& user) //koniec wypozyczenia, po wys³aniu wiadomosci o checi oddania roweru
 {
     bool endassingnment;
     endassingnment = StandAssignment(database, states);
@@ -88,7 +92,18 @@ void Bike::Stop(BikeDatabase& database, map<int, bool>& states, Client& user) //
         time_hold = difftime(end, start) / 60;
         cout << "Time of rent " << time_hold << " minutes." << endl;
         Pay(user);
-        HistoryOfRent();
+        check_demage = true;
+        bool dem = damage.get();
+        check_demage = false;
+        if (dem)
+        {
+            database.breakDown(id);
+            HistoryOfRentWithNotification();
+        }
+        else
+        {
+            HistoryOfRent();
+        }
         database.setBikeState(id, false);
         database.setBikeOwner(id, 0);
     }
@@ -128,16 +143,29 @@ void Bike::Pay(Client& user)
     user.transferCash(-price);
 };
 
-void Bike::StartOfRent(BikeDatabase& database, int person, float money)
+void Bike::StartOfRent(BikeDatabase& database, int person, float money, Client& user)
 {
     holder = to_string(person);
     account = money;
     //Sprawdzanie konta
     if (account < 10)
     {
+        int answer;
         cout << "You do not have enough money to rent a bike." << endl;
         database.setBikeState(id, false);
-        //funkcja do dodania œrodków, odes³anie do u¿ytkownika?
+        cout << "Would you like to deposit money? " << endl;
+        cout << "1.YES " << endl << "2.NO " << endl;
+        cin >> answer;
+        switch (answer)
+        {
+        case 1:
+            cout << "Now you can deposit money" << endl;
+            user.transferMoney();
+            break;
+        
+        default:
+            cout << "You didn't rent any bikes " << endl;
+        }
     }
     else
     {
@@ -149,20 +177,17 @@ void Bike::StartOfRent(BikeDatabase& database, int person, float money)
         end = 0;
         time_hold = 0;
         price = 0;
-        /*for (auto it = states.begin(); it != states.end(); ++it)
-            if (it->second == id)
-            {
-                it->second == 0;
-            }*/
-            //  Obliczanie czasu wypozyczenia, informacja o czasie wypzyczenia oraz wywolanie funkcji do pobrania srodkow
+#if _DEBUG
         cout << "Rental time has begun" << endl;
+#endif
         time(&start);
+        damage = async(launch::async, &Bike::Breakdown, this);
         //odliczanie czasu od wynajecia 
     }
 
 };
 
-bool Bike::StandAssignment(BikeDatabase& database, map<int, bool>& states)
+bool Bike::StandAssignment(BikeDatabase& database, map<int, bool>& states) //przypisanie stojaka
 {
     int stateid;
     bool use = false;
@@ -182,7 +207,7 @@ bool Bike::StandAssignment(BikeDatabase& database, map<int, bool>& states)
     
 };
 
-int Bike::FindStand(map<int, bool>& states)
+int Bike::FindStand(map<int, bool>& states) //szukanie wolnego stojaka
 {
     int stateid = 0;
     bool available = false;
@@ -197,4 +222,26 @@ int Bike::FindStand(map<int, bool>& states)
         }
     }
     return stateid;
+};
+
+bool Bike::Breakdown() //losowe zepsucia
+{
+    srand(time(NULL));
+    int val;
+    bool bike_demage = false;
+    while (true)
+    {
+        if (check_demage)
+        {
+            return bike_demage;
+        }
+        val = rand() % 100;
+        if (val < 15)
+        {
+            cout << endl << "Damage found, return the bike to the nearest free stand" << endl;
+            bike_demage = true;
+            return bike_demage;
+        }
+        Sleep(5000);
+    }
 };

@@ -1,15 +1,16 @@
 //Plik zawieraj¹cy funkcje klasy Administrator, Ewa Roszczyk, nr. indeksu: 304077
 #include "Administrator.h"
-#include "UserBase.h"
+#include "UserDataBase.h"
 #include "RentalPoint.h"
 
+using namespace std;
+
 Administrator::Administrator(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword, const int& id)
-	: User(userName, userSurname, userUsername, userPassword, id),
-     ifAdministrator(true)
+	: User(userName, userSurname, userUsername, userPassword, id)
 {
 }
 
-void Administrator::menu(MainLocation& rental, BikeDatabase& database, UserBase& base)
+void Administrator::menu(MainLocation& rental, BikeDatabase& database, UserDataBase& base)
 {
 	int optionNumber;
 	string answer, filename;
@@ -31,22 +32,26 @@ void Administrator::menu(MainLocation& rental, BikeDatabase& database, UserBase&
 	cout << "12. Import users database from file" << endl;
 	cout << "13. Add new administrator" << endl;
 	cout << "14. Delete administrator" << endl;
-	cout << "15. Log out" << endl;
+	cout << "15. Add new client premium" << endl;
+	cout << "16. Delete client premium" << endl;
+	cout << "17. Add new mechanic" << endl;
+	cout << "18. Delete mechanic" << endl;
+	cout << "19. Log out" << endl;
 	cout << "Enter what would you like to do: ";
 	cin >> optionNumber;
 	switch (optionNumber)
 	{
 	case 1:
-		cout << "This option is not available yet" << endl;  //od wypozyczalni
+		addNewRentalPoint(rental);
 		break;
 	case 2:
 		disactivateRentalPoint(rental);
 		break;
 	case 3:
-		cout << "This option is not available yet" << endl;  //od wypozyczalni
+		addBikeToRentalPoint(rental);
 		break;
 	case 4:
-		cout << "This option is not available yet" << endl;  //od wypozyczalni
+		deleteBikeFromRentalPoint(rental);
 		break;
 	case 5:
 		base.createNewUserAsAdministrator();
@@ -82,6 +87,20 @@ void Administrator::menu(MainLocation& rental, BikeDatabase& database, UserBase&
 		deleteAdministrator(base);
 		break;
 	case 15:
+		base.createNewClientPremium();
+		break;
+	case 16:
+		//deleteAdministrator(base);
+		cout << "This option is not available yet" << endl;
+		break;
+	case 17:
+		base.createNewMechanic();
+		break;
+	case 18:
+		//deleteAdministrator(base);
+		cout << "This option is not available yet" << endl;
+		break;
+	case 19:
 		cout << "You've been logged out" << endl;
 		return;
 	default:
@@ -137,7 +156,7 @@ void Administrator::disactivateRentalPoint(MainLocation& rental)
 	}
 }
 
-void Administrator::changeUsersPassword(UserBase& base)
+void Administrator::changeUsersPassword(UserDataBase& base)
 {
 	string currentUsername, newPassword = "", answer;
 	char character;
@@ -169,7 +188,7 @@ void Administrator::changeUsersPassword(UserBase& base)
 	}
 }
 
-void Administrator::changeUsersName(UserBase& base)
+void Administrator::changeUsersName(UserDataBase& base)
 {
 	string currentUsername, newName, answer;
 	cout << "Enter user's Username: " << endl;
@@ -192,7 +211,7 @@ void Administrator::changeUsersName(UserBase& base)
 	}
 }
 
-void Administrator::changeUsersSurname(UserBase& base)
+void Administrator::changeUsersSurname(UserDataBase& base)
 {
 	string currentUsername, newSurname, answer;
 	cout << "Enter user's Username: " << endl;
@@ -215,7 +234,7 @@ void Administrator::changeUsersSurname(UserBase& base)
 	}
 }
 
-void Administrator::changeUsersUsername(UserBase& base)
+void Administrator::changeUsersUsername(UserDataBase& base)
 {
 	string currentUsername, newUsername, answer;
 	cout << "Enter current user's Username: " << endl;
@@ -238,7 +257,7 @@ void Administrator::changeUsersUsername(UserBase& base)
 	}
 }
 
-void Administrator::deleteUser(UserBase& base)
+void Administrator::deleteUser(UserDataBase& base)
 {
 	string username, answer;
 	cout << "Enter user's Username: " << endl;
@@ -259,7 +278,7 @@ void Administrator::deleteUser(UserBase& base)
 	}
 }
 
-void Administrator::deleteAdministrator(UserBase& base)
+void Administrator::deleteAdministrator(UserDataBase& base)
 {
 	string username, answer;
 	cout << "Enter administrator's Username: " << endl;
@@ -278,4 +297,163 @@ void Administrator::deleteAdministrator(UserBase& base)
 	{
 		base.deleteUserAsAdministrator(username);
 	}
+}
+
+void Administrator::addNewRentalPoint(MainLocation& rental)
+{
+	string newRentalPointName;
+	cout << "Enter name of new rental point: " << endl;
+	cin >> newRentalPointName;
+	rental.addLocation(newRentalPointName);
+}
+
+void Administrator::addBikeToRentalPoint(MainLocation& rental)
+{
+	int bikeType, rentalPointId;
+	string answer;
+	cout << "1. Normal bike" << endl;
+	cout << "2. Electric bike" << endl;
+	cout << "3. Tandem" << endl;
+	cout << "Enter bike type you would like to add (number): ";
+	cin >> bikeType;
+	if (bikeType >= 1 && bikeType <= 3)
+	{
+		for (int i = 0; i < rental.getRentalLocationNames().size(); i++)
+		{
+			cout << i + 1 << ". ";
+			cout << rental.getRentalLocationNames()[i] << endl;
+		}
+		cout << rental.getRentalLocationNames().size() + 1 << ". Main location" << endl;
+		cout << "Enter location number to which you would like to add: ";
+		cin >> rentalPointId;
+		if (rentalPointId < 1 || rentalPointId > rental.getRentalLocationNames().size() + 1)
+		{
+			cout << "Wrong location number!" << endl;
+			cout << "Would you like to try again? (y/n) ";
+			cin >> answer;
+			if (answer == "y")
+				addBikeToRentalPoint(rental);
+			else
+				return;
+		}
+		else if (rentalPointId == rental.getRentalLocationNames().size() + 1)
+			rental.addBike(bikeType - 1, -1);
+		else
+			rental.addBike(bikeType - 1, rentalPointId - 1);
+	}
+	else
+	{
+		cout << "Wrong number!" << endl;
+		cout << "Would you like to try again? (y/n) ";
+		cin >> answer;
+		if (answer == "y")
+			addBikeToRentalPoint(rental);
+		else
+			return;
+	}
+}
+
+int Administrator::chooseLocation(MainLocation& rental)
+{
+	int rentalPointId;
+	string answer;
+
+	for (int i = 0; i < rental.getRentalLocationNames().size(); i++)
+	{
+		cout << i + 1 << ". ";
+		cout << rental.getRentalLocationNames()[i] << endl;
+	}
+	cout << rental.getRentalLocationNames().size() + 1 << ". Main location" << endl;
+	cout << "Enter location number from which you would like to remove bike: ";
+	cin >> rentalPointId;
+	if (rentalPointId < 1 || rentalPointId > rental.getRentalLocationNames().size() + 1)
+	{
+		cout << "Wrong location number!" << endl;
+		cout << "Would you like to try again? (y/n) ";
+		cin >> answer;
+		if (answer == "y")
+			chooseLocation(rental);
+		else
+			return -2;
+	}
+	else if (rentalPointId == rental.getRentalLocationNames().size() + 1)
+		return -1;
+	else
+		return rentalPointId - 1;
+}
+
+int Administrator::chooseBikeType(MainLocation& rental)
+{
+	int bikeType;
+	string answer;
+	cout << "1. Normal bike" << endl;
+	cout << "2. Electric bike" << endl;
+	cout << "3. Tandem" << endl;
+	cout << "Enter bike type you would like to remove (number): ";
+	cin >> bikeType;
+
+	if (bikeType >= 1 && bikeType <= 3)
+	{
+		return bikeType-1;
+	}
+	else
+	{
+		cout << "Wrong bike type number!" << endl;
+		cout << "Would you like to try again? (y/n) ";
+		cin >> answer;
+		if (answer == "y")
+			chooseBikeType(rental);
+		else
+			return -1;
+	}
+}
+
+void Administrator::deleteBikeFromRentalPoint(MainLocation& rental)
+{
+	int bikeType, rentalPointId, bikeId;
+	string answer;
+
+	rentalPointId = chooseLocation(rental);
+	if (rentalPointId == -2)
+		return;
+	else
+		cout << "Would you like to delete a broken bike? (y/n) ";
+	cin >> answer;
+	if (answer == "y")
+	{
+		if (rental.getBrokenBikes(rentalPointId).size() == 0)
+		{
+			cout << "There are no broken bikes in this location." << endl;
+			return;
+		}
+		for (int i = 0; i < rental.getBrokenBikes(rentalPointId).size(); i++)
+		{
+			cout << rental.getBrokenBikes(rentalPointId)[i] << endl;
+		}
+	}
+	else if (answer == "n")
+	{
+		bikeType = chooseBikeType(rental);
+		if (bikeType == -1)
+			return;
+		else
+		{
+			if (rental.getFreeBikes(rentalPointId, bikeType).size() == 0)
+			{
+				cout << "There are no bikes of this type in this location." << endl;
+				return;
+			}
+				
+			for (int i = 0; i < rental.getFreeBikes(rentalPointId, bikeType).size(); i++)
+			{
+				cout << rental.getFreeBikes(rentalPointId, bikeType)[i] << endl;
+			}
+		}
+	}
+	else
+		return;
+
+	cout << "Enter the id of the bike you would like to remove: ";
+	cin >> bikeId;
+	rental.removeBike(bikeId, rentalPointId);
 }

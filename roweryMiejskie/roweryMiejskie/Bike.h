@@ -14,14 +14,18 @@
 #include <time.h>
 #include <conio.h>
 #include <sstream>
+#include <future>
+#include <windows.h>
 
-using namespace std; // proszê siê tego pozbyæ - nie wolno w plikach nag³ówkowych!
+
 
 class Bike {
 protected:
     int id;
-    string holder;
+    std::string holder;
     time_t start, end;
+    std::shared_future<bool> damage;
+    bool check_demage = false;
 
 public:
 
@@ -29,24 +33,25 @@ public:
     float price;
     double time_hold;
     int state;
-    vector <string> history;
-    Bike() : account(0) {}; // niezainicjalizowane pola klasy ...
+    Bike() {};
     Bike(int id) {
         this->id = id;
     }
-    // warto (na wszelki wypadek) dodaæ wirtualny destruktor
-    virtual Bike& operator=(const Bike& b);  // Jak bêdzie zmieniana funkcja? virtual nie bardzo ma sens
-    virtual void StartOfRent(BikeDatabase& database, int person, const float money);
-    bool StandAssignment(BikeDatabase& database, map<int, bool>& states);
-    int FindStand(map<int, bool>& states);
+    virtual ~Bike() {};
+    Bike& operator=(const Bike& b);
+    virtual void StartOfRent(BikeDatabase& database, int person, const float money, Client& user);
+    bool StandAssignment(BikeDatabase& database, std::map<int, bool>& states);
+    int FindStand(std::map<int, bool>& states);
     virtual void Pay(Client& user);
-    virtual void Stop(BikeDatabase& database, map<int, bool>& states, Client& user);
+    virtual void Stop(BikeDatabase& database, std::map<int, bool>& states, Client& user);
+    virtual bool Breakdown();
     void HistoryOfRent();
+    void HistoryOfRentWithNotification();
 
     friend
-        ostream& operator<< (ostream& os, const Bike& b);
+        std::ostream& operator<< (std::ostream& os, const Bike& b);
     friend
-        istream& operator>> (istream& is, Bike& b);
+        std::istream& operator>> (std::istream& is, Bike& b);
 };
 
 #endif
