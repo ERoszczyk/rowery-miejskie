@@ -49,7 +49,7 @@ void UserDataBase::menuStart(MainLocation& rental, BikeDatabase& database)
 		return;
 }
 
-void UserDataBase::addNewUser(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword)
+void UserDataBase::addNewClient(const string& userName, const string& userSurname, const string& userUsername, const string& userPassword)
 {
 	int id = getCurrentLoginIndex();
 	userNames.insert({ id, new Client(userName, userSurname, userUsername, userPassword, id) });
@@ -137,7 +137,7 @@ void UserDataBase::createNewUser()
 		character = _getch();
 	}
 	cout << endl;
-	addNewUser(name, surname, username, password);
+	addNewClient(name, surname, username, password);
 }
 
 void UserDataBase::createNewUserAsAdministrator()
@@ -164,7 +164,7 @@ void UserDataBase::createNewUserAsAdministrator()
 		character = _getch();
 	}
 	cout << endl;
-	addNewUser(name, surname, username, password);
+	addNewClient(name, surname, username, password);
 }
 
 void UserDataBase::createNewAdministrator()
@@ -381,3 +381,9 @@ void UserDataBase::exportBaseToFile(const string& filename)
 	}
 	file.close();
 }
+
+//secure_vector<byte> UserDataBase::hashFunction(string input)
+//{
+//	SHA_256 sha;
+//	return sha.process(input);
+//}

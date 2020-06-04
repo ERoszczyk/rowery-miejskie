@@ -18,10 +18,6 @@ int main()
     UserDataBase base;
     base.menuStart(point, database);
     database.exportToFile("exporteddatabase.txt");
-  
-     /* ClientPremium c("a", "b", "c", "d", 1);
-    if (typeid(c) == typeid(ClientPremium))
-        cout << "Jej";
-    else
-        cout << typeid(c).name();*/
+    string x = "password";
+    vector<byte> xyz;
 }

@@ -198,13 +198,13 @@ void Client::rentBike(MainLocation& const rental, BikeDatabase& database)
 		{
 			cout << "How many bikes would you like to rent?" << endl;
 			cin >> bikesNumber;
-			addRentedBikesAmount(bikesNumber);
 			for (int i = 0; i < bikesNumber; i++)
 			{
 				if (rental.getFreeBikes(location).size() > i)
 				{
 					addRentedBikeId(rental.getFreeBikes(location)[i]);
 					rental.rent(rental.getFreeBikes(location)[i], *this, location, bikeType - 1);
+					addRentedBikesAmount(1);
 				}
 			}
 		}

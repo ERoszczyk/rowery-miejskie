@@ -20,7 +20,7 @@ class UserDataBase
 public:
 	UserDataBase();
 	void menuStart(MainLocation& rental, BikeDatabase& database);
-	void addNewUser(const std::string& userName, const std::string& userSurname, const std::string& userUsername, const std::string& userPassword);
+	void addNewClient(const std::string& userName, const std::string& userSurname, const std::string& userUsername, const std::string& userPassword);
 	void addNewAdministrator(const std::string& userName, const std::string& userSurname, const std::string& userUsername, const std::string& userPassword);
 	void addNewClientPremium(const std::string& userName, const std::string& userSurname, const std::string& userUsername, const std::string& userPassword);
 	void addNewMechanic(const std::string& userName, const std::string& userSurname, const std::string& userUsername, const std::string& userPassword);
@@ -45,6 +45,7 @@ public:
 	void premiumActivation(const int& userId, MainLocation& rental, BikeDatabase& database);
 	void premiumResignation(const int& userId);
 	void exportBaseToFile(const std::string& filename);
+	//Botan::SecureVector<Botan::byte> hashFunction(std::string input);
 };
 
 #endif

@@ -6,8 +6,6 @@
 
 class Administrator: public User
 {
-	bool ifAdministrator;
-
 public:
 	Administrator(const std::string& userName, const std::string& userSurname, const std::string& userUsername, const std::string& userPassword, const int& id);
 	void menu(MainLocation& rental, BikeDatabase& database, UserDataBase& base);

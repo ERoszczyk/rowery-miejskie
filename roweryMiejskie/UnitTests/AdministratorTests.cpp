@@ -42,35 +42,35 @@ namespace AdministratorTests
 
 		TEST_METHOD(testChangeName)
 		{
-			base.addNewUser("a", "b", "c", "d");
+			base.addNewClient("a", "b", "c", "d");
 			base.changeNameAsAdministrator("c", "abc");
 			Assert::IsTrue("abc" == base.getUserNames().find(2)->second->getName());
 		}
 
 		TEST_METHOD(testChangeSurname)
 		{
-			base.addNewUser("a", "b", "c", "d");
+			base.addNewClient("a", "b", "c", "d");
 			base.changeSurnameAsAdministrator("c", "abc");
 			Assert::IsTrue("abc" == base.getUserNames().find(2)->second->getSurname());
 		}
 
 		TEST_METHOD(testChangeUsername)
 		{
-			base.addNewUser("a", "b", "c", "d");
+			base.addNewClient("a", "b", "c", "d");
 			base.changeUsernameAsAdministrator("c", "abc");
 			Assert::IsTrue("abc" == base.getUserNames().find(2)->second->getUsername());
 		}
 
 		TEST_METHOD(testChangePassword)
 		{
-			base.addNewUser("a", "b", "c", "d");
+			base.addNewClient("a", "b", "c", "d");
 			base.changePasswordAsAdministrator("c", "abc");
 			Assert::IsTrue("abc" == base.getUserNames().find(2)->second->getPassword());
 		}
 
 		TEST_METHOD(testDeleteUser)
 		{
-			base.addNewUser("a", "b", "c", "d");
+			base.addNewClient("a", "b", "c", "d");
 			base.deleteUserAsAdministrator("c");
 			Assert::IsTrue(2 == base.getUserNames().size());
 		}
