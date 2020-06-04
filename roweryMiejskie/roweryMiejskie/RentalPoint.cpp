@@ -209,6 +209,7 @@ void RentalLocation::returnFixed(const int bikeId, const int techId, BikeDatabas
 		map<int, Record> bikes = database.getAllBikes();
 		if (bikes.find(bikeId) != bikes.end())
 		{
+			myBikes.at(bikeId);
 			bikesFree.push_back(bikeId);
 			database.setBikeOwner(bikeId, 0);
 			database.setBikeState(bikeId, 0);
@@ -218,6 +219,7 @@ void RentalLocation::returnFixed(const int bikeId, const int techId, BikeDatabas
 			{
 				takeStand(standId);
 			}
+			database.fix(bikeId);
 		}
 	}
 }
@@ -229,10 +231,10 @@ void RentalLocation::returnFixedOtherLocation(const int bikeId, const int techId
 		if (bikes.find(bikeId) != bikes.end())
 		{
 			
-			brokenBikes.erase(find(brokenBikes.begin(), brokenBikes.end(), bikeId));
+			//brokenBikes.erase(find(brokenBikes.begin(), brokenBikes.end(), bikeId));
 			otherLocation.bikesFree.push_back(bikeId);
 			otherLocation.myBikes.push_back(bikeId);
-			rentedBikes.erase(bikeId);
+			myBikes.erase(find(myBikes.begin(), myBikes.end(), bikeId));
 			int standId = otherLocation.findFreeStand();
 			if (standId != 0)
 			{
@@ -241,6 +243,7 @@ void RentalLocation::returnFixedOtherLocation(const int bikeId, const int techId
 			database.setBikeOwner(bikeId, 0);
 			database.setBikeState(bikeId, 0);
 			database.setBikeStand(bikeId, standId);
+			database.fix(bikeId);
 		}
 		else { cout << "Invalid bike ID"; };
 
@@ -642,16 +645,18 @@ void MainLocation::returnFixed(const int bikeId, Mechanic& tech, int nameId)
 		{
 			for (string location : locationNames)
 			{
-				std::map<int, Bike*> bikes = locationObjects.at(location).getRentedBikes();
+				std::vector<int> bikes = locationObjects.at(location).getBikes();
 				string key = locationNames[nameId];
-				std::map<int, Bike*> thisBikes = this->getRentedBikes();
-				if (bikes.find(bikeId) != bikes.end())
+				std::vector<int> thisBikes = this->getBikes();
+				if (find(bikes.begin(), bikes.end(),bikeId) != bikes.end())
 				{
 					locationObjects.at(location).returnFixedOtherLocation(bikeId, tech.getId(), base, tech, locationObjects[key]);
+					break;
 				}
-				else if (thisBikes.find(bikeId) != thisBikes.end())
+				else if (find(thisBikes.begin(), thisBikes.end(),bikeId) != thisBikes.end())
 				{
 					this->returnFixedOtherLocation(bikeId, tech.getId(), base, tech, locationObjects[key]);
+					break;
 				}
 			}
 		}
