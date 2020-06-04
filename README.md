@@ -56,8 +56,8 @@ Funkcja Stop służy do zwrotu roweru. Funkcja StandAssignment przypisuje rower 
 ElectricBike posiada również funkcję asynchroniczną służąca do ładowania baterii roweru. Dopóki bateria nie naładuje się do 100% status roweru pozostanie ‘zajęty’.
  (Krupa Olga)
 
-- Rozszerzony opis klas dziedziczących po RentalPoint
-Do utworzenia wypożyczalni niezbędna jest baza rowerów. Importowana jest z pliku database.txt.
+- Rozszerzony opis klas dziedziczących po RentalPoint   
+    Do utworzenia wypożyczalni niezbędna jest baza rowerów. Importowana jest z pliku database.txt.
 Na podstawie obiektu BikeDatabase i ewentualnie dostarczonych nazw tworzona jest główna wypożyczalnia MainLocation i obiekty pozostałych wypożyczalni RentalLocation.
 Każda funkcja odwołuje się do obiektu głównej wypożyczalni, który w zależności od dostarczonego parametru lokalizacji przekierowuje do odpowiedniego obiektu typu RentalLocation.
 Metody zmieniające stan roweru zmieniają go również w bazie, która jest podstawą funkcjonowania wypożyczalni.
