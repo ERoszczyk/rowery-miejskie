@@ -19,26 +19,22 @@ class RentalPoint
 public:
 	virtual ~RentalPoint() = 0 {};
 
-	virtual void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int bikeType)=0;
+	virtual void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, const int bikeType)=0;
 	virtual void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user)=0;
+
+	virtual void takeBroken(const int bikeId, const int techId, BikeDatabase& database, Mechanic& tech) = 0;
+	virtual void returnFixed(const int bikeId, const int techId, BikeDatabase& database, Mechanic& tech) = 0;
 
 	virtual void addBike(const int bikeId) = 0;
 	virtual void addBike(const int bikeId, BikeDatabase& database) = 0;
-	/*virtual void addBikes(const std::vector<int> bikeIds)=0;
-	virtual void removeBikes(const std::vector<int> bikeIds)=0;
-
-	virtual void defaultStands(void)=0;
-	virtual void takeStand(const int standId)=0;
-	virtual void freeStand(const int standId)=0;
-	virtual void freeAllStands(void)=0;
-
-	virtual int findFreeStand(void)=0;*/
+	virtual void removeBike(const int bikeId, BikeDatabase& database) = 0;
+	
 	virtual std::vector<int> getFreeStands()=0;
 
 	virtual std::vector<int> getBikes() const = 0;
 	virtual std::vector<int> getFreeBikes(BikeDatabase& database, const int bikeType) const = 0;
 	virtual std::vector<int> getBrokenBikes() const = 0;
-	//virtual int getSpaces() const = 0; 
+	
 
 	friend
 		std::ostream& operator<< (std::ostream& os, RentalPoint& point); 
@@ -67,10 +63,10 @@ protected:
 
 public:
 	RentalLocation() { defaultStands(); };
-	RentalLocation(std::vector<int> bikeIds, BikeDatabase& database); //tested
-	RentalLocation(BikeDatabase& database); //tested
+	RentalLocation(std::vector<int> bikeIds, BikeDatabase& database); 
+	RentalLocation(BikeDatabase& database); 
 	RentalLocation(std::map<int, Record> bikes, BikeDatabase& database);
-	~RentalLocation() { bikesCount = 0; myBikes.clear(); };//? =default
+	~RentalLocation() { bikesCount = 0; myBikes.clear(); };
 
 	void setPointId(const int id) { pointId = id; }
 	int getPointId() const { return pointId; }
@@ -78,8 +74,8 @@ public:
     void setLocation(const std::string locationName) { location = locationName; };
 	std::string getLocation()const { return location; }
 
-	void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int bikeType = 0) override; // mo¿na dodaæ //tested
-	void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user); //tested
+	void rent(const int bikeId, const int userId, BikeDatabase& database, Client& user, int bikeType = 0) override; 
+	void putBack(const int bikeId, const int userId, BikeDatabase& database, Client& user); 
 	void putBackOtherLocation(const int bikeId, const int userId, BikeDatabase& database, Client& user, RentalLocation& otherLocation);
 
 	void takeBroken(const int bikeId, const int techId, BikeDatabase& database, Mechanic& tech);
@@ -91,7 +87,7 @@ public:
 	void addBikes(const std::vector<int> bikeIds, BikeDatabase& base);
 
 	void removeBike(const int bikeId, BikeDatabase& base);
-	void removeBikes(const std::vector<int> bikeIds, BikeDatabase& base); //tested
+	void removeBikes(const std::vector<int> bikeIds, BikeDatabase& base); 
 
 	void disactivateLocation(BikeDatabase& base);
 	bool isActive()const { return active; }
@@ -109,7 +105,7 @@ public:
 	std::map<int, Bike*> getRentedBikes() const { return rentedBikes; };
 	std::vector<int> getBrokenBikes() const { return brokenBikes; }
 
-	int getSpaces() const { return size - bikesCount; } //done
+	int getSpaces() const { return size - bikesCount; } 
 
 	std::vector<std::string> getBikeTypes() { return bikeTypes; }
 	int determineBikeType(const int bikeId, BikeDatabase& database);
@@ -124,8 +120,8 @@ class MainLocation : public RentalLocation
 
 public:
 	MainLocation(std::vector<std::string> names, BikeDatabase& database);
-	void rent(const int bikeId, Client& user, int nameId = -1, int bikeType = 0); //tested
-	void putBack(const int bikeId, Client& user, int nameId = -1); //tested
+	void rent(const int bikeId, Client& user, int nameId = -1, int bikeType = 0); 
+	void putBack(const int bikeId, Client& user, int nameId = -1); 
 
 	std::vector<std::string> getRentalLocationNames() const { return locationNames; }
 	void disactivateLocation(int nameId = -1);
